@@ -5,7 +5,7 @@ package org.firstinspires.ftc.teamcode;
  */
 
 public class OmniDrivetrain {
-/*
+
     //joystick values
     int y= joystick.joy1_y1;
     int x= joystick.joy1_x1;
@@ -22,5 +22,5 @@ public class OmniDrivetrain {
     motor[backLeft]= (y-x-z)*.75; // -y-x||x+y
     motor[frontRight]=(-y+x-z)*.75;//-y+x||-x+y
     motor[backRight]=(-y-x-z)*.75;
-*/
+
 }
