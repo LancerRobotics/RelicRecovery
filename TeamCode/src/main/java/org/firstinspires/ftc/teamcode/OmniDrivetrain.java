@@ -5,7 +5,7 @@ package org.firstinspires.ftc.teamcode;
  */
 
 public class OmniDrivetrain {
-/*
+/* HIHIHIHIHIHI
     //joystick values
     int y= joystick.joy1_y1;
     int x= joystick.joy1_x1;
