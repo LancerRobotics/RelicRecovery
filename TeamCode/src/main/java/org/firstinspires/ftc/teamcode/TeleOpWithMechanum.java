@@ -11,5 +11,19 @@ public class TeleOpWithMechanum {
 
     MechanumRobot robot = new MechanumRobot();
 
+    public void runOpMode(){
+
+        //if the joystick x value is negative
+        robot.strafe(0.86,true);
+
+        //if the joystick x value is positive
+        robot.strafe(0.86,false);
+
+        //if the joystick y value is negative
+        robot.strafe(0.86,true);
+
+        //if the joystick y value is positive
+        robot.strafe(0.86,false);
+    }
 
 }
