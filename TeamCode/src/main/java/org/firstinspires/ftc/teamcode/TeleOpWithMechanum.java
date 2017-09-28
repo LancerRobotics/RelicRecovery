@@ -13,6 +13,8 @@ public class TeleOpWithMechanum {
 
     public void runOpMode(){
 
+        //robot.init(hardwareMap);
+
         //if the joystick x value is negative
         robot.strafe(0.86,true);
 
@@ -24,6 +26,12 @@ public class TeleOpWithMechanum {
 
         //if the joystick y value is positive
         robot.strafe(0.86,false);
+
+        //if the other joystick's x value is positive
+        robot.turn(0.35,false);
+
+        //if the other joystick's x value is negative
+        robot.turn(0.35, true);
     }
 
 }
