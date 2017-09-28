@@ -19,6 +19,31 @@ public class DropCenterRobot {
 
     }
 
+    public void moveStraight(double power, boolean backwards){
+        if(backwards == false) {
+            fr.setPower(0.8);
+            fl.setPower(0.8);
+            br.setPower(0.8);
+            bl.setPower(0.8);
+        }
 
+        else {
+            fr.setPower(-0.8);
+            fl.setPower(-0.8);
+            br.setPower(-0.8);
+            bl.setPower(-0.8);
+        }
+    }
+
+    public void turn (double power, boolean left) {
+        if (left == false) {
+            fr.setPower(0.8);
+            br.setPower(0.8);
+        }
+        else {
+            fl.setPower(0.8);
+            bl.setPower(0.8);
+        }
+    }
 
 }

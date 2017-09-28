@@ -70,11 +70,11 @@ public class MechanumRobot {
     public void turn(double power, boolean left){
 
         if(!left){
-            fr.setPower(power);
-            br.setPower(power);
+            fl.setPower(power);
+            bl.setPower(power);
         }
         else {
-            fl.setPower(power);
+            fr.setPower(power);
             br.setPower(power);
         }
     }
