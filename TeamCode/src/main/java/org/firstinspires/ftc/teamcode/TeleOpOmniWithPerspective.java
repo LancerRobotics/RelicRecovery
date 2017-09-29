@@ -1,21 +1,28 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
+//imu imports
+//harware imports
 
 /**
  * Created by jake.wiseberg on 9/29/2017.
  */
 
+//note for later
+//The IMU is on I2C port 0 so you would need to go into the robot configuration and name it. Then follow the "SensorBNO055IMU" example under external.samples in the SDK. Make sure you are on the newest version of sdk 3.1 .
+
+
 @TeleOp(name="Template: Linear OpMode", group="Linear Opmode")
 @Disabled
-public class TeleOpOmni extends OpMode {
+public class TeleOpOmniWithPerspective extends OpMode {
 
     //values, using global values for faster runtime
     HardwareMap hMap;
