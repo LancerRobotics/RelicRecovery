@@ -1,5 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.util.Range;
+
+import com.qualcomm.robotcore.hardware;
+
+
 /**
  * Created by yibin.long on 9/26/2017.
  */
@@ -25,6 +31,7 @@ public class OmniDrivetrain {
     //joystick values (translated)
     int x= gamepad1.left_stick_x; //side to side
     int y= gamepad1.left_stick_y; //forward/backward
+    private Gamepad gamepad1;
     int z= gamepad1.right_stick_x; //sideways
 
     //motor values using the variables above
