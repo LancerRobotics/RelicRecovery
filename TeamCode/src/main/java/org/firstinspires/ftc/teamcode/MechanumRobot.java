@@ -38,11 +38,11 @@ import static android.R.attr.left;
 @TeleOp(name = "Mechanum", group = "TeleOp")
 public class MechanumRobot {
     LinearOpMode opMode;
-    DcMotor fl;
-    DcMotor fr;
-    DcMotor bl;
-    DcMotor br;
-    BNO055IMU imu;
+    public DcMotor fl;
+    public DcMotor fr;
+    public DcMotor bl;
+    public DcMotor br;
+    public BNO055IMU imu;
     HardwareMap hwMap = null;
 
     public MechanumRobot(){
@@ -66,6 +66,8 @@ public class MechanumRobot {
         imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
     }
+
+
 
     public void strafe(double power, boolean left){
 
