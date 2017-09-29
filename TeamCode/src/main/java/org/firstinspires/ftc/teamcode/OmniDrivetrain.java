@@ -12,18 +12,20 @@ import com.qualcomm.robotcore.hardware;
 
 public class OmniDrivetrain {
 /*
+    OLD ROBOT C CODE
+
     //joystick values
     int y= joystick.joy1_y1;
     int x= joystick.joy1_x1;
     int z= joystick.joy1_x2;
 
     //motor values using the variables above
-//note the negatives
+    //note the negatives
     motorTrigger(frontRight,x*.75,-y*.75,z);
     motorTrigger(backRight,-x*.75,-y*.75,z);
     motorTrigger(frontLeft,x*.75,y*.75,z);
 
-//other stuff maybe gotto look more into this
+    //other stuff maybe gotto look more into this
     motor[backRight]=(-y-x-z)*.75;
 */
 
@@ -41,6 +43,8 @@ public class OmniDrivetrain {
 
     //__________________________
     flPower = Range.scale( (y+x-z), -1, 1, -MAX_SPEED, MAXSPEED  ;
+
+
 
     //note the negatives
     motorTrigger(frontRight,x*.75,-y*.75,z);
