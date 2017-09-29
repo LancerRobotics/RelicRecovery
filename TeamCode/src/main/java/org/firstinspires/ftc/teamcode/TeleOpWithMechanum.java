@@ -29,6 +29,7 @@ import android.os.UserHandle;
 import android.support.annotation.Nullable;
 import android.view.Display;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -43,16 +44,20 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
-public class TeleOpWithMechanum {
+public class TeleOpWithMechanum extends LinearOpMode {
 
     MechanumRobot robot = new MechanumRobot();
+
+    public void setup(){
+
+    }
 
     public void runOpMode(){
 
         Gamepad gamepad1 = new Gamepad();
         Gamepad gamepad2 = new Gamepad();
         
-        //robot.init(hardwareMap);
+        robot.init(hardwareMap, false);
 
         if(gamepad1.left_stick_x < -0.15){
             robot.strafe(0.86,true);
