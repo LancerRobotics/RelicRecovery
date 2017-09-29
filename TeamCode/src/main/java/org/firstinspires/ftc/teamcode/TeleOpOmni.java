@@ -14,9 +14,9 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Template: Linear OpMode", group="Linear Opmode")
 @Disabled
-public class OmniDrivetrain extends OpMode {
+public class TeleOpOmni extends OpMode {
 
-    //values, using global values for execution speed
+    //values, using global values for faster runtime
     HardwareMap hMap;
     public DcMotor fr;
     public DcMotor fl;
@@ -29,10 +29,13 @@ public class OmniDrivetrain extends OpMode {
     @Override
     public void init() {
         telemetry.addData("Status", "In progress...");
+        
+        //set motors to hardware
         fr = hMap.dcMotor.get("front_right");
         fl = hMap.dcMotor.get("front_left");
         bl = hMap.dcMotor.get("back_left");
         br = hMap.dcMotor.get("back_right");
+
         telemetry.addData("Status", "Initialized");
     }
 
