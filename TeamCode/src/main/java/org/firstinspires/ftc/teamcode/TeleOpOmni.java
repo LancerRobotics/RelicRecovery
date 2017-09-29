@@ -29,7 +29,7 @@ public class TeleOpOmni extends OpMode {
     @Override
     public void init() {
         telemetry.addData("Status", "In progress...");
-        
+
         //set motors to hardware
         fr = hMap.dcMotor.get("front_right");
         fl = hMap.dcMotor.get("front_left");
