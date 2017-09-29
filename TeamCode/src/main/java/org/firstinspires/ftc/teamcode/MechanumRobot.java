@@ -5,21 +5,52 @@ package org.firstinspires.ftc.teamcode;
  */
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.Func;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+
+import java.util.Locale;
+import com.qualcomm.hardware.HardwareFactory;
+import com.qualcomm.robotcore.eventloop.EventLoopManager;
+import com.qualcomm.robotcore.eventloop.EventLoop;
+import com.qualcomm.ftccommon.FtcEventLoopHandler;
+
+import static android.R.attr.hardwareAccelerated;
 import static android.R.attr.left;
 
-@Autonomous(name = "Mechanum", group = "TeleOp")
-public class MechanumRobot {
-
-    HardwareMap hMap;
+@TeleOp(name = "Mechanum", group = "TeleOp")
+public class MechanumRobot extends OpMode {
     LinearOpMode opMode;
-    DcMotor fl = null;
-    DcMotor fr = null;
-    DcMotor bl = null;
-    DcMotor br = null;
+    DcMotor fl;
+    DcMotor fr;
+    DcMotor bl;
+    DcMotor br;
+    BNO055IMU imu;
+    HardwareMap hwMap;
+
+    public void setup(){
+
+    }
+
+    public void loop(){
+
+    }
 
     public MechanumRobot(){
 
@@ -58,13 +89,22 @@ public class MechanumRobot {
         }
     }
 
-    public void init(HardwareMap hMap){
+    public void init(){
 
-        DcMotor fr = hMap.dcMotor.get("front_right");
-        DcMotor fl = hMap.dcMotor.get("front_left");
-        DcMotor br = hMap.dcMotor.get("back_right");
-        DcMotor bl = hMap.dcMotor.get("back_left");
+        fr = hwMap.dcMotor.get("front_right");
+        fl = hwMap.dcMotor.get("front_left");
+        br = hwMap.dcMotor.get("back_right");
+        bl = hwMap.dcMotor.get("back_left");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
+        imu = hwMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
     }
 
     public void turn(double power, boolean left){
