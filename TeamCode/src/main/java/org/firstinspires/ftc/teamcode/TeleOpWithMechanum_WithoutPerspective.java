@@ -5,8 +5,10 @@ package org.firstinspires.ftc.teamcode;
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+@TeleOp
 
 public class TeleOpWithMechanum_WithoutPerspective extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
@@ -23,32 +25,37 @@ public class TeleOpWithMechanum_WithoutPerspective extends LinearOpMode {
         
         robot.init(hardwareMap, false);
 
-        x = gamepad1.left_stick_x; //moving left/right
-        y = gamepad1.left_stick_y; //moving forwards/backwards
-        x = gamepad1.right_stick_x; //turning
+        waitForStart();
 
-        if(x < -0.15){
-            robot.strafe(0.86,true);
-        }
+        while(opModeIsActive()) {
 
-        if(x > 0.15){
-            robot.strafe(0.86,false);
-        }
+            x = gamepad1.left_stick_x; //moving left/right
+            y = gamepad1.left_stick_y; //moving forwards/backwards
+            x = gamepad1.right_stick_x; //turning
 
-        if(y > 0.15){
-            robot.setDrivePower(0.8,false);
-        }
+            if (x < -0.15) {
+                robot.strafe(0.86, true);
+            }
 
-        if(y < -0.15){
-            robot.setDrivePower(0.8,true);
-        }
+            if (x > 0.15) {
+                robot.strafe(0.86, false);
+            }
 
-        if(z > 0.15){
-            robot.turn(0.35,false);
-        }
+            if (y > 0.15) {
+                robot.setDrivePower(0.8, false);
+            }
 
-        if(z < -0.15){
-            robot.turn(0.35, true);
+            if (y < -0.15) {
+                robot.setDrivePower(0.8, true);
+            }
+
+            if (z > 0.15) {
+                robot.turn(0.35, false);
+            }
+
+            if (z < -0.15) {
+                robot.turn(0.35, true);
+            }
         }
     }
 

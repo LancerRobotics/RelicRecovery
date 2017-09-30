@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode;
  */
 
 public class OmniDrivetrain {
+
 /*
     OLD ROBOT C CODE
 
@@ -23,7 +24,7 @@ public class OmniDrivetrain {
     motor[backRight]=(-y-x-z)*.75;
 */
 
-
+/*
     //joystick values (translated)
     int x= gamepad1.left_stick_x; //side to side
     int y= gamepad1.left_stick_y; //forward/backward
@@ -49,5 +50,5 @@ public class OmniDrivetrain {
     motor[backLeft]= (y-x-z)*.75; // -y-x||x+y
     motor[frontRight]=(-y+x-z)*.75;//-y+x||-x+y
     motor[backRight]=(-y-x-z)*.75;
-
+*/
 }

@@ -35,7 +35,6 @@ import com.qualcomm.ftccommon.FtcEventLoopHandler;
 import static android.R.attr.hardwareAccelerated;
 import static android.R.attr.left;
 
-@TeleOp(name = "Mechanum", group = "TeleOp")
 public class HardwareMechanumRobot {
     LinearOpMode opMode;
     public DcMotor fl = null;
