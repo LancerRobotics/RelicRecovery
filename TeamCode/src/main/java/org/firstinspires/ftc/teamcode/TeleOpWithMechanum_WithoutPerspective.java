@@ -7,21 +7,19 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.util.Range;
 
 @TeleOp
 
 public class TeleOpWithMechanum_WithoutPerspective extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
-    public static double x, y, z;
+    public static double x, y, z, flPower, frPower, brPower, blPower;
 
     public void setup(){
 
     }
 
     public void runOpMode(){
-
-        Gamepad gamepad1 = new Gamepad();
-        Gamepad gamepad2 = new Gamepad();
         
         robot.init(hardwareMap, false);
 
@@ -29,32 +27,35 @@ public class TeleOpWithMechanum_WithoutPerspective extends LinearOpMode {
 
         while(opModeIsActive()) {
 
-            x = gamepad1.left_stick_x; //moving left/right
-            y = gamepad1.left_stick_y; //moving forwards/backwards
-            x = gamepad1.right_stick_x; //turning
+            //Sets the gamepad values to x, y, and z
+            z = gamepad1.right_stick_x; //sideways
+            y = gamepad1.left_stick_y; //forward and backward
+            x = gamepad1.left_stick_x; //rotation
 
-            if (x < -0.15) {
-                robot.strafe(0.86, true);
+            //Sets the motor powers of the wheels to the correct power based on all three of the above gyro values and
+            //scales them accordingly
+            flPower = Range.scale((-x - y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+            frPower = Range.scale((-x + y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+            blPower = Range.scale((x - y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+            brPower = Range.scale((x + y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+
+            //Sets each motor power to the correct power
+            robot.fl.setPower(flPower);
+            robot.fr.setPower(frPower);
+            robot.bl.setPower(blPower);
+            robot.br.setPower(brPower);
+
+            if(gamepad1.a) {
+                robot.arm1.setPosition(robot.armDOWN);
+                robot.arm2.setPosition(robot.armDOWN);
             }
-
-            if (x > 0.15) {
-                robot.strafe(0.86, false);
+            if(gamepad1.b) {
+                robot.arm1.setPosition(robot.armHALFWAY);
+                robot.arm2.setPosition(robot.armHALFWAY);
             }
-
-            if (y > 0.15) {
-                robot.setDrivePower(0.8, false);
-            }
-
-            if (y < -0.15) {
-                robot.setDrivePower(0.8, true);
-            }
-
-            if (z > 0.15) {
-                robot.turn(0.35, false);
-            }
-
-            if (z < -0.15) {
-                robot.turn(0.35, true);
+            if(gamepad1.y){
+                robot.arm1.setPosition(robot.armDROP);
+                robot.arm2.setPosition(robot.armDROP);
             }
         }
     }
