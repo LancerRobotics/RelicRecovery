@@ -38,11 +38,15 @@ import static android.R.attr.left;
 @TeleOp(name = "Mechanum", group = "TeleOp")
 public class HardwareMechanumRobot {
     LinearOpMode opMode;
-    public DcMotor fl;
-    public DcMotor fr;
-    public DcMotor bl;
-    public DcMotor br;
-    public BNO055IMU imu;
+    public DcMotor fl = null;
+    public DcMotor fr = null;
+    public DcMotor bl = null;
+    public DcMotor br = null;
+
+    public BNO055IMU imu = null;
+    public Orientation angles;
+    public Acceleration gravity;
+
     HardwareMap hwMap = null;
 
     public HardwareMechanumRobot(){
