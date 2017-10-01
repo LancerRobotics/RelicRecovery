@@ -58,7 +58,6 @@ public class HardwareMechanumRobot {
     public static final double armHALFWAY = 0.4;
 
     public HardwareMechanumRobot(){
-
     }
 
     public void init(HardwareMap ahwMap, boolean autonomous){
@@ -86,17 +85,17 @@ public class HardwareMechanumRobot {
 
 
     public void strafe(double power, boolean left){
-
+        //fixed strafe to these values: tinyurl.com/mecanum
         if(!left){
-            fl.setPower(-power);
-            fr.setPower(power);
+            fl.setPower(power);
+            fr.setPower(-power);
             bl.setPower(-power);
             br.setPower(power);
         }
 
         else {
-            fl.setPower(power);
-            fr.setPower(-power);
+            fl.setPower(-power);
+            fr.setPower(power);
             bl.setPower(power);
             br.setPower(-power);
         }
