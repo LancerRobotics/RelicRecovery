@@ -27,7 +27,7 @@ public class TeleOpWithMechanum_WithPerspective extends LinearOpMode {
         
         robot.init(hardwareMap, false);
 
-        x = gamepad1.left_stick_x; //moving left/right
+        z = gamepad1.left_stick_x; //moving left/right
         y = gamepad1.left_stick_y; //moving forwards/backwards
         x = gamepad1.right_stick_x; //turning
 /*
