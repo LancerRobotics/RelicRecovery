@@ -14,7 +14,6 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name="Template: Linear OpMode", group="Linear Opmode")
-@Disabled
 public class TeleOpOmni extends OpMode {
 
     //values, using global values for faster runtime
