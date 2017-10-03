@@ -6,11 +6,14 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 
 public class TeleOpWithMechanum_WithPerspective extends LinearOpMode {
-    MechanumRobot robot = new MechanumRobot();
+    HardwareMechanumRobot robot = new HardwareMechanumRobot();
     public static double x, y, z, trueX, trueY;
 
     public void setup(){
@@ -24,13 +27,13 @@ public class TeleOpWithMechanum_WithPerspective extends LinearOpMode {
         
         robot.init(hardwareMap, false);
 
-        x = gamepad1.left_stick_x; //moving left/right
+        z = gamepad1.left_stick_x; //moving left/right
         y = gamepad1.left_stick_y; //moving forwards/backwards
         x = gamepad1.right_stick_x; //turning
-
-        trueX = ((Math.cos(Math.toRadians(360 - robot.imu.parameters.angleUnit.formatAngle(angles.angleUnit,angles.secondAngle )   ))) * x) - ((Math.sin(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * y); //sets trueX to rotated value
+/*
+        trueX = ((Math.cos(Math.toRadians(360 - robot.imu.angleUnit.formatAngle(angles.angleUnit,angles.secondAngle )   ))) * x) - ((Math.sin(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * y); //sets trueX to rotated value
         trueY = ((Math.sin(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * x) + ((Math.cos(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * y);
-
+*/
 
         if(x < -0.15){
             robot.strafe(0.86,true);

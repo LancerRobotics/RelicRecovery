@@ -35,18 +35,29 @@ import com.qualcomm.ftccommon.FtcEventLoopHandler;
 import static android.R.attr.hardwareAccelerated;
 import static android.R.attr.left;
 
-@TeleOp(name = "Mechanum", group = "TeleOp")
-public class MechanumRobot {
+public class HardwareMechanumRobot {
     LinearOpMode opMode;
-    public DcMotor fl;
-    public DcMotor fr;
-    public DcMotor bl;
-    public DcMotor br;
-    public BNO055IMU imu;
+    public DcMotor fl = null;
+    public DcMotor fr = null;
+    public DcMotor bl = null;
+    public DcMotor br = null;
+    public Servo arm1 = null;
+    public Servo arm2 = null;
+
+    public BNO055IMU imu = null;
+    public Orientation angles;
+    public Acceleration gravity;
+
     HardwareMap hwMap = null;
 
-    public MechanumRobot(){
+    public static final double MAX_MOTOR_SPEED = .86;
+    public static final double armUP = .25;
+    public static final double armDOWN = 1;
+    public static final double armINITIAL = .6;
+    public static final double armDROP = 0.4;
+    public static final double armHALFWAY = 0.75;
 
+    public HardwareMechanumRobot(){
     }
 
     public void init(HardwareMap ahwMap, boolean autonomous){
@@ -55,6 +66,8 @@ public class MechanumRobot {
         fl = hwMap.dcMotor.get("front_left");
         br = hwMap.dcMotor.get("back_right");
         bl = hwMap.dcMotor.get("back_left");
+        arm1 = hwMap.servo.get("servo1");
+        arm2 = hwMap.servo.get("servo2");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -65,22 +78,24 @@ public class MechanumRobot {
 
         imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+        arm1.setPosition(armINITIAL);
+        arm2.setPosition(armINITIAL);
     }
 
 
 
     public void strafe(double power, boolean left){
-
+        //fixed strafe to these values: tinyurl.com/mecanum
         if(!left){
-            fl.setPower(-power);
-            fr.setPower(power);
+            fl.setPower(power);
+            fr.setPower(-power);
             bl.setPower(-power);
             br.setPower(power);
         }
 
         else {
-            fl.setPower(power);
-            fr.setPower(-power);
+            fl.setPower(-power);
+            fr.setPower(power);
             bl.setPower(power);
             br.setPower(-power);
         }
