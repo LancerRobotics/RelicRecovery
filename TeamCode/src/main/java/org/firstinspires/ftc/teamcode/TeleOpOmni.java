@@ -59,9 +59,9 @@ public class TeleOpOmni extends OpMode {
 
         //setting the motor powers
         fr.setPower(motorPwr[0]);
-        fl.setPower(motorPwr[0]);
-        br.setPower(motorPwr[0]);
-        bl.setPower(motorPwr[0]);
+        fl.setPower(motorPwr[1]);
+        br.setPower(motorPwr[2]);
+        bl.setPower(motorPwr[3]);
 
         telemetry.addData("Status", "Run Time: " + runtime.toString());
     }
