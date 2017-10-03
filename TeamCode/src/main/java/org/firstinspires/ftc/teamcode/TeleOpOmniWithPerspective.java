@@ -32,7 +32,7 @@ import java.util.Locale;
 //The IMU is on I2C port 0 so you would need to go into the robot configuration and name it. Then follow the "SensorBNO055IMU" example under external.samples in the SDK. Make sure you are on the newest version of sdk 3.1 .
 
 
-@TeleOp(name="Template: Linear OpMode", group="Linear Opmode")
+@TeleOp(name="Omni Perspective Op", group="TeleOp")
 public class TeleOpOmniWithPerspective extends OpMode {
 
     //values, using global values for faster runtime

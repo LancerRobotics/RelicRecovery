@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.Range;
  * Created by jake.wiseberg on 9/29/2017.
  */
 
-@TeleOp(name="Template: Linear OpMode", group="Linear Opmode")
+@TeleOp(name="Omni Teleop", group="TeleOp")
 public class TeleOpOmni extends OpMode {
 
     //values, using global values for faster runtime
