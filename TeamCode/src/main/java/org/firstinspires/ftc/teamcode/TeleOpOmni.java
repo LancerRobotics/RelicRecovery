@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -13,7 +14,7 @@ import com.qualcomm.robotcore.util.Range;
  * Created by jake.wiseberg on 9/29/2017.
  */
 
-@TeleOp(name="Omni Teleop", group="TeleOp")
+@Autonomous(name="Omni Teleop", group="TeleOp")
 public class TeleOpOmni extends OpMode {
 
     //values, using global values for faster runtime
