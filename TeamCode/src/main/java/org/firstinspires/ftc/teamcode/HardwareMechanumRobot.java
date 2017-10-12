@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode;
 /**
  * Created by dina.brustein on 9/27/2017.
  */
-import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -17,7 +17,17 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.Func;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
+
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -26,28 +36,25 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-import java.util.Locale;
-import com.qualcomm.hardware.HardwareFactory;
-import com.qualcomm.robotcore.eventloop.EventLoopManager;
-import com.qualcomm.robotcore.eventloop.EventLoop;
-import com.qualcomm.ftccommon.FtcEventLoopHandler;
-
-import static android.R.attr.hardwareAccelerated;
-import static android.R.attr.left;
-
 public class HardwareMechanumRobot {
-    LinearOpMode opMode;
+
+    // Motors
     public DcMotor fl = null;
     public DcMotor fr = null;
     public DcMotor bl = null;
     public DcMotor br = null;
+
+    //Servos
     public Servo arm1 = null;
     public Servo arm2 = null;
 
+    //Gyro
     public BNO055IMU imu = null;
     public Orientation angles;
     public Acceleration gravity;
+    float theta;
 
+    //HardwareMap
     HardwareMap hwMap = null;
 
     public static final double MAX_MOTOR_SPEED = .86;
@@ -86,7 +93,7 @@ public class HardwareMechanumRobot {
 
     public void strafe(double power, boolean left){
         //fixed strafe to these values: tinyurl.com/mecanum
-        if(!left){
+        if(!left) {
             fl.setPower(power);
             fr.setPower(-power);
             bl.setPower(-power);
