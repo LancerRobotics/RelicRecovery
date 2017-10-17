@@ -35,6 +35,7 @@ import java.util.Locale;
 
 @TeleOp(name="Omni Perspective Op", group="TeleOp")
 public class TeleOpOmniWithPerspective extends OpMode {
+    HardwareMechanumRobot robot = new HardwareMechanumRobot();
 
     //values, using global values for faster runtime
     public DcMotor fr;
@@ -47,6 +48,8 @@ public class TeleOpOmniWithPerspective extends OpMode {
     double[] motorPwr = new double[4];
     double x,y,z;
     double joyX, joyY;
+    double frpower, flpower, blpower, brpower;
+
 
     //imu object
     BNO055IMU imu;
@@ -114,12 +117,20 @@ public class TeleOpOmniWithPerspective extends OpMode {
         motorPwr[2] = Range.clip(-y-x-z, -1.0, 1.0); //back right
         motorPwr[3] = Range.clip(y-x-z, -1.0, 1.0); //back left
 
+
+
         fr.setPower(motorPwr[0]);
         fl.setPower(motorPwr[0]);
         br.setPower(motorPwr[0]);
         bl.setPower(motorPwr[0]);
 
+
+
+
+
+
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Angle", theta);
     }
+
 }

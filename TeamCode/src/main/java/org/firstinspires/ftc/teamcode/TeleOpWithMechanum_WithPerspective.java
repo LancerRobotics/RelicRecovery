@@ -6,6 +6,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 public class TeleOpWithMechanum_WithPerspective extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
     public static double x, y, z, trueX, trueY;
+    public double frpower, flpower, brpower, blpower;
 
     public void setup(){
 
@@ -30,6 +32,38 @@ public class TeleOpWithMechanum_WithPerspective extends LinearOpMode {
         z = gamepad1.left_stick_x; //moving left/right
         y = gamepad1.left_stick_y; //moving forwards/backwards
         x = gamepad1.right_stick_x; //turning
+
+        //Sets the motor powers of the wheels to the correct power based on all three of the above gyro values and
+        //scales them accordingly
+        flpower = Range.scale((-x + y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+        frpower = Range.scale((-x - y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+        blpower = Range.scale((x + y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+        brpower = Range.scale((x - y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+
+        //Sets each motor power to the correct power
+        robot.fl.setPower(flpower);
+        robot.fr.setPower(frpower);
+        robot.bl.setPower(blpower);
+        robot.br.setPower(brpower);
+
+        //Gamepad controls
+        if (x == 0 && y == 0 && z == 0) {
+            if (gamepad1.dpad_right) {
+                robot.bl.setPower(robot.MAX_MOTOR_SPEED);
+                robot.fl.setPower(robot.MAX_MOTOR_SPEED);
+            } else if (gamepad1.dpad_up) {
+                robot.bl.setPower(-robot.MAX_MOTOR_SPEED);
+                robot.fl.setPower(-robot.MAX_MOTOR_SPEED);
+            } else if (gamepad1.dpad_down) {
+                robot.br.setPower(robot.MAX_MOTOR_SPEED);
+                robot.fr.setPower(robot.MAX_MOTOR_SPEED);
+            } else if (gamepad1.dpad_left) {
+                robot.br.setPower(-robot.MAX_MOTOR_SPEED);
+                robot.fr.setPower(-robot.MAX_MOTOR_SPEED);
+                
+            }
+        }
+
 /*
         trueX = ((Math.cos(Math.toRadians(360 - robot.imu.angleUnit.formatAngle(angles.angleUnit,angles.secondAngle )   ))) * x) - ((Math.sin(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * y); //sets trueX to rotated value
         trueY = ((Math.sin(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * x) + ((Math.cos(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * y);
@@ -58,6 +92,13 @@ public class TeleOpWithMechanum_WithPerspective extends LinearOpMode {
         if(z < -0.15){
             robot.turn(0.35, true);
         }
+
+        //Important data to the driver
+        telemetry.addData("FR Power", robot.fr.getPower());
+        telemetry.addData("FL Power", robot.fl.getPower());
+        telemetry.addData("BR Power", robot.br.getPower());
+        telemetry.addData("BL Power", robot.bl.getPower());
+
     }
 
 }
