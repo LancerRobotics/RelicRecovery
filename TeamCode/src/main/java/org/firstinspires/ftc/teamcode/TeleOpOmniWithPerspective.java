@@ -84,10 +84,6 @@ public class TeleOpOmniWithPerspective extends OpMode {
         bl = hardwareMap.dcMotor.get("back_left");
         br = hardwareMap.dcMotor.get("back_right");
 
-        //imu hardware
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
-
         telemetry.addData("Status", "Initialized");
     }
 

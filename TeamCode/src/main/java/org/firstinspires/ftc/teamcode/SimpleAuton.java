@@ -28,3 +28,4 @@ public class SimpleAuton extends LinearOpMode {
         robot.setDrivePower(0, true);
     }
 }
+
