@@ -112,8 +112,8 @@ public class MecanumTestPerspective extends LinearOpMode {
             x = gamepad1.left_stick_x; //rotation
 
             //Converts x and y to a different value based on the gyro value
-            trueX = ((Math.cos(Math.toRadians(360 - theta)) * x) - ((Math.sin(Math.toRadians(360 - theta))) * y)); //sets trueX to rotated value
-            trueY = ((Math.sin(Math.toRadians(360 - theta))) * x) + ((Math.cos(Math.toRadians(360 - theta))) * y);
+            trueX = ((Math.cos(Math.toRadians(theta)) * x) - ((Math.sin(Math.toRadians(theta))) * y)); //sets trueX to rotated value
+            trueY = ((Math.sin(Math.toRadians(theta))) * x) + ((Math.cos(Math.toRadians(theta))) * y);
 
             //Sets trueX and trueY to its respective value
             x = trueX;
