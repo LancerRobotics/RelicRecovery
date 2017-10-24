@@ -23,6 +23,7 @@ public class TeleOpOmni extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     double[] motorPwr = new double[4];
     double x,y,z;
+    double deadzone = 0.15;
 
     @Override
     public void init() {
@@ -48,6 +49,11 @@ public class TeleOpOmni extends OpMode {
         y = gamepad1.left_stick_y; //left joystick y axis
         x = gamepad1.left_stick_x; //left joystick x axis
         z = gamepad1.right_stick_x; //right joystick x axis
+
+        //deadzone
+        if(Math.abs(y)<deadzone) y = 0;
+        if(Math.abs(x)<deadzone) x = 0;
+        if(Math.abs(z)<deadzone) z = 0;
 
         //calculating the motor power
         motorPwr[0] = Range.clip(-y+x-z, -1.0, 1.0); //front right
