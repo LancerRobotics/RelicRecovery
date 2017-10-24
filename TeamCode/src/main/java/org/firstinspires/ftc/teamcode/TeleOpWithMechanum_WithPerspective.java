@@ -34,6 +34,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 
+@TeleOp(name="TeleOp Mecanum w/ Perspective", group="TeleOp")
 public class TeleOpWithMechanum_WithPerspective extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
     public static double x, y, z, trueX, trueY;

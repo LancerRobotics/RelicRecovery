@@ -73,8 +73,8 @@ public class HardwareMechanumRobot {
         fl = hwMap.dcMotor.get("front_left");
         br = hwMap.dcMotor.get("back_right");
         bl = hwMap.dcMotor.get("back_left");
-        arm1 = hwMap.servo.get("servo1");
-        arm2 = hwMap.servo.get("servo2");
+        arm1 = hwMap.servo.get("relic_left");
+        arm2 = hwMap.servo.get("relic_right");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;

@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp
+@TeleOp(name="TeleOp Mecanum w/o Perspective", group="TeleOp")
 
 public class TeleOpWithMechanum_WithoutPerspective extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
