@@ -16,7 +16,6 @@ public class TeleOpWithMechanum_WithoutPerspective extends LinearOpMode {
     public static double x, y, z, flPower, frPower, brPower, blPower;
 
     public void setup(){
-
     }
 
     public void runOpMode(){

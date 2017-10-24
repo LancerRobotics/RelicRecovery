@@ -80,4 +80,3 @@ public class EK_17_18 extends OpMode {
         rightArmservo.setPosition(180);
     }
 }
-
