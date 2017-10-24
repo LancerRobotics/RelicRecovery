@@ -33,11 +33,11 @@ import java.util.Locale;
 //The IMU is on I2C port 0 so you would need to go into the robot configuration and name it. Then follow the "SensorBNO055IMU" example under external.samples in the SDK. Make sure you are on the newest version of sdk 3.1 .
 
 
-@Autonomous(name="Omni Perspective Op", group="TeleOp")
+@TeleOp(name="Omni Perspective Op", group="TeleOp")
 public class TeleOpOmniWithPerspective extends OpMode {
+    HardwareMechanumRobot robot = new HardwareMechanumRobot();
 
     //values, using global values for faster runtime
-    HardwareMap hMap;
     public DcMotor fr;
     public DcMotor fl;
     public DcMotor bl;
@@ -47,12 +47,16 @@ public class TeleOpOmniWithPerspective extends OpMode {
     //values for motor
     double[] motorPwr = new double[4];
     double x,y,z;
+    double joyX, joyY;
+    double frpower, flpower, blpower, brpower;
+
 
     //imu object
     BNO055IMU imu;
     //imu values
     Orientation angles;
     Acceleration gravity;
+    float theta;
 
     @Override
     public void init() {
@@ -75,14 +79,10 @@ public class TeleOpOmniWithPerspective extends OpMode {
         imu.initialize(parameters);
 
         //set motors to hardware
-        fr = hMap.dcMotor.get("front_right");
-        fl = hMap.dcMotor.get("front_left");
-        bl = hMap.dcMotor.get("back_left");
-        br = hMap.dcMotor.get("back_right");
-
-        //imu hardware
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
+        fr = hardwareMap.dcMotor.get("front_right");
+        fl = hardwareMap.dcMotor.get("front_left");
+        bl = hardwareMap.dcMotor.get("back_left");
+        br = hardwareMap.dcMotor.get("back_right");
 
         telemetry.addData("Status", "Initialized");
     }
@@ -97,37 +97,36 @@ public class TeleOpOmniWithPerspective extends OpMode {
 
     @Override
     public void loop() {
-        //get imu data TODO this might make things slow so I probs shud fix this later
-        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //TODO figure out whether angles should be in degrees or radians
-        gravity  = imu.getGravity(); //there has to be a use for it if not I'll delete it for faster runtime
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.RADIANS);
+        theta = angles.firstAngle;
 
+        //getting joystick values and rotate axis for perspective drive
+        joyY = gamepad1.left_stick_y; //left joystick y axis
+        joyX = gamepad1.left_stick_x; //left joystick x axis
+        z = gamepad1.right_stick_x; //right joystick x axis (for turning)
 
-        //getting joystick values
-        y = gamepad1.left_stick_y; //left joystick y axis
-        x = gamepad1.left_stick_x; //left joystick x axis
-        z = gamepad1.right_stick_x; //right joystick x axis
+        y = joyX*Math.cos(theta) - joyY*Math.sin(theta);
+        x = joyX*Math.sin(theta) - joyY*Math.cos(theta);
 
-        //calculating the motor power TODO incorperate perspective drive
         motorPwr[0] = Range.clip(-y+x-z, -1.0, 1.0); //front right
         motorPwr[1] = Range.clip(y+x-z, -1.0, 1.0); //front left
         motorPwr[2] = Range.clip(-y-x-z, -1.0, 1.0); //back right
         motorPwr[3] = Range.clip(y-x-z, -1.0, 1.0); //back left
 
-        //setting the motor powers TODO incorperate perspective drive
+
+
         fr.setPower(motorPwr[0]);
         fl.setPower(motorPwr[0]);
         br.setPower(motorPwr[0]);
         bl.setPower(motorPwr[0]);
 
+
+
+
+
+
         telemetry.addData("Status", "Run Time: " + runtime.toString());
+        telemetry.addData("Angle", theta);
     }
 
-    //honestly we probs won't need these but if we need it for testing the imu w telementry it's here I guess
-    String formatAngle(AngleUnit angleUnit, double angle) {
-        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
-    }
-
-    String formatDegrees(double degrees){
-        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
-    }
 }
