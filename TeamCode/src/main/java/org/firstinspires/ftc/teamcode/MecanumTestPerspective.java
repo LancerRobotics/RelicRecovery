@@ -47,10 +47,10 @@ public class MecanumTestPerspective extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    public DcMotor fr = null;
-    public DcMotor fl = null;
-    public DcMotor bl = null;
-    public DcMotor br = null;
+    public DcMotor fr; //= null;
+    public DcMotor fl; //= null;
+    public DcMotor bl; //= null;
+    public DcMotor br; //= null;
     public static double frPower, flPower, brPower, blPower;
 
     //values for motor
@@ -104,7 +104,16 @@ public class MecanumTestPerspective extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.RADIANS);
+
+            telemetry.addData("Theta: ", theta);
+            telemetry.update();
+            if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
+                theta = angles.AngleSet(); //.zeroYaw
+            }
+
+
             theta = angles.firstAngle;
             //Sets the gamepad values to x, y, and z
             z = -gamepad1.right_stick_x; //rotation?
@@ -112,6 +121,7 @@ public class MecanumTestPerspective extends LinearOpMode {
             x = gamepad1.left_stick_x; //side to side?
             telemetry.addData("first x:", x);
             telemetry.addData("first y:", y);
+            telemetry.update();
 
             //Converts x and y to a different value based on the gyro value
             trueX = ((Math.cos(Math.toRadians(360-theta)) * x) - ((Math.sin(Math.toRadians(360-theta))) * y)); //sets trueX to rotated value
@@ -123,7 +133,7 @@ public class MecanumTestPerspective extends LinearOpMode {
 
             telemetry.addData("true x:", x);
             telemetry.addData("true y:", y);
-
+            telemetry.update();
             //deadzone
   /*          if(x > -0.05 || x < 0.05) {
                 x = 0;
