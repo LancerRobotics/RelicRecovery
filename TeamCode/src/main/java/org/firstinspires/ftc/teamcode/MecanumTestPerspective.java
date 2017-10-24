@@ -107,17 +107,31 @@ public class MecanumTestPerspective extends LinearOpMode {
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.RADIANS);
             theta = angles.firstAngle;
             //Sets the gamepad values to x, y, and z
-            z = gamepad1.right_stick_x; //sideways
-            y = gamepad1.left_stick_y; //forward and backward
-            x = gamepad1.left_stick_x; //rotation
+            z = -gamepad1.right_stick_x; //rotation?
+            y = -gamepad1.left_stick_y; //forward and backward
+            x = gamepad1.left_stick_x; //side to side?
+            telemetry.addData("first x:", x);
+            telemetry.addData("first y:", y);
 
             //Converts x and y to a different value based on the gyro value
-            trueX = ((Math.cos(Math.toRadians(theta)) * x) - ((Math.sin(Math.toRadians(theta))) * y)); //sets trueX to rotated value
-            trueY = ((Math.sin(Math.toRadians(theta))) * x) + ((Math.cos(Math.toRadians(theta))) * y);
+            trueX = ((Math.cos(Math.toRadians(360-theta)) * x) - ((Math.sin(Math.toRadians(360-theta))) * y)); //sets trueX to rotated value
+            trueY = ((Math.sin(Math.toRadians(360-theta))) * x) + ((Math.cos(Math.toRadians(360-theta))) * y);
 
             //Sets trueX and trueY to its respective value
             x = trueX;
             y = trueY;
+
+            telemetry.addData("true x:", x);
+            telemetry.addData("true y:", y);
+
+            //deadzone
+  /*          if(x > -0.05 || x < 0.05) {
+                x = 0;
+            }
+            if(y > -.05 || y < .05){
+                y = 0;
+            }
+*/
 
             //Sets the motor powers of the wheels to the correct power based on all three of the above gyro values and
             //scales them accordingly
@@ -125,6 +139,7 @@ public class MecanumTestPerspective extends LinearOpMode {
             frPower = Range.clip((-x - y - z), -1, 1);
             blPower = Range.clip((x + y - z), -1, 1);
             brPower = Range.clip((x - y - z), -1, 1);
+
 
             //Sets each motor power to the correct power
             fl.setPower(flPower);
