@@ -64,6 +64,7 @@ public class MecanumTestPerspective extends LinearOpMode {
     Orientation angles;
     Acceleration gravity;
     float theta;
+    float callibrate;
 
     @Override
     public void runOpMode() {
@@ -97,6 +98,7 @@ public class MecanumTestPerspective extends LinearOpMode {
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+        callibrate = 0;
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -105,12 +107,12 @@ public class MecanumTestPerspective extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.RADIANS);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.RADIANS);
 
             telemetry.addData("Theta: ", theta);
             telemetry.update();
             if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
-                theta = angles.AngleSet(); //.zeroYaw
+                callibrate = angles.firstAngle; //.zeroYaw
             }
 
 
@@ -124,8 +126,8 @@ public class MecanumTestPerspective extends LinearOpMode {
             telemetry.update();
 
             //Converts x and y to a different value based on the gyro value
-            trueX = ((Math.cos(Math.toRadians(360-theta)) * x) - ((Math.sin(Math.toRadians(360-theta))) * y)); //sets trueX to rotated value
-            trueY = ((Math.sin(Math.toRadians(360-theta))) * x) + ((Math.cos(Math.toRadians(360-theta))) * y);
+            trueX = ((Math.cos(Math.toDegrees(360-theta-callibrate)) * x) - ((Math.sin(Math.toDegrees(360-theta-callibrate))) * y)); //sets trueX to rotated value
+            trueY = ((Math.sin(Math.toDegrees(360-theta-callibrate))) * x) + ((Math.cos(Math.toDegrees(360-theta-callibrate))) * y);
 
             //Sets trueX and trueY to its respective value
             x = trueX;
