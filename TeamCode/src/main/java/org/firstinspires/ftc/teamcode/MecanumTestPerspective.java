@@ -1,7 +1,5 @@
-
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,14 +8,6 @@ import com.qualcomm.robotcore.util.Range;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -64,7 +54,7 @@ public class MecanumTestPerspective extends LinearOpMode {
     Orientation angles;
     Acceleration gravity;
     float theta;
-    float callibrate;
+    float calibrate;
 
     @Override
     public void runOpMode() {
@@ -98,11 +88,13 @@ public class MecanumTestPerspective extends LinearOpMode {
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-        callibrate = 0;
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+
+        //zero yaw work / calibration
+
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -111,23 +103,24 @@ public class MecanumTestPerspective extends LinearOpMode {
 
             telemetry.addData("Theta: ", theta);
             telemetry.update();
-            if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
-                callibrate = angles.firstAngle; //.zeroYaw
-            }
-
-
             theta = angles.firstAngle;
+            if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
+                calibrate = 360 - theta;//angles.firstAngle; //.zeroYaw
+            }
             //Sets the gamepad values to x, y, and z
-            z = -gamepad1.right_stick_x; //rotation?
+            z = -gamepad1.right_stick_x; //rotation
             y = -gamepad1.left_stick_y; //forward and backward
-            x = gamepad1.left_stick_x; //side to side?
+            x = gamepad1.left_stick_x; //side to side
             telemetry.addData("first x:", x);
             telemetry.addData("first y:", y);
             telemetry.update();
 
             //Converts x and y to a different value based on the gyro value
-            trueX = ((Math.cos(Math.toDegrees(360-theta-callibrate)) * x) - ((Math.sin(Math.toDegrees(360-theta-callibrate))) * y)); //sets trueX to rotated value
-            trueY = ((Math.sin(Math.toDegrees(360-theta-callibrate))) * x) + ((Math.cos(Math.toDegrees(360-theta-callibrate))) * y);
+            //trueX = ((Math.cos(Math.toDegrees(360-theta- calibrate)) * x) - ((Math.sin(Math.toDegrees(360-theta- calibrate))) * y)); //sets trueX to rotated value
+            //trueY = ((Math.sin(Math.toDegrees(360-theta- calibrate))) * x) + ((Math.cos(Math.toDegrees(360-theta- calibrate))) * y);
+
+            trueX = (Math.cos(theta+calibrate)*x) - (Math.sin(theta+calibrate)*y); //sets trueX to rotated value
+            trueY = (Math.sin(theta+calibrate)*x) + (Math.cos(theta+calibrate)*y);
 
             //Sets trueX and trueY to its respective value
             x = trueX;
