@@ -47,6 +47,10 @@ public class HardwareMechanumRobot {
     //Servos
     public Servo arm1 = null;
     public Servo arm2 = null;
+    public Servo arm3 = null;
+    public Servo arm4 = null; //glyph grabber left servo
+    public Servo arm5 = null; //glyph grabber right servo
+    public Servo arm6 = null;
 
     //Gyro
     public BNO055IMU imu = null;
@@ -73,8 +77,13 @@ public class HardwareMechanumRobot {
         fl = hwMap.dcMotor.get("front_left");
         br = hwMap.dcMotor.get("back_right");
         bl = hwMap.dcMotor.get("back_left");
-        arm1 = hwMap.servo.get("relic_left");
-        arm2 = hwMap.servo.get("relic_right");
+        arm1 = hwMap.servo.get("relic_lifter");
+        arm2 = hwMap.servo.get("relic_lifter");
+        arm3 = hwMap.servo.get("relic_clamper");
+        arm4 = hwMap.servo.get("glyph_left");
+        arm5 = hwMap.servo.get("glyph_right");
+        arm6 = hwMap.servo.get("glyph_holder");
+
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -87,6 +96,10 @@ public class HardwareMechanumRobot {
         imu.initialize(parameters);
         arm1.setPosition(armINITIAL);
         arm2.setPosition(armINITIAL);
+        arm3.setPosition(armINITIAL);
+        arm4.setPosition(0.4);
+        arm5.setPosition(0.6);
+        arm6.setPosition(armINITIAL);
     }
 
 
