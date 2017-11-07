@@ -131,7 +131,6 @@ public class MecanumPerspective extends LinearOpMode{
 
                 telemetry.addData("true x:", x);
                 telemetry.addData("true y:", y);
-                telemetry.update();
                 //deadzone
   /*          if(x > -0.05 || x < 0.05) {
                 x = 0;
