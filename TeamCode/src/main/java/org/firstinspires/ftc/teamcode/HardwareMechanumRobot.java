@@ -97,8 +97,8 @@ public class HardwareMechanumRobot {
         arm1.setPosition(armINITIAL);
         arm2.setPosition(armINITIAL);
         arm3.setPosition(armINITIAL);
-        arm4.setPosition(0.4);
-        arm5.setPosition(0.6);
+        arm4.setPosition(0.0);
+        arm5.setPosition(0.1);
         arm6.setPosition(armINITIAL);
     }
 
