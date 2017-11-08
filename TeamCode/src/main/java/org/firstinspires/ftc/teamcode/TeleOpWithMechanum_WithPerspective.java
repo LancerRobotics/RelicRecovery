@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
+/**
+ * Created by dina.brustein on 9/27/2017.
+ */
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -45,7 +49,7 @@ public class TeleOpWithMechanum_WithPerspective extends LinearOpMode {
 
         Gamepad gamepad1 = new Gamepad();
         Gamepad gamepad2 = new Gamepad();
-        
+
         robot.init(hardwareMap, false);
 
         z = gamepad1.left_stick_x; //moving left/right
@@ -53,19 +57,46 @@ public class TeleOpWithMechanum_WithPerspective extends LinearOpMode {
         x = gamepad1.right_stick_x; //turning
         Button1_a = gamepad1.a; //open glyph grabber
         Button1_b = gamepad1.b; //close glyph grabber
-        Button2_a = gamepad2.a; //lift relic to 80 degrees
-        Button2_b = gamepad2.b; //bring relic up parallel to ground
-        Button2_x = gamepad2.x; //clamp servo over relic
-        Button2_y = gamepad2.y; //drop relic back down so it's perpendicular to ground
+        Button2_a = gamepad2.a;
+        Button2_b = gamepad2.b;
+        Button2_x = gamepad2.x;
+        Button2_y = gamepad2.y;
+
+<<<<<<< HEAD
+        robot.arm1.scaleRange(-1,1);
+        robot.arm2.scaleRange(-1,1);
+        robot.arm3.scaleRange(-1,1);
+        robot.arm4.scaleRange(-1,1);
+        robot.arm5.scaleRange(-1,1);
+        robot.arm6.scaleRange(-1,1);
 
         //arm4 is left glyph grabber arm, arm5 is right glyph grabber arm
+=======
+>>>>>>> 962e4f55bb5ad82140924ce6558974195515e1fb
         if (Button1_a==true){
-            robot.arm5.setPosition(0.420);
             robot.arm4.setPosition(0.420);
         }
         if(Button1_b==true){
-            robot.arm4.setPosition(0.40);
-            robot.arm5.setPosition(0.40);
+            robot.arm5.setPosition(-0.420);
+        }
+
+        if (Button2_a==true){
+            robot.arm1.setPosition(0.420);
+            robot.arm2.setPosition(0.420);
+        }
+
+        if (Button2_b == true){
+            robot.arm1.setPosition(0.7420);
+            robot.arm2.setPosition(0.7420);
+        }
+
+        if (Button2_x == true){
+            robot.arm3.setPosition(0.420);
+        }
+
+        if (Button2_y == true){
+            robot.arm1.setPosition(0.00);
+            robot.arm2.setPosition(0.00);
         }
 
 
@@ -96,7 +127,7 @@ public class TeleOpWithMechanum_WithPerspective extends LinearOpMode {
             } else if (gamepad1.dpad_left) {
                 robot.br.setPower(-robot.MAX_MOTOR_SPEED);
                 robot.fr.setPower(-robot.MAX_MOTOR_SPEED);
-                
+
             }
         }
 

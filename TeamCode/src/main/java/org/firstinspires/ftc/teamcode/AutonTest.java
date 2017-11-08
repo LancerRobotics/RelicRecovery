@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * Created by david.lin on 11/6/2017.
  */
 
-public class SimpleRedAutonMeet extends LinearOpMode{
+public class AutonTest extends LinearOpMode{
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
 
 
@@ -56,12 +56,17 @@ public class SimpleRedAutonMeet extends LinearOpMode{
             robot.turn(0.3, false);
         }
 
-        robot.turn(0.86, false);
+        sleep(500);
+
+        robot.setDrivePower(0.5, false);
+        sleep(1000);
+        robot.setDrivePower(0, true);
+
+        robot.setDrivePower(0.5, false);
         sleep(500);
         robot.setDrivePower(0, true);
-        robot.setDrivePower(0.10, true);
-        sleep(500);
-        robot.setDrivePower(0, true);
+
+        }
 
     }
 }
