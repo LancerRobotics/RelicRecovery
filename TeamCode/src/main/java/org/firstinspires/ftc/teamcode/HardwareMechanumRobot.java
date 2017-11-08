@@ -67,6 +67,8 @@ public class HardwareMechanumRobot {
     public static final double armINITIAL = .6;
     public static final double armDROP = 0.4;
     public static final double armHALFWAY = 0.75;
+    public static final double ARM_4_POSITION = 0.4;
+    public static final double ARM_3_POSITION = 0.4;
 
     public HardwareMechanumRobot(){
     }

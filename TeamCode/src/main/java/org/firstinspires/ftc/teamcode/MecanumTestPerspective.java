@@ -37,7 +37,7 @@ public class MecanumTestPerspective extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    public DcMotor fr; //= null;
+    public DcMotor fr; //= null;7
     public DcMotor fl; //= null;
     public DcMotor bl; //= null;
     public DcMotor br; //= null;

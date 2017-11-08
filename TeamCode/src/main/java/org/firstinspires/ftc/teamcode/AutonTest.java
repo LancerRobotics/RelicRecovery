@@ -56,12 +56,17 @@ public class SimpleRedAutonMeet extends LinearOpMode{
             robot.turn(0.3, false);
         }
 
-        robot.turn(0.86, false);
+        sleep(500);
+        
+        robot.setDrivePower(0.5, false);
+        sleep(1000);
+        robot.setDrivePower(0, true);
+
+        robot.setDrivePower(0.5, false);
         sleep(500);
         robot.setDrivePower(0, true);
-        robot.setDrivePower(0.10, true);
-        sleep(500);
-        robot.setDrivePower(0, true);
+
+        }
 
     }
 }
