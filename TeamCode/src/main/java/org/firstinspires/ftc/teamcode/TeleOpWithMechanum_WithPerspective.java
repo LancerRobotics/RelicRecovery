@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-/**
- * Created by dina.brustein on 9/27/2017.
- */
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -38,6 +34,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 public class TeleOpWithMechanum_WithPerspective extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
     public static double x, y, z, trueX, trueY;
+    public static boolean Button1_b, Button1_a, Button2_a, Button2_b, Button2_x, Button2_y;
     public double frpower, flpower, brpower, blpower;
 
     public void setup(){
@@ -54,6 +51,23 @@ public class TeleOpWithMechanum_WithPerspective extends LinearOpMode {
         z = gamepad1.left_stick_x; //moving left/right
         y = gamepad1.left_stick_y; //moving forwards/backwards
         x = gamepad1.right_stick_x; //turning
+        Button1_a = gamepad1.a; //open glyph grabber
+        Button1_b = gamepad1.b; //close glyph grabber
+        Button2_a = gamepad2.a; //lift relic to 80 degrees
+        Button2_b = gamepad2.b; //bring relic up parallel to ground
+        Button2_x = gamepad2.x; //clamp servo over relic
+        Button2_y = gamepad2.y; //drop relic back down so it's perpendicular to ground
+
+        //arm4 is left glyph grabber arm, arm5 is right glyph grabber arm
+        if (Button1_a==true){
+            robot.arm5.setPosition(0.420);
+            robot.arm4.setPosition(0.420);
+        }
+        if(Button1_b==true){
+            robot.arm4.setPosition(0.40);
+            robot.arm5.setPosition(0.40);
+        }
+
 
         //Sets the motor powers of the wheels to the correct power based on all three of the above gyro values and
         //scales them accordingly
