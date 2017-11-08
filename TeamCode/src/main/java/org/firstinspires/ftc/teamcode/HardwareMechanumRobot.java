@@ -47,7 +47,7 @@ public class HardwareMechanumRobot {
     //Servos
     public Servo arm1 = null; //relic lifter right
     public Servo arm2 = null; //relic lifter left
-  //  public Servo arm3 = null; //relic clamper
+    public Servo arm3 = null; //relic clamper
     public Servo arm4 = null; //glyph grabber left servo
     public Servo arm5 = null; //glyph grabber right servo
   //  public Servo arm6 = null; //glyph grabber hook
@@ -81,7 +81,7 @@ public class HardwareMechanumRobot {
         bl = hwMap.dcMotor.get("back_left");
         arm1 = hwMap.servo.get("relic_lifter_right");
         arm2 = hwMap.servo.get("relic_lifter_left");
-   //     arm3 = hwMap.servo.get("relic_clamper");
+        arm3 = hwMap.servo.get("relic_clamper");
         arm4 = hwMap.servo.get("glyph_left");
         arm5 = hwMap.servo.get("glyph_right");
    //     arm6 = hwMap.servo.get("glyph_holder");
