@@ -47,12 +47,12 @@ public class HardwareMechanumRobot {
     public DcMotor br = null;
 
     //Servos
-    public Servo arm1 = null;
-    public Servo arm2 = null;
-    public Servo arm3 = null;
+    public Servo arm1 = null; //relic lifter right
+    public Servo arm2 = null; //relic lifter left
+  //  public Servo arm3 = null; //relic clamper
     public Servo arm4 = null; //glyph grabber left servo
     public Servo arm5 = null; //glyph grabber right servo
-    public Servo arm6 = null;
+  //  public Servo arm6 = null; //glyph grabber hook
 
     //Gyro
     public BNO055IMU imu = null;
@@ -69,6 +69,8 @@ public class HardwareMechanumRobot {
     public static final double armINITIAL = .6;
     public static final double armDROP = 0.4;
     public static final double armHALFWAY = 0.75;
+    public static final double ARM_4_POSITION = 0.4;
+    public static final double ARM_3_POSITION = 0.4;
 
     public HardwareMechanumRobot(){
     }
@@ -79,12 +81,12 @@ public class HardwareMechanumRobot {
         fl = hwMap.dcMotor.get("front_left");
         br = hwMap.dcMotor.get("back_right");
         bl = hwMap.dcMotor.get("back_left");
-        arm1 = hwMap.servo.get("relic_lifter");
-        arm2 = hwMap.servo.get("relic_lifter");
-        arm3 = hwMap.servo.get("relic_clamper");
+        arm1 = hwMap.servo.get("relic_lifter_right");
+        arm2 = hwMap.servo.get("relic_lifter_left");
+   //     arm3 = hwMap.servo.get("relic_clamper");
         arm4 = hwMap.servo.get("glyph_left");
         arm5 = hwMap.servo.get("glyph_right");
-        arm6 = hwMap.servo.get("glyph_holder");
+   //     arm6 = hwMap.servo.get("glyph_holder");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -98,10 +100,10 @@ public class HardwareMechanumRobot {
         imu.initialize(parameters);
         arm1.setPosition(armINITIAL);
         arm2.setPosition(armINITIAL);
-        arm3.setPosition(armINITIAL);
-        arm4.setPosition(0.0);
-        arm5.setPosition(0.1);
-        arm6.setPosition(armINITIAL);
+    //    arm3.setPosition(armINITIAL);
+        arm4.setPosition(0.4);
+        arm5.setPosition(0.6);
+    //    arm6.setPosition(armINITIAL);
     }
 
 
