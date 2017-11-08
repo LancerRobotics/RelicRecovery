@@ -104,17 +104,18 @@ public class MecanumTestPerspective extends LinearOpMode {
 
             //telemetry.addData("angles (same as theta,in rad): ", angles);
             theta = angles.firstAngle;
-            //if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
-            //    calibrate = 360 - theta;//angles.firstAngle; //.zeroYaw
-            //}
+            if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
+                calibrate = 360 - theta;//angles.firstAngle; //.zeroYaw
+            }
+
             //Sets the gamepad values to x, y, and z
             z = -gamepad1.right_stick_x; //rotation
             y = -gamepad1.left_stick_y; //forward and backward
             x = gamepad1.left_stick_x; //side to side
-            telemetry.addData("Theta(in rads): ", theta);
-            telemetry.addData("first x:", x);
-            telemetry.addData("first y:", y);
-
+            telemetry.addData("Theta(in degrees): ", theta);
+            telemetry.addData("direct joystick x:", x);
+            telemetry.addData("direct joystick y:", y);
+            telemetry.addData("direct joystick z:", z);
 
             //Converts x and y to a different value based on the gyro value
             //trueX = ((Math.cos(Math.toDegrees(360-theta- calibrate)) * x) - ((Math.sin(Math.toDegrees(360-theta- calibrate))) * y)); //sets trueX to rotated value
