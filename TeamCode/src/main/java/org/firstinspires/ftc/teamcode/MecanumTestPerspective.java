@@ -99,29 +99,28 @@ public class MecanumTestPerspective extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-            //CHANGED ANGLE UNIT TO DEGREES
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.RADIANS);
 
-            //telemetry.addData("angles (same as theta,in rad): ", angles);
+            telemetry.addData("Theta: ", theta);
+            telemetry.update();
             theta = angles.firstAngle;
-            //if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
-            //    calibrate = 360 - theta;//angles.firstAngle; //.zeroYaw
-            //}
+            if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
+                calibrate = 360 - theta;//angles.firstAngle; //.zeroYaw
+            }
             //Sets the gamepad values to x, y, and z
             z = -gamepad1.right_stick_x; //rotation
             y = -gamepad1.left_stick_y; //forward and backward
             x = gamepad1.left_stick_x; //side to side
-            telemetry.addData("Theta(in rads): ", theta);
             telemetry.addData("first x:", x);
             telemetry.addData("first y:", y);
-
+            telemetry.update();
 
             //Converts x and y to a different value based on the gyro value
             //trueX = ((Math.cos(Math.toDegrees(360-theta- calibrate)) * x) - ((Math.sin(Math.toDegrees(360-theta- calibrate))) * y)); //sets trueX to rotated value
             //trueY = ((Math.sin(Math.toDegrees(360-theta- calibrate))) * x) + ((Math.cos(Math.toDegrees(360-theta- calibrate))) * y);
-            //((Math.cos(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * x)
-            trueX = ((Math.cos(Math.toRadians(360 - theta)))*x) - ((Math.sin(Math.toRadians(360 - theta)))*y); //sets trueX to rotated value
-            trueY = ((Math.sin(Math.toRadians(360 - theta)))*x) - ((Math.cos(Math.toRadians(360 - theta)))*y);
+
+            trueX = (Math.cos(theta+calibrate)*x) - (Math.sin(theta+calibrate)*y); //sets trueX to rotated value
+            trueY = (Math.sin(theta+calibrate)*x) + (Math.cos(theta+calibrate)*y);
 
             //Sets trueX and trueY to its respective value
             x = trueX;
@@ -129,7 +128,7 @@ public class MecanumTestPerspective extends LinearOpMode {
 
             telemetry.addData("true x:", x);
             telemetry.addData("true y:", y);
-
+            telemetry.update();
             //deadzone
   /*          if(x > -0.05 || x < 0.05) {
                 x = 0;
