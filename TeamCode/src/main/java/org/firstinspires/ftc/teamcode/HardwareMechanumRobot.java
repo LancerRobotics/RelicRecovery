@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 /**
  * Created by dina.brustein on 9/27/2017.
  */
+import android.media.midi.MidiDeviceInfo;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -103,6 +105,7 @@ public class HardwareMechanumRobot {
         arm5.setPosition(0.6);
     //    arm6.setPosition(armINITIAL);
     }
+
 
 
 
