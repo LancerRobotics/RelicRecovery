@@ -39,10 +39,10 @@ public class TeleOpWithMechanum_WithoutPerspective extends LinearOpMode {
             brPower = Range.scale((x - y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
 
             //Sets each motor power to the correct power
-            robot.fl.setPower(flPower);
-            robot.fr.setPower(frPower);
-            robot.bl.setPower(blPower);
-            robot.br.setPower(brPower);
+            robot.fl.setPower(-flPower);
+            robot.fr.setPower(-frPower);
+            robot.bl.setPower(-blPower);
+            robot.br.setPower(-brPower);
 
             if(gamepad1.a) {
                 robot.arm1.setPosition(robot.armDOWN);

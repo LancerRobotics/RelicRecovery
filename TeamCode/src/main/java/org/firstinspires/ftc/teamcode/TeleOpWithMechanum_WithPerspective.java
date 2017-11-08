@@ -49,7 +49,7 @@ public class TeleOpWithMechanum_WithPerspective extends LinearOpMode {
 
         Gamepad gamepad1 = new Gamepad();
         Gamepad gamepad2 = new Gamepad();
-        
+
         robot.init(hardwareMap, false);
 
         z = gamepad1.left_stick_x; //moving left/right
@@ -97,7 +97,7 @@ public class TeleOpWithMechanum_WithPerspective extends LinearOpMode {
             } else if (gamepad1.dpad_left) {
                 robot.br.setPower(-robot.MAX_MOTOR_SPEED);
                 robot.fr.setPower(-robot.MAX_MOTOR_SPEED);
-                
+
             }
         }
 
