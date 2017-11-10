@@ -5,6 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -34,7 +37,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 @TeleOp(name="MecanumTestPerspective", group="Linear Opmode")
 //@Disabled
 public class MecanumTestPerspective extends LinearOpMode {
-
+    HardwareMechanumRobot robot = new HardwareMechanumRobot();
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     public DcMotor fr; //= null;7
@@ -42,6 +45,7 @@ public class MecanumTestPerspective extends LinearOpMode {
     public DcMotor bl; //= null;
     public DcMotor br; //= null;
     public static double frPower, flPower, brPower, blPower;
+    public static boolean Button1_b, Button1_a, Button2_a, Button2_b, Button2_x, Button2_y;
 
     //values for motor
     double[] motorPwr = new double[4];
@@ -118,6 +122,64 @@ public class MecanumTestPerspective extends LinearOpMode {
             //Converts x and y to a different value based on the gyro value
             //trueX = ((Math.cos(Math.toDegrees(360-theta- calibrate)) * x) - ((Math.sin(Math.toDegrees(360-theta- calibrate))) * y)); //sets trueX to rotated value
             //trueY = ((Math.sin(Math.toDegrees(360-theta- calibrate))) * x) + ((Math.cos(Math.toDegrees(360-theta- calibrate))) * y);
+
+            z = gamepad1.left_stick_x; //moving left/right
+            y = gamepad1.left_stick_y; //moving forwards/backwards
+            x = gamepad1.right_stick_x; //turning
+            Button1_a = gamepad1.a; //open glyph grabber
+            Button2_a = gamepad2.a; //lift relic partially
+            Button2_b = gamepad2.b; //lift relic parallel to ground
+            Button2_x = gamepad2.x; //clamp over relic
+            Button2_y = gamepad2.y; //place relic perpendicular to ground
+
+            robot.arm1.scaleRange(0,1);
+            robot.arm2.scaleRange(0,1);
+            robot.arm3.scaleRange(0,1);
+            robot.arm4.scaleRange(0,1);
+            robot.arm5.scaleRange(0,1);
+            robot.arm6.scaleRange(0,1);
+
+            //arm4 is left glyph grabber arm, arm5 is right glyph grabber arm
+
+            if (Button1_a==true){ //open and close glyph grabber
+               int pos =0; //open or close
+                if (pos ==0){
+                    robot.arm4.setPosition(1);
+                    robot.arm5.setPosition(1);
+                    pos =1;
+                }
+                else{
+                    robot.arm4.setPosition(0.420);
+                    robot.arm5.setPosition(0.420);
+                    pos = 0;
+                }
+            }
+            if (Button2_a==true){ //relic grabber move up partially
+                robot.arm1.setPosition(0.3);
+                robot.arm2.setPosition(0.3);
+            }
+
+            if (Button2_b == true){ //relic grabber move up parallel to ground
+                robot.arm1.setPosition(0.5);
+                robot.arm2.setPosition(0.5);
+            }
+
+            if (Button2_x == true){ //clamp or unclamp over relic
+                int pos = 0; //clamp or unclamp
+                if(pos == 0){ //clamp
+                    robot.arm3.setPosition(0.9);
+                    pos = 1;
+                }
+                else{ //unclamp
+                    robot.arm3.setPosition(0);
+                    pos = 0;
+                }
+            }
+
+            if (Button2_y == true){ //move relic perpendicular to ground
+                robot.arm1.setPosition(0.00);
+                robot.arm2.setPosition(0.00);
+            }
 
             trueX = (Math.cos(theta+calibrate)*x) - (Math.sin(theta+calibrate)*y); //sets trueX to rotated value
             trueY = (Math.sin(theta+calibrate)*x) + (Math.cos(theta+calibrate)*y);
