@@ -34,13 +34,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="MecanumTestPerspective", group="Linear Opmode")
+@TeleOp(name="MecanumTestPerspective-USE THIS", group="Linear Opmode")
 //@Disabled
 public class MecanumTestPerspective extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    public DcMotor fr; //= null;7
+    public DcMotor fr; //= null;
     public DcMotor fl; //= null;
     public DcMotor bl; //= null;
     public DcMotor br; //= null;
@@ -103,25 +103,28 @@ public class MecanumTestPerspective extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.RADIANS);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+            //CHANGED ANGLE UNIT TO DEGREES
 
-            telemetry.addData("Theta: ", theta);
-            telemetry.update();
+            //telemetry.addData("angles (same as theta,in rad): ", angles);
             theta = angles.firstAngle;
             if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
                 calibrate = 360 - theta;//angles.firstAngle; //.zeroYaw
             }
+
             //Sets the gamepad values to x, y, and z
             z = -gamepad1.right_stick_x; //rotation
             y = -gamepad1.left_stick_y; //forward and backward
             x = gamepad1.left_stick_x; //side to side
-            telemetry.addData("first x:", x);
-            telemetry.addData("first y:", y);
-            telemetry.update();
+            telemetry.addData("Theta(in degrees): ", theta);
+            telemetry.addData("direct joystick x:", x);
+            telemetry.addData("direct joystick y:", y);
+            telemetry.addData("direct joystick z:", z);
 
             //Converts x and y to a different value based on the gyro value
             //trueX = ((Math.cos(Math.toDegrees(360-theta- calibrate)) * x) - ((Math.sin(Math.toDegrees(360-theta- calibrate))) * y)); //sets trueX to rotated value
             //trueY = ((Math.sin(Math.toDegrees(360-theta- calibrate))) * x) + ((Math.cos(Math.toDegrees(360-theta- calibrate))) * y);
+<<<<<<< HEAD
 
             z = gamepad1.left_stick_x; //moving left/right
             y = gamepad1.left_stick_y; //moving forwards/backwards
@@ -183,6 +186,11 @@ public class MecanumTestPerspective extends LinearOpMode {
 
             trueX = (Math.cos(theta+calibrate)*x) - (Math.sin(theta+calibrate)*y); //sets trueX to rotated value
             trueY = (Math.sin(theta+calibrate)*x) + (Math.cos(theta+calibrate)*y);
+=======
+            //((Math.cos(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * x)
+            trueX = ((Math.cos(Math.toRadians(360 - theta)))*x) - ((Math.sin(Math.toRadians(360 - theta)))*y); //sets trueX to rotated value
+            trueY = ((Math.sin(Math.toRadians(360 - theta)))*x) - ((Math.cos(Math.toRadians(360 - theta)))*y);
+>>>>>>> abce55de1872eb45a1155bb222df3155188abb58
 
             //Sets trueX and trueY to its respective value
             x = trueX;
@@ -190,7 +198,7 @@ public class MecanumTestPerspective extends LinearOpMode {
 
             telemetry.addData("true x:", x);
             telemetry.addData("true y:", y);
-            telemetry.update();
+
             //deadzone
   /*          if(x > -0.05 || x < 0.05) {
                 x = 0;
