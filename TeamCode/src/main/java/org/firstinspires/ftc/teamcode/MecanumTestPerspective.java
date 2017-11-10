@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -44,6 +45,11 @@ public class MecanumTestPerspective extends LinearOpMode {
     public DcMotor fl; //= null;
     public DcMotor bl; //= null;
     public DcMotor br; //= null;
+    public Servo arm1 = null; //relic lifter right
+    public Servo arm2 = null; //relic lifter left
+    public Servo arm3 = null; //relic clamper
+    public Servo arm4 = null; //glyph grabber left servo
+    public Servo arm5 = null; //glyph grabber right servo
     public static double frPower, flPower, brPower, blPower;
     public static boolean Button1_b, Button1_a, Button2_a, Button2_b, Button2_x, Button2_y;
 
@@ -76,13 +82,7 @@ public class MecanumTestPerspective extends LinearOpMode {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
-        // Initialize the hardware variables. Note that the strings used here as parameters
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step (using the FTC Robot Controller app on the phone).
-        fr = hardwareMap.dcMotor.get("front_right");
-        fl = hardwareMap.dcMotor.get("front_left");
-        bl = hardwareMap.dcMotor.get("back_left");
-        br = hardwareMap.dcMotor.get("back_right");
+        robot.init(hardwareMap, false);
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -124,7 +124,7 @@ public class MecanumTestPerspective extends LinearOpMode {
             //Converts x and y to a different value based on the gyro value
             //trueX = ((Math.cos(Math.toDegrees(360-theta- calibrate)) * x) - ((Math.sin(Math.toDegrees(360-theta- calibrate))) * y)); //sets trueX to rotated value
             //trueY = ((Math.sin(Math.toDegrees(360-theta- calibrate))) * x) + ((Math.cos(Math.toDegrees(360-theta- calibrate))) * y);
-<<<<<<< HEAD
+
 
             z = gamepad1.left_stick_x; //moving left/right
             y = gamepad1.left_stick_y; //moving forwards/backwards
@@ -135,36 +135,32 @@ public class MecanumTestPerspective extends LinearOpMode {
             Button2_x = gamepad2.x; //clamp over relic
             Button2_y = gamepad2.y; //place relic perpendicular to ground
 
-            robot.arm1.scaleRange(0,1);
-            robot.arm2.scaleRange(0,1);
-            robot.arm3.scaleRange(0,1);
-            robot.arm4.scaleRange(0,1);
-            robot.arm5.scaleRange(0,1);
-            robot.arm6.scaleRange(0,1);
+
+
 
             //arm4 is left glyph grabber arm, arm5 is right glyph grabber arm
 
             if (Button1_a==true){ //open and close glyph grabber
-               int pos =0; //open or close
-                if (pos ==0){
-                    robot.arm4.setPosition(1);
-                    robot.arm5.setPosition(1);
+               int pos =0; //0 close or 1 is open
+                if (pos ==0){ //close
+                    robot.arm4.setPosition(0);
+                    robot.arm5.setPosition(0);
                     pos =1;
                 }
-                else{
-                    robot.arm4.setPosition(0.420);
-                    robot.arm5.setPosition(0.420);
+                else{ //open
+                    robot.arm4.setPosition(1);
+                    robot.arm5.setPosition(1);
                     pos = 0;
                 }
             }
             if (Button2_a==true){ //relic grabber move up partially
-                robot.arm1.setPosition(0.3);
-                robot.arm2.setPosition(0.3);
-            }
-
-            if (Button2_b == true){ //relic grabber move up parallel to ground
                 robot.arm1.setPosition(0.5);
                 robot.arm2.setPosition(0.5);
+            }
+
+            if (Button2_b == true){ //relic grabber move up parallel to ground, 0 is up
+                robot.arm1.setPosition(0);
+                robot.arm2.setPosition(0);
             }
 
             if (Button2_x == true){ //clamp or unclamp over relic
@@ -179,18 +175,18 @@ public class MecanumTestPerspective extends LinearOpMode {
                 }
             }
 
-            if (Button2_y == true){ //move relic perpendicular to ground
-                robot.arm1.setPosition(0.00);
-                robot.arm2.setPosition(0.00);
+            if (Button2_y == true){ //move relic perpendicular to ground, 1 is down
+                robot.arm1.setPosition(0.95);
+                robot.arm2.setPosition(0.95);
             }
 
             trueX = (Math.cos(theta+calibrate)*x) - (Math.sin(theta+calibrate)*y); //sets trueX to rotated value
             trueY = (Math.sin(theta+calibrate)*x) + (Math.cos(theta+calibrate)*y);
-=======
+
             //((Math.cos(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * x)
             trueX = ((Math.cos(Math.toRadians(360 - theta)))*x) - ((Math.sin(Math.toRadians(360 - theta)))*y); //sets trueX to rotated value
             trueY = ((Math.sin(Math.toRadians(360 - theta)))*x) - ((Math.cos(Math.toRadians(360 - theta)))*y);
->>>>>>> abce55de1872eb45a1155bb222df3155188abb58
+
 
             //Sets trueX and trueY to its respective value
             x = trueX;
@@ -215,12 +211,6 @@ public class MecanumTestPerspective extends LinearOpMode {
             blPower = Range.clip((x + y - z), -1, 1);
             brPower = Range.clip((x - y - z), -1, 1);
 
-
-            //Sets each motor power to the correct power
-            fl.setPower(flPower);
-            fr.setPower(frPower);
-            bl.setPower(blPower);
-            br.setPower(brPower);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());

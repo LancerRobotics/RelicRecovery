@@ -39,7 +39,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 public class HardwareMechanumRobot {
-
+    public static double frPower, flPower, brPower, blPower;
     // Motors
     public DcMotor fl = null;
     public DcMotor fr = null;
@@ -86,7 +86,7 @@ public class HardwareMechanumRobot {
         arm3 = hwMap.servo.get("relic_clamper");
         arm4 = hwMap.servo.get("glyph_left");
         arm5 = hwMap.servo.get("glyph_right");
-        arm6 = hwMap.servo.get("glyph_holder");
+        //arm6 = hwMap.servo.get("glyph_holder");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -103,7 +103,19 @@ public class HardwareMechanumRobot {
         arm3.setPosition(armINITIAL);
         arm4.setPosition(0.4);
         arm5.setPosition(0.6);
-        arm6.setPosition(armINITIAL);
+     //   arm6.setPosition(armINITIAL);
+
+        arm1.scaleRange(0,1);
+        arm2.scaleRange(0,1);
+        arm3.scaleRange(0,1);
+        arm4.scaleRange(0,1);
+        arm5.scaleRange(0,1);
+
+        //Sets each motor power to the correct power
+        fl.setPower(flPower);
+        fr.setPower(frPower);
+        bl.setPower(blPower);
+        br.setPower(brPower);
     }
 
 

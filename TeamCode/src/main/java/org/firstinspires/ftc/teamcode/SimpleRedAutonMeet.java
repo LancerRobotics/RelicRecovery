@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -13,6 +14,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 /**
  * Created by david.lin on 11/6/2017.
  */
+
+@Autonomous
 
 public class SimpleRedAutonMeet extends LinearOpMode{
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
@@ -44,8 +47,10 @@ public class SimpleRedAutonMeet extends LinearOpMode{
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
-        robot.arm4.setPosition(0);
-        robot.arm5.setPosition(1);
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+
+        robot.arm4.setPosition(1);
+        robot.arm5.setPosition(0);
 
         robot.setDrivePower(0.5, false);
         sleep(500);
@@ -55,12 +60,23 @@ public class SimpleRedAutonMeet extends LinearOpMode{
             robot.turn(0.3, false);
         }
 
-        robot.arm4.setPosition(1);
-        robot.arm5.setPosition(0);
+        robot.setDrivePower(0.5, false);
+        sleep(500);
+        robot.setDrivePower(0, true);
+
+        while(angles.firstAngle > 90){
+            robot.turn(0.3, true);
+        }
+
+        robot.arm4.setPosition(0);
+        robot.arm5.setPosition(1);
 
         robot.setDrivePower(0.5, false);
         sleep(500);
         robot.setDrivePower(0, true);
+
+        robot.arm4.setPosition(1);
+        robot.arm5.setPosition(0);
 
         robot.setDrivePower(0.3, true);
         sleep(250);
