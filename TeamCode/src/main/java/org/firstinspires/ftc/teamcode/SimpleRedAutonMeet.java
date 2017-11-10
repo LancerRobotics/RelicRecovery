@@ -17,7 +17,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 public class SimpleRedAutonMeet extends LinearOpMode{
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
 
-
     BNO055IMU imu;
     //imu values
     Orientation angles;
@@ -31,15 +30,6 @@ public class SimpleRedAutonMeet extends LinearOpMode{
     public void runOpMode(){
         waitForStart();
 
-        robot.arm4.setPosition(robot.ARM_4_POSITION);
-        robot.arm3.setPosition(robot.ARM_3_POSITION);
-
-        robot.init(hardwareMap, true);
-
-        robot.setDrivePower(0.86, false);
-        sleep(500);
-        robot.setDrivePower(0, true);
-
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -48,19 +38,32 @@ public class SimpleRedAutonMeet extends LinearOpMode{
         parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
+        robot.init(hardwareMap, true);
+
+
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
+        robot.arm4.setPosition(0);
+        robot.arm5.setPosition(1);
+
+        robot.setDrivePower(0.5, false);
+        sleep(500);
+        robot.setDrivePower(0, true);
 
         while(angles.firstAngle < 90){
             robot.turn(0.3, false);
         }
 
-        robot.turn(0.86, false);
+        robot.arm4.setPosition(1);
+        robot.arm5.setPosition(0);
+
+        robot.setDrivePower(0.5, false);
         sleep(500);
         robot.setDrivePower(0, true);
-        robot.setDrivePower(0.10, true);
-        sleep(500);
+
+        robot.setDrivePower(0.3, true);
+        sleep(250);
         robot.setDrivePower(0, true);
 
     }
