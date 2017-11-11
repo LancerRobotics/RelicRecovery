@@ -56,7 +56,7 @@ public class SimpleRedAutonMeet extends LinearOpMode{
         sleep(500);
         robot.setDrivePower(0, true);
 
-        while(angles.firstAngle < 90){
+        while(angles.firstAngle < 90 && opModeIsActive()){
             robot.turn(0.3, false);
         }
 
@@ -64,7 +64,7 @@ public class SimpleRedAutonMeet extends LinearOpMode{
         sleep(500);
         robot.setDrivePower(0, true);
 
-        while(angles.firstAngle > 90){
+        while(angles.firstAngle > 90 && opModeIsActive()){
             robot.turn(0.3, true);
         }
 
