@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 /**
  * Created by spork on 9/30/2017.
  */
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -12,6 +13,8 @@ import com.qualcomm.robotcore.util.Range;
 
 
 @TeleOp(name="EK_TankDrive", group="TankDrive")
+@Disabled
+
 public class EK_17_18 extends OpMode {
 
     private DcMotor leftFrontMotor = null;

@@ -67,12 +67,12 @@ public class HardwareMechanumRobot {
 
     public static final double ARM_1_DOWN = 0.95;
     public static final double ARM_1_MIDDLE = 0.5;
-    public static final double ARM_1_UP = 0.3;
+    public static final double ARM_1_UP = 0.25;
     public static final double ARM_2_DOWN = 0.95;
     public static final double ARM_2_MIDDLE = 0.5;
     public static final double ARM_2_UP = 0.3;
     public static final double ARM_3_CLAMP = 0.9;
-    public static final double ARM_3_UNCLAMP = 0;
+    public static final double ARM_3_UNCLAMP = 0.2;
     public static final double ARM_4_OPEN = 0.5;
     public static final double ARM_4_CLOSED = 0.32;
     public static final double ARM_5_OPEN = 0.5;

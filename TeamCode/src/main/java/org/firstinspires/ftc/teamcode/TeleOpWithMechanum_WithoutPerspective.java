@@ -45,16 +45,16 @@ public class TeleOpWithMechanum_WithoutPerspective extends LinearOpMode {
             robot.br.setPower(-brPower);
 
             if(gamepad1.a) {
-                robot.arm1.setPosition(robot.armDOWN);
-                robot.arm2.setPosition(robot.armDOWN);
+                robot.arm1.setPosition(0);
+                robot.arm2.setPosition(0);
             }
             if(gamepad1.b) {
-                robot.arm1.setPosition(robot.armHALFWAY);
-                robot.arm2.setPosition(robot.armHALFWAY);
+                robot.arm1.setPosition(0);
+                robot.arm2.setPosition(0);
             }
             if(gamepad1.y){
-                robot.arm1.setPosition(robot.armDROP);
-                robot.arm2.setPosition(robot.armDROP);
+                robot.arm1.setPosition(0);
+                robot.arm2.setPosition(0);
             }
         }
     }

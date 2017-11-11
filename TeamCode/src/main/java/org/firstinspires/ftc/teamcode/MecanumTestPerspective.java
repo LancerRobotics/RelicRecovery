@@ -41,15 +41,6 @@ public class MecanumTestPerspective extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    public DcMotor fr; //= null;
-    public DcMotor fl; //= null;
-    public DcMotor bl; //= null;
-    public DcMotor br; //= null;
-    public Servo arm1 = null; //relic lifter right
-    public Servo arm2 = null; //relic lifter left
-    public Servo arm3 = null; //relic clamper
-    public Servo arm4 = null; //glyph grabber left servo
-    public Servo arm5 = null; //glyph grabber right servo
     public static double frPower, flPower, brPower, blPower;
     public static boolean Button1_b, Button1_a, Button2_a, Button2_b, Button2_x, Button2_y;
 
@@ -135,22 +126,38 @@ public class MecanumTestPerspective extends LinearOpMode {
             Button2_x = gamepad2.x; //clamp over relic
             Button2_y = gamepad2.y; //place relic perpendicular to ground
 
+            if(y > 0.05){
+                robot.setDrivePower(0.86, false);
+            }
 
+            if(y < -0.05){
+                robot.setDrivePower(0.86, true);
+            }
 
+            if(z > 0.05){
+                robot.strafe(0.86, false);
+            }
 
-            //arm4 is left glyph grabber arm, arm5 is right glyph grabber arm
+            if(z < -0.05){
+                robot.strafe(0.86, true);
+            }
 
-            if (Button1_a==true){ //open and close glyph grabber
-               int pos = 0; //0 close or 1 is open
-                if (pos ==0){ //close
-                    robot.arm4.setPosition(robot.ARM_4_CLOSED);
-                    robot.arm5.setPosition(robot.ARM_5_CLOSED);
-                    pos = 1;
-                }
-                else{ //open
+            if(x > 0.05){
+                robot.turn(0.5, false);
+            }
+
+            if(x < -0.05){
+                robot.turn(0.5, true);
+            }
+
+            if (Button1_a){ //open and close glyph grabber; //0 close or 1 is open
+                if(robot.arm4.getPosition() == robot.ARM_4_CLOSED && robot.arm5.getPosition() == robot.ARM_5_CLOSED){
                     robot.arm4.setPosition(robot.ARM_4_OPEN);
                     robot.arm5.setPosition(robot.ARM_5_OPEN);
-                    pos = 0;
+                }
+                else {
+                    robot.arm4.setPosition(robot.ARM_4_CLOSED);
+                    robot.arm5.setPosition(robot.ARM_5_CLOSED);
                 }
             }
             if (Button2_a){ //relic grabber move up partially
@@ -164,14 +171,11 @@ public class MecanumTestPerspective extends LinearOpMode {
             }
 
             if (Button2_x){ //clamp or unclamp over relic
-                int pos = 0; //clamp or unclamp
-                if(pos == 0){ //clamp
-                    robot.arm3.setPosition(robot.ARM_3_CLAMP);
-                    pos = 1;
-                }
-                else{ //unclamp
+                if(robot.arm3.getPosition() == robot.ARM_3_CLAMP){
                     robot.arm3.setPosition(robot.ARM_3_UNCLAMP);
-                    pos = 0;
+                }
+                else {
+                    robot.arm3.setPosition(robot.ARM_3_CLAMP);
                 }
             }
 
