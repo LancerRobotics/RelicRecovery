@@ -26,12 +26,10 @@ public class SimpleRedAutonMeet extends LinearOpMode{
     Acceleration gravity;
     float theta;
     float calibrate;
-    public void setup(){
-
-    }
 
     public void runOpMode(){
-        waitForStart();
+
+        robot.init(hardwareMap, true);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
@@ -41,42 +39,35 @@ public class SimpleRedAutonMeet extends LinearOpMode{
         parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
-        robot.init(hardwareMap, true);
-
-
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
 
-        robot.arm4.setPosition(1);
-        robot.arm5.setPosition(0);
+        waitForStart();
+
+        robot.arm4.setPosition(0.5);
+        robot.arm5.setPosition(0.5);
 
         robot.setDrivePower(0.5, false);
-        sleep(500);
+        sleep(1000);
         robot.setDrivePower(0, true);
 
-        while(angles.firstAngle < 90 && opModeIsActive() && !(isStopRequested())){
-            robot.turn(0.3, false);
+        while(angles.firstAngle > -2 && opModeIsActive() && !(isStopRequested())){
+            robot.turn(0.25, false);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+
+            telemetry.addData("Gyro value", angles.firstAngle);
+            telemetry.update();
         }
 
-        robot.setDrivePower(0.5, false);
+        robot.setDrivePower(0, false);
+
+        robot.setDrivePower(0.3, false);
+        sleep(1000);
+        robot.setDrivePower(0, false);
+
         sleep(500);
-        robot.setDrivePower(0, true);
-
-        while(angles.firstAngle > 90 && opModeIsActive() && !(isStopRequested())){
-            robot.turn(0.3, true);
-        }
-
-        robot.arm4.setPosition(0);
-        robot.arm5.setPosition(1);
-
-        robot.setDrivePower(0.5, false);
-        sleep(500);
-        robot.setDrivePower(0, true);
-
-        robot.arm4.setPosition(1);
-        robot.arm5.setPosition(0);
 
         robot.setDrivePower(0.3, true);
         sleep(250);

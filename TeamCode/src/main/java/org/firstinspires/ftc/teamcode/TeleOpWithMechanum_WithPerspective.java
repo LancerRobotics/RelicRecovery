@@ -67,33 +67,33 @@ public class TeleOpWithMechanum_WithPerspective extends LinearOpMode {
         robot.arm3.scaleRange(0,1);
         robot.arm4.scaleRange(0,1);
         robot.arm5.scaleRange(0,1);
-        robot.arm6.scaleRange(0,1);
+    //    robot.arm6.scaleRange(0,1);
 
         //arm4 is left glyph grabber arm, arm5 is right glyph grabber arm
 
-        if (Button1_a==true){ //open glyph grabber
+        if (Button1_a){ //open glyph grabber
             robot.arm4.setPosition(0.420);
             robot.arm5.setPosition(0.420);
         }
-        if(Button1_b==true){ //close glyph grabber
+        if(Button1_b){ //close glyph grabber
             robot.arm5.setPosition(0.420);
         }
 
-        if (Button2_a==true){
+        if (Button2_a){
             robot.arm1.setPosition(0.420);
             robot.arm2.setPosition(0.420);
         }
 
-        if (Button2_b == true){
+        if (Button2_b){
             robot.arm1.setPosition(0.7420);
             robot.arm2.setPosition(0.7420);
         }
 
-        if (Button2_x == true){
+        if (Button2_x){
             robot.arm3.setPosition(0.420);
         }
 
-        if (Button2_y == true){
+        if (Button2_y){
             robot.arm1.setPosition(0.00);
             robot.arm2.setPosition(0.00);
         }

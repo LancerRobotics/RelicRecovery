@@ -141,43 +141,43 @@ public class MecanumTestPerspective extends LinearOpMode {
             //arm4 is left glyph grabber arm, arm5 is right glyph grabber arm
 
             if (Button1_a==true){ //open and close glyph grabber
-               int pos =0; //0 close or 1 is open
+               int pos = 0; //0 close or 1 is open
                 if (pos ==0){ //close
-                    robot.arm4.setPosition(0);
-                    robot.arm5.setPosition(0);
-                    pos =1;
+                    robot.arm4.setPosition(robot.ARM_4_CLOSED);
+                    robot.arm5.setPosition(robot.ARM_5_CLOSED);
+                    pos = 1;
                 }
                 else{ //open
-                    robot.arm4.setPosition(1);
-                    robot.arm5.setPosition(1);
+                    robot.arm4.setPosition(robot.ARM_4_OPEN);
+                    robot.arm5.setPosition(robot.ARM_5_OPEN);
                     pos = 0;
                 }
             }
-            if (Button2_a==true){ //relic grabber move up partially
-                robot.arm1.setPosition(0.5);
-                robot.arm2.setPosition(0.5);
+            if (Button2_a){ //relic grabber move up partially
+                robot.arm1.setPosition(robot.ARM_1_DOWN);
+                robot.arm2.setPosition(robot.ARM_2_DOWN);
             }
 
-            if (Button2_b == true){ //relic grabber move up parallel to ground, 0 is up
-                robot.arm1.setPosition(0);
-                robot.arm2.setPosition(0);
+            if (Button2_b){ //relic grabber move up parallel to ground, 0 is up
+                robot.arm1.setPosition(robot.ARM_1_MIDDLE);
+                robot.arm2.setPosition(robot.ARM_2_MIDDLE);
             }
 
-            if (Button2_x == true){ //clamp or unclamp over relic
+            if (Button2_x){ //clamp or unclamp over relic
                 int pos = 0; //clamp or unclamp
                 if(pos == 0){ //clamp
-                    robot.arm3.setPosition(0.9);
+                    robot.arm3.setPosition(robot.ARM_3_CLAMP);
                     pos = 1;
                 }
                 else{ //unclamp
-                    robot.arm3.setPosition(0);
+                    robot.arm3.setPosition(robot.ARM_3_UNCLAMP);
                     pos = 0;
                 }
             }
 
-            if (Button2_y == true){ //move relic perpendicular to ground, 1 is down
-                robot.arm1.setPosition(0.95);
-                robot.arm2.setPosition(0.95);
+            if (Button2_y){ //move relic perpendicular to ground, 1 is down
+                robot.arm1.setPosition(robot.ARM_1_UP);
+                robot.arm2.setPosition(robot.ARM_2_UP);
             }
 
             trueX = (Math.cos(theta+calibrate)*x) - (Math.sin(theta+calibrate)*y); //sets trueX to rotated value

@@ -52,7 +52,7 @@ public class HardwareMechanumRobot {
     public Servo arm3 = null; //relic clamper
     public Servo arm4 = null; //glyph grabber left servo
     public Servo arm5 = null; //glyph grabber right servo
-    public Servo arm6 = null; //glyph grabber hook
+//    public Servo arm6 = null; //glyph grabber hook
 
     //Gyro
     public BNO055IMU imu = null;
@@ -64,13 +64,20 @@ public class HardwareMechanumRobot {
     HardwareMap hwMap = null;
 
     public static final double MAX_MOTOR_SPEED = .86;
-    public static final double armUP = .25;
-    public static final double armDOWN = 1;
-    public static final double armINITIAL = .6;
-    public static final double armDROP = 0.4;
-    public static final double armHALFWAY = 0.75;
-    public static final double ARM_4_POSITION = 0.4;
-    public static final double ARM_3_POSITION = 0.4;
+
+    public static final double ARM_1_DOWN = 0.95;
+    public static final double ARM_1_MIDDLE = 0.5;
+    public static final double ARM_1_UP = 0.3;
+    public static final double ARM_2_DOWN = 0.95;
+    public static final double ARM_2_MIDDLE = 0.5;
+    public static final double ARM_2_UP = 0.3;
+    public static final double ARM_3_CLAMP = 0.9;
+    public static final double ARM_3_UNCLAMP = 0;
+    public static final double ARM_4_OPEN = 0.5;
+    public static final double ARM_4_CLOSED = 0.32;
+    public static final double ARM_5_OPEN = 0.5;
+    public static final double ARM_5_CLOSED = 0.32;
+
 
     public HardwareMechanumRobot(){
     }
@@ -98,11 +105,11 @@ public class HardwareMechanumRobot {
 
         imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-        arm1.setPosition(armINITIAL);
-        arm2.setPosition(armINITIAL);
-        arm3.setPosition(armINITIAL);
-        arm4.setPosition(0.4);
-        arm5.setPosition(0.6);
+        arm1.setPosition(ARM_1_DOWN);
+        arm2.setPosition(ARM_2_DOWN);
+        arm3.setPosition(ARM_3_UNCLAMP);
+        arm4.setPosition(ARM_4_OPEN);
+        arm5.setPosition(ARM_5_OPEN);
      //   arm6.setPosition(armINITIAL);
 
         arm1.scaleRange(0,1);
@@ -111,11 +118,8 @@ public class HardwareMechanumRobot {
         arm4.scaleRange(0,1);
         arm5.scaleRange(0,1);
 
-        //Sets each motor power to the correct power
-        fl.setPower(flPower);
-        fr.setPower(frPower);
-        bl.setPower(blPower);
-        br.setPower(brPower);
+        fr.setDirection(DcMotor.Direction.REVERSE);
+        br.setDirection(DcMotor.Direction.REVERSE);
     }
 
 
@@ -158,10 +162,14 @@ public class HardwareMechanumRobot {
         if(!left){
             fl.setPower(power);
             bl.setPower(power);
+            fr.setPower(-power);
+            br.setPower(-power);
         }
         else {
             fr.setPower(power);
             br.setPower(power);
+            fl.setPower(-power);
+            bl.setPower(-power);
         }
     }
 }

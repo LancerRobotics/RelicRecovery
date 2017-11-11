@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -13,6 +14,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 /**
  * Created by david.lin on 11/6/2017.
  */
+
+@Disabled
 
 public class AutonTest extends LinearOpMode{
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
@@ -36,7 +39,7 @@ public class AutonTest extends LinearOpMode{
 
         robot.init(hardwareMap, true);
 
-        robot.setDrivePower(0.86, false);
+        robot.setDrivePower(0.5, false);
         sleep(500);
         robot.setDrivePower(0, true);
 
