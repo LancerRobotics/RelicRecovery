@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -12,12 +11,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 /**
- * Created by david.lin on 11/6/2017.
+ * Created by dina.brustein on 11/11/2017.
  */
 
-@Autonomous
-
-public class SimpleRedAutonMeet extends LinearOpMode{
+public class SimpleRedAutonWithoutTurn extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
 
     BNO055IMU imu;
@@ -46,29 +43,14 @@ public class SimpleRedAutonMeet extends LinearOpMode{
 
         waitForStart();
 
-        robot.arm4.setPosition(0.6);
-        robot.arm5.setPosition(0.45);
+        robot.arm4.setPosition(0.7);
+        robot.arm5.setPosition(0.4);
 
         sleep(500);
 
         robot.setDrivePower(0.5, false);
-        sleep(750);
-        robot.setDrivePower(0, true);
-
-        double theta = angles.firstAngle;
-        while(theta > -1 && opModeIsActive() && !(isStopRequested())){
-            robot.turn(0.3, false);
-            telemetry.addData("Theta: ", theta);
-            telemetry.update();
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-            theta = angles.firstAngle;
-        }
-
-        robot.setDrivePower(0, false);
-
-        robot.setDrivePower(0.3, false);
         sleep(1000);
-        robot.setDrivePower(0, false);
+        robot.setDrivePower(0, true);
 
         sleep(500);
 

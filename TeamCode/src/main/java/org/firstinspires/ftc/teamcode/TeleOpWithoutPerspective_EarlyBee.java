@@ -35,7 +35,6 @@ public class TeleOpWithoutPerspective_EarlyBee extends LinearOpMode {
         double trueX, trueY;
 
         //imu object
-        BNO055IMU imu;
         //imu values
         Orientation angles;
         Acceleration gravity;
@@ -60,7 +59,6 @@ public class TeleOpWithoutPerspective_EarlyBee extends LinearOpMode {
             // Wait for the game to start (driver presses PLAY)
             waitForStart();
             runtime.reset();
-            imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
             //zero yaw work / calibration
 
@@ -68,11 +66,9 @@ public class TeleOpWithoutPerspective_EarlyBee extends LinearOpMode {
             // run until the end of the match (driver presses STOP)
             while (opModeIsActive()) {
 
-                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
                 //CHANGED ANGLE UNIT TO DEGREES
 
                 //telemetry.addData("angles (same as theta,in rad): ", angles);
-                theta = angles.firstAngle;
                 if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
                     calibrate = 360 - theta;//angles.firstAngle; //.zeroYaw
                 }
@@ -144,6 +140,10 @@ public class TeleOpWithoutPerspective_EarlyBee extends LinearOpMode {
                 blPower = Range.clip((x + y - z), -1, 1);
                 brPower = Range.clip((x - y - z), -1, 1);
 
+                robot.fl.setPower(flPower);
+                robot.fr.setPower(frPower);
+                robot.bl.setPower(blPower);
+                robot.br.setPower(brPower);
 
                 // Show the elapsed game time and wheel power.
                 telemetry.addData("Status", "Run Time: " + runtime.toString());

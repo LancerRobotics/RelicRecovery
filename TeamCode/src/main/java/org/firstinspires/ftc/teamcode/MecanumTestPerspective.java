@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -83,6 +84,8 @@ public class MecanumTestPerspective extends LinearOpMode {
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+        robot.fr.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.br.setDirection(DcMotorSimple.Direction.FORWARD);
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -92,7 +95,7 @@ public class MecanumTestPerspective extends LinearOpMode {
 
 
         // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
+        while (opModeIsActive() && !isStopRequested()) {
 
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
             //CHANGED ANGLE UNIT TO DEGREES
@@ -104,10 +107,19 @@ public class MecanumTestPerspective extends LinearOpMode {
             }
 
             //Sets the gamepad values to x, y, and z
-            z = -gamepad1.right_stick_x; //rotation
-            y = -gamepad1.left_stick_y; //forward and backward
-            x = gamepad1.left_stick_x; //side to side
-            telemetry.addData("Theta(in degrees): ", theta);
+            z = gamepad1.right_stick_x; //rotation
+            x = gamepad1.left_stick_x; //forward and backward
+            y = gamepad1.left_stick_y; //side to side
+            if(Math.abs(x) < .15) {
+                x = 0;
+            }
+            if(Math.abs(y) < .15) {
+                y = 0;
+            }
+            if(Math.abs(z) < .15) {
+                z = 0;
+            }
+            telemetry.addData("Theta(in degrees): ", 360-theta+calibrate);
             telemetry.addData("direct joystick x:", x);
             telemetry.addData("direct joystick y:", y);
             telemetry.addData("direct joystick z:", z);
@@ -116,61 +128,27 @@ public class MecanumTestPerspective extends LinearOpMode {
             //trueX = ((Math.cos(Math.toDegrees(360-theta- calibrate)) * x) - ((Math.sin(Math.toDegrees(360-theta- calibrate))) * y)); //sets trueX to rotated value
             //trueY = ((Math.sin(Math.toDegrees(360-theta- calibrate))) * x) + ((Math.cos(Math.toDegrees(360-theta- calibrate))) * y);
 
-
-            z = gamepad1.left_stick_x; //moving left/right
-            y = gamepad1.left_stick_y; //moving forwards/backwards
-            x = gamepad1.right_stick_x; //turning
-            Button1_a = gamepad1.a; //open glyph grabber
-            Button2_a = gamepad2.a; //lift relic partially
-            Button2_b = gamepad2.b; //lift relic parallel to ground
-            Button2_x = gamepad2.x; //clamp over relic
-            Button2_y = gamepad2.y; //place relic perpendicular to ground
-
-            if(y > 0.05){
-                robot.setDrivePower(0.86, false);
+            if (gamepad1.a){ //open and close glyph grabber;
+                robot.arm4.setPosition(robot.ARM_4_OPEN);
+                robot.arm5.setPosition(robot.ARM_5_OPEN);
             }
 
-            if(y < -0.05){
-                robot.setDrivePower(0.86, true);
+            if(gamepad1.b){
+                robot.arm4.setPosition(robot.ARM_4_CLOSED);
+                robot.arm5.setPosition(robot.ARM_5_CLOSED);
             }
 
-            if(z > 0.05){
-                robot.strafe(0.86, false);
-            }
-
-            if(z < -0.05){
-                robot.strafe(0.86, true);
-            }
-
-            if(x > 0.05){
-                robot.turn(0.5, false);
-            }
-
-            if(x < -0.05){
-                robot.turn(0.5, true);
-            }
-
-            if (Button1_a){ //open and close glyph grabber; //0 close or 1 is open
-                if(robot.arm4.getPosition() == robot.ARM_4_CLOSED && robot.arm5.getPosition() == robot.ARM_5_CLOSED){
-                    robot.arm4.setPosition(robot.ARM_4_OPEN);
-                    robot.arm5.setPosition(robot.ARM_5_OPEN);
-                }
-                else {
-                    robot.arm4.setPosition(robot.ARM_4_CLOSED);
-                    robot.arm5.setPosition(robot.ARM_5_CLOSED);
-                }
-            }
-            if (Button2_a){ //relic grabber move up partially
+            if (gamepad2.a){ //relic grabber move up partially
                 robot.arm1.setPosition(robot.ARM_1_DOWN);
                 robot.arm2.setPosition(robot.ARM_2_DOWN);
             }
 
-            if (Button2_b){ //relic grabber move up parallel to ground, 0 is up
+            if (gamepad2.b){ //relic grabber move up parallel to ground, 0 is up
                 robot.arm1.setPosition(robot.ARM_1_MIDDLE);
                 robot.arm2.setPosition(robot.ARM_2_MIDDLE);
             }
 
-            if (Button2_x){ //clamp or unclamp over relic
+            if (gamepad2.x){ //clamp or unclamp over relic
                 if(robot.arm3.getPosition() == robot.ARM_3_CLAMP){
                     robot.arm3.setPosition(robot.ARM_3_UNCLAMP);
                 }
@@ -179,17 +157,14 @@ public class MecanumTestPerspective extends LinearOpMode {
                 }
             }
 
-            if (Button2_y){ //move relic perpendicular to ground, 1 is down
+            if (gamepad2.y){ //move relic perpendicular to ground, 1 is down
                 robot.arm1.setPosition(robot.ARM_1_UP);
                 robot.arm2.setPosition(robot.ARM_2_UP);
             }
 
-            trueX = (Math.cos(theta+calibrate)*x) - (Math.sin(theta+calibrate)*y); //sets trueX to rotated value
-            trueY = (Math.sin(theta+calibrate)*x) + (Math.cos(theta+calibrate)*y);
-
             //((Math.cos(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * x)
-            trueX = ((Math.cos(Math.toRadians(360 - theta)))*x) - ((Math.sin(Math.toRadians(360 - theta)))*y); //sets trueX to rotated value
-            trueY = ((Math.sin(Math.toRadians(360 - theta)))*x) - ((Math.cos(Math.toRadians(360 - theta)))*y);
+            trueX = ((Math.cos(Math.toRadians(360 - theta + calibrate)))*x) - ((Math.sin(Math.toRadians(360 - theta + calibrate)))*y); //sets trueX to rotated value
+            trueY = ((Math.sin(Math.toRadians(360 - theta + calibrate)))*x) - ((Math.cos(Math.toRadians(360 - theta + calibrate)))*y);
 
 
             //Sets trueX and trueY to its respective value
@@ -197,24 +172,19 @@ public class MecanumTestPerspective extends LinearOpMode {
             y = trueY;
 
             telemetry.addData("true x:", x);
-            telemetry.addData("true y:", y);
+            telemetry.addData("true y:", y)
+            ;
 
-            //deadzone
-  /*          if(x > -0.05 || x < 0.05) {
-                x = 0;
-            }
-            if(y > -.05 || y < .05){
-                y = 0;
-            }
-*/
+            flPower = Range.scale((x + y + z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+            frPower = Range.scale((x - y + z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+            blPower = Range.scale((-x + y + z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+            brPower = Range.scale((-x - y + z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
 
-            //Sets the motor powers of the wheels to the correct power based on all three of the above gyro values and
-            //scales them accordingly
-            flPower = Range.clip((-x + y - z), -1, 1);
-            frPower = Range.clip((-x - y - z), -1, 1);
-            blPower = Range.clip((x + y - z), -1, 1);
-            brPower = Range.clip((x - y - z), -1, 1);
-
+            //Sets each motor power to the correct power
+            robot.fl.setPower(flPower);
+            robot.fr.setPower(frPower);
+            robot.bl.setPower(blPower);
+            robot.br.setPower(brPower);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
