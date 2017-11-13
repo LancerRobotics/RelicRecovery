@@ -55,24 +55,19 @@ public class SimpleRedAutonMeet extends LinearOpMode{
         sleep(750);
         robot.setDrivePower(0, true);
 
-        double theta = angles.firstAngle;
-        while(theta > -1 && opModeIsActive() && !(isStopRequested())){
-            robot.turn(0.3, false);
-            telemetry.addData("Theta: ", theta);
-            telemetry.update();
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-            theta = angles.firstAngle;
-        }
+        robot.turn(0.35, false);
+        sleep(1250);
+        robot.turn(0, false);
 
         robot.setDrivePower(0, false);
 
-        robot.setDrivePower(0.3, false);
+        robot.setDrivePower(0.5, false);
         sleep(1000);
         robot.setDrivePower(0, false);
 
-        sleep(500);
+        sleep(1000);
 
-        robot.setDrivePower(0.3, true);
+        robot.setDrivePower(0.5, true);
         sleep(250);
         robot.setDrivePower(0, true);
 

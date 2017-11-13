@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * Created by dina.brustein on 11/11/2017.
  */
 
+@Autonomous
 public class SimpleRedAutonWithoutTurn extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
 
@@ -48,13 +50,13 @@ public class SimpleRedAutonWithoutTurn extends LinearOpMode {
 
         sleep(500);
 
-        robot.setDrivePower(0.5, false);
+        robot.setDrivePower(0.6, false);
         sleep(1000);
         robot.setDrivePower(0, true);
 
         sleep(500);
 
-        robot.setDrivePower(0.3, true);
+        robot.setDrivePower(0.5, true);
         sleep(250);
         robot.setDrivePower(0, true);
 
