@@ -149,12 +149,14 @@ public class MecanumTestPerspective extends LinearOpMode {
             }
 
             if (gamepad2.x){ //clamp or unclamp over relic
-                if(robot.arm3.getPosition() == robot.ARM_3_CLAMP){
+                if(robot.arm3.getPosition() < robot.ARM_3_CLAMP + 0.1 && robot.arm3.getPosition() > robot.ARM_3_CLAMP - 0.1 ){
                     robot.arm3.setPosition(robot.ARM_3_UNCLAMP);
                 }
                 else {
                     robot.arm3.setPosition(robot.ARM_3_CLAMP);
                 }
+                telemetry.addData("Clamp arm 3 position: ", robot.arm3.getPosition());
+                telemetry.update();
             }
 
             if (gamepad2.y){ //move relic perpendicular to ground, 1 is down
@@ -162,6 +164,7 @@ public class MecanumTestPerspective extends LinearOpMode {
                 robot.arm2.setPosition(robot.ARM_2_UP);
             }
 
+<<<<<<< HEAD
             if(gamepad1.dpad_left){
                 robot.flPower -= .1;
                 robot.frPower -= .1;
@@ -176,6 +179,45 @@ public class MecanumTestPerspective extends LinearOpMode {
                 robot.brPower -= .1;
             }
 
+=======
+            while(gamepad2.left_trigger > 0.05 && opModeIsActive() && !isStopRequested()){
+                robot.glyph.setPower(0.7);
+            }
+
+            robot.glyph.setPower(0);
+
+
+            while(gamepad2.right_trigger > 0.05 && opModeIsActive() && !isStopRequested()){
+                robot.glyph.setPower(-0.7);
+            }
+
+            robot.glyph.setPower(0);
+//
+//            while(gamepad2.left_stick_y > 0.05 && opModeIsActive() && !isStopRequested()){
+//                robot.relic.setPower(0.9);
+//            }
+//
+//            robot.relic.setPower(0);
+//
+//            while(gamepad2.left_stick_y < 0.05 && opModeIsActive() && !isStopRequested()){
+//                robot.relic.setPower(-0.9);
+//            }
+
+            if(gamepad1.x){
+                robot.relic.setPower(-0.7);
+                sleep(1000);
+                robot.relic.setPower(0);
+            }
+
+            if(gamepad1.y){
+                robot.relic.setPower(0.7);
+                sleep(1000);
+                robot.relic.setPower(0);
+            }
+
+            robot.relic.setPower(0);
+
+>>>>>>> b5ca7c19de1f60cb6992b5a23e68a1958d3e86d7
             //((Math.cos(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * x)
             trueX = ((Math.cos(Math.toRadians(360 - theta + calibrate)))*x) - ((Math.sin(Math.toRadians(360 - theta + calibrate)))*y); //sets trueX to rotated value
             trueY = ((Math.sin(Math.toRadians(360 - theta + calibrate)))*x) - ((Math.cos(Math.toRadians(360 - theta + calibrate)))*y);
@@ -186,8 +228,7 @@ public class MecanumTestPerspective extends LinearOpMode {
             y = trueY;
 
             telemetry.addData("true x:", x);
-            telemetry.addData("true y:", y)
-            ;
+            telemetry.addData("true y:", y);
 
             flPower = Range.scale((x + y + z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
             frPower = Range.scale((x - y + z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);

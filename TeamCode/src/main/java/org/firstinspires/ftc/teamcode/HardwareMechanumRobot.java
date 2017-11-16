@@ -46,6 +46,8 @@ public class HardwareMechanumRobot {
     public DcMotor fr = null;
     public DcMotor bl = null;
     public DcMotor br = null;
+    public DcMotor relic = null;
+    public DcMotor glyph = null;
 
     //Servos
     public Servo arm1 = null; //relic lifter right
@@ -70,16 +72,16 @@ public class HardwareMechanumRobot {
 
     public static final double ARM_1_DOWN = 0.95;
     public static final double ARM_1_MIDDLE = 0.5;
-    public static final double ARM_1_UP = 0.25;
+    public static final double ARM_1_UP = 0.3;
     public static final double ARM_2_DOWN = 0.95;
     public static final double ARM_2_MIDDLE = 0.5;
-    public static final double ARM_2_UP = 0.3;
+    public static final double ARM_2_UP = 0.35;
     public static final double ARM_3_CLAMP = 0.9;
     public static final double ARM_3_UNCLAMP = 0.2;
     public static final double ARM_4_OPEN = 0.5;
     public static final double ARM_4_CLOSED = 0.7;
     public static final double ARM_5_OPEN = 0.5;
-    public static final double ARM_5_CLOSED = 0.29;
+    public static final double ARM_5_CLOSED = 0.2;
 
 
     public HardwareMechanumRobot(){
@@ -91,6 +93,8 @@ public class HardwareMechanumRobot {
         fl = hwMap.dcMotor.get("front_left");
         br = hwMap.dcMotor.get("back_right");
         bl = hwMap.dcMotor.get("back_left");
+        relic = hwMap.dcMotor.get("relic");
+        glyph = hwMap.dcMotor.get("glyph");
         arm1 = hwMap.servo.get("relic_lifter_right");
         arm2 = hwMap.servo.get("relic_lifter_left");
         arm3 = hwMap.servo.get("relic_clamper");

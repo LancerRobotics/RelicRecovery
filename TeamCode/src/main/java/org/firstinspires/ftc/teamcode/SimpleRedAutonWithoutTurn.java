@@ -50,13 +50,13 @@ public class SimpleRedAutonWithoutTurn extends LinearOpMode {
 
         sleep(500);
 
-        robot.setDrivePower(0.5, false);
+        robot.setDrivePower(0.6, false);
         sleep(1000);
         robot.setDrivePower(0, true);
 
         sleep(500);
 
-        robot.setDrivePower(0.3, true);
+        robot.setDrivePower(0.5, true);
         sleep(250);
         robot.setDrivePower(0, true);
 
