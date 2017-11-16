@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode;
  */
 import android.media.midi.MidiDeviceInfo;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -54,6 +55,8 @@ public class HardwareMechanumRobot {
     public Servo arm5 = null; //glyph grabber right servo
 //    public Servo arm6 = null; //glyph grabber hook
 
+    ColorSensor color;
+
     //Gyro
     public BNO055IMU imu = null;
     public Orientation angles;
@@ -94,6 +97,8 @@ public class HardwareMechanumRobot {
         arm4 = hwMap.servo.get("glyph_left");
         arm5 = hwMap.servo.get("glyph_right");
         //arm6 = hwMap.servo.get("glyph_holder");
+
+        //color = hwMap.colorSensor.get("color_sensor");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;

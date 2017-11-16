@@ -162,6 +162,20 @@ public class MecanumTestPerspective extends LinearOpMode {
                 robot.arm2.setPosition(robot.ARM_2_UP);
             }
 
+            if(gamepad1.dpad_left){
+                robot.flPower -= .1;
+                robot.frPower -= .1;
+                robot.blPower -= .1;
+                robot.brPower-= .1;
+            }
+
+            if(gamepad1.dpad_right){
+                robot.flPower -= .1;
+                robot.frPower -= .1;
+                robot.blPower -= .1;
+                robot.brPower -= .1;
+            }
+
             //((Math.cos(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * x)
             trueX = ((Math.cos(Math.toRadians(360 - theta + calibrate)))*x) - ((Math.sin(Math.toRadians(360 - theta + calibrate)))*y); //sets trueX to rotated value
             trueY = ((Math.sin(Math.toRadians(360 - theta + calibrate)))*x) - ((Math.cos(Math.toRadians(360 - theta + calibrate)))*y);
