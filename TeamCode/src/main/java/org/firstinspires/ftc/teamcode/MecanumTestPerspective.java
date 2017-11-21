@@ -1,18 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -164,7 +158,6 @@ public class MecanumTestPerspective extends LinearOpMode {
                 robot.arm2.setPosition(robot.ARM_2_UP);
             }
 
-<<<<<<< HEAD
             if(gamepad1.dpad_left){
                 robot.flPower -= .1;
                 robot.frPower -= .1;
@@ -179,7 +172,6 @@ public class MecanumTestPerspective extends LinearOpMode {
                 robot.brPower -= .1;
             }
 
-=======
             while(gamepad2.left_trigger > 0.05 && opModeIsActive() && !isStopRequested()){
                 robot.glyph.setPower(0.7);
             }
@@ -217,7 +209,6 @@ public class MecanumTestPerspective extends LinearOpMode {
 
             robot.relic.setPower(0);
 
->>>>>>> b5ca7c19de1f60cb6992b5a23e68a1958d3e86d7
             //((Math.cos(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * x)
             trueX = ((Math.cos(Math.toRadians(360 - theta + calibrate)))*x) - ((Math.sin(Math.toRadians(360 - theta + calibrate)))*y); //sets trueX to rotated value
             trueY = ((Math.sin(Math.toRadians(360 - theta + calibrate)))*x) - ((Math.cos(Math.toRadians(360 - theta + calibrate)))*y);
