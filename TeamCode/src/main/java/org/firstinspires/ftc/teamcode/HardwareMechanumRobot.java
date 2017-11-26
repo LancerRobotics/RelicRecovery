@@ -55,6 +55,9 @@ public class HardwareMechanumRobot {
     public Servo arm3 = null; //relic clamper
     public Servo arm4 = null; //glyph grabber left servo
     public Servo arm5 = null; //glyph grabber right servo
+    public Servo jewel0 = null;
+    public Servo jewel1 = null;
+
 //    public Servo arm6 = null; //glyph grabber hook
 
     ColorSensor color;
@@ -94,12 +97,14 @@ public class HardwareMechanumRobot {
         br = hwMap.dcMotor.get("back_right");
         bl = hwMap.dcMotor.get("back_left");
         relic = hwMap.dcMotor.get("relic");
-        glyph = hwMap.dcMotor.get("glyph");
-        arm1 = hwMap.servo.get("relic_lifter_right");
-        arm2 = hwMap.servo.get("relic_lifter_left");
-        arm3 = hwMap.servo.get("relic_clamper");
-        arm4 = hwMap.servo.get("glyph_left");
-        arm5 = hwMap.servo.get("glyph_right");
+        arm1 = hwMap.servo.get("glyph_top_right");
+        arm2 = hwMap.servo.get("glyph_top_left");
+        arm3 = hwMap.servo.get("jewel_hitter");
+        arm4 = hwMap.servo.get("glyph_bottom_left");
+        arm5 = hwMap.servo.get("glyph_bottom_right");
+        jewel0 = hwMap.servo.get("jewel_lifter_0");
+        jewel1 = hwMap.servo.get("jewel_lifter_1");
+
         //arm6 = hwMap.servo.get("glyph_holder");
 
         //color = hwMap.colorSensor.get("color_sensor");
