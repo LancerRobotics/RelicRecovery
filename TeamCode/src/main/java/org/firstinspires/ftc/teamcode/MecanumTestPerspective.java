@@ -125,6 +125,8 @@ public class MecanumTestPerspective extends LinearOpMode {
             if (gamepad1.a){ //open and close glyph grabber;
                 robot.arm4.setPosition(robot.ARM_4_OPEN);
                 robot.arm5.setPosition(robot.ARM_5_OPEN);
+                telemetry.addData("A IS CLICKED!!!", gamepad1.a);
+                //gamepad1.a and .b need fixes
             }
 
             if(gamepad1.b){
@@ -135,6 +137,7 @@ public class MecanumTestPerspective extends LinearOpMode {
             if (gamepad2.a){ //relic grabber move up partially
                 robot.arm1.setPosition(robot.ARM_1_DOWN);
                 robot.arm2.setPosition(robot.ARM_2_DOWN);
+                //gamepad2.a and .b -> the left doesnt move
             }
 
             if (gamepad2.b){ //relic grabber move up parallel to ground, 0 is up
@@ -172,7 +175,7 @@ public class MecanumTestPerspective extends LinearOpMode {
                 robot.brPower -= .1;
             }
 
-            while(gamepad2.left_trigger > 0.05 && opModeIsActive() && !isStopRequested()){
+           /* while(gamepad2.left_trigger > 0.05 && opModeIsActive() && !isStopRequested()){
                 robot.glyph.setPower(0.7);
             }
 
@@ -183,7 +186,7 @@ public class MecanumTestPerspective extends LinearOpMode {
                 robot.glyph.setPower(-0.7);
             }
 
-            robot.glyph.setPower(0);
+            robot.glyph.setPower(0);*/
 //
 //            while(gamepad2.left_stick_y > 0.05 && opModeIsActive() && !isStopRequested()){
 //                robot.relic.setPower(0.9);

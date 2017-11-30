@@ -3,41 +3,15 @@ package org.firstinspires.ftc.teamcode;
 /**
  * Created by dina.brustein on 9/27/2017.
  */
-import android.media.midi.MidiDeviceInfo;
-
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
-import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 public class HardwareMechanumRobot {
     public static double frPower, flPower, brPower, blPower;
@@ -55,6 +29,9 @@ public class HardwareMechanumRobot {
     public Servo arm3 = null; //relic clamper
     public Servo arm4 = null; //glyph grabber left servo
     public Servo arm5 = null; //glyph grabber right servo
+    public Servo jewel0 = null;
+    public Servo jewel1 = null;
+
 //    public Servo arm6 = null; //glyph grabber hook
 
     ColorSensor color;
@@ -95,11 +72,14 @@ public class HardwareMechanumRobot {
         bl = hwMap.dcMotor.get("back_left");
         relic = hwMap.dcMotor.get("relic");
         glyph = hwMap.dcMotor.get("glyph");
-        arm1 = hwMap.servo.get("relic_lifter_right");
-        arm2 = hwMap.servo.get("relic_lifter_left");
-        arm3 = hwMap.servo.get("relic_clamper");
-        arm4 = hwMap.servo.get("glyph_left");
-        arm5 = hwMap.servo.get("glyph_right");
+        arm1 = hwMap.servo.get("glyph_top_right");
+        arm2 = hwMap.servo.get("glyph_top_left");
+        arm3 = hwMap.servo.get("jewel_hitter");
+        arm4 = hwMap.servo.get("glyph_bottom_left");
+        arm5 = hwMap.servo.get("glyph_bottom_right");
+        jewel0 = hwMap.servo.get("jewel_lifter_0");
+        jewel1 = hwMap.servo.get("jewel_lifter_1");
+
         //arm6 = hwMap.servo.get("glyph_holder");
 
         //color = hwMap.colorSensor.get("color_sensor");

@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @Autonomous
 
-public class SimpleRedAutonMeet extends LinearOpMode{
+public class TurnRightAuton extends LinearOpMode{
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
 
     BNO055IMU imu;
