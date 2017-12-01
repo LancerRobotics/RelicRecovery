@@ -118,47 +118,25 @@ public class MecanumTestPerspective extends LinearOpMode {
             telemetry.addData("direct joystick y:", y);
             telemetry.addData("direct joystick z:", z);
 
-            //Converts x and y to a different value based on the gyro value
-            //trueX = ((Math.cos(Math.toDegrees(360-theta- calibrate)) * x) - ((Math.sin(Math.toDegrees(360-theta- calibrate))) * y)); //sets trueX to rotated value
-            //trueY = ((Math.sin(Math.toDegrees(360-theta- calibrate))) * x) + ((Math.cos(Math.toDegrees(360-theta- calibrate))) * y);
-
-            if (gamepad1.a){ //open and close glyph grabber;
-                robot.arm4.setPosition(robot.ARM_4_OPEN);
-                robot.arm5.setPosition(robot.ARM_5_OPEN);
-                telemetry.addData("A IS CLICKED!!!", gamepad1.a);
-                //gamepad1.a and .b need fixes
-            }
-
-            if(gamepad1.b){
-                robot.arm4.setPosition(robot.ARM_4_CLOSED);
-                robot.arm5.setPosition(robot.ARM_5_CLOSED);
-            }
-
-            if (gamepad2.a){ //relic grabber move up partially
-                robot.arm1.setPosition(robot.ARM_1_DOWN);
-                robot.arm2.setPosition(robot.ARM_2_DOWN);
+            if (gamepad1.a){ //Grab glyph with bottom arms
+                robot.arm1.setPosition(robot.ARM_1_CLOSED);
+                robot.arm2.setPosition(robot.ARM_2_CLOSED);
                 //gamepad2.a and .b -> the left doesnt move
             }
 
-            if (gamepad2.b){ //relic grabber move up parallel to ground, 0 is up
-                robot.arm1.setPosition(robot.ARM_1_MIDDLE);
-                robot.arm2.setPosition(robot.ARM_2_MIDDLE);
+            if (gamepad1.b){ //Let go of glyph with bottom arms
+                robot.arm1.setPosition(robot.ARM_1_OPEN);
+                robot.arm2.setPosition(robot.ARM_2_OPEN);
             }
 
-            if (gamepad2.x){ //clamp or unclamp over relic
-                if(robot.arm3.getPosition() < robot.ARM_3_CLAMP + 0.1 && robot.arm3.getPosition() > robot.ARM_3_CLAMP - 0.1 ){
-                    robot.arm3.setPosition(robot.ARM_3_UNCLAMP);
-                }
-                else {
-                    robot.arm3.setPosition(robot.ARM_3_CLAMP);
-                }
-                telemetry.addData("Clamp arm 3 position: ", robot.arm3.getPosition());
-                telemetry.update();
+            if (gamepad1.x){ //Open top glyph grabbers
+                robot.arm4.setPosition(robot.ARM_4_OPEN);
+                robot.arm5.setPosition(robot.ARM_5_OPEN);
             }
 
-            if (gamepad2.y){ //move relic perpendicular to ground, 1 is down
-                robot.arm1.setPosition(robot.ARM_1_UP);
-                robot.arm2.setPosition(robot.ARM_2_UP);
+            if (gamepad1.y){ //Close top glyph grabbers
+                robot.arm4.setPosition(robot.ARM_4_CLOSED);
+                robot.arm5.setPosition(robot.ARM_5_CLOSED);
             }
 
             if(gamepad1.dpad_left){
@@ -175,42 +153,17 @@ public class MecanumTestPerspective extends LinearOpMode {
                 robot.brPower -= .1;
             }
 
-           /* while(gamepad2.left_trigger > 0.05 && opModeIsActive() && !isStopRequested()){
-                robot.glyph.setPower(0.7);
+            if(gamepad2.a){
+                robot.glyph.setPower(0.75);
             }
 
-            robot.glyph.setPower(0);
-
-
-            while(gamepad2.right_trigger > 0.05 && opModeIsActive() && !isStopRequested()){
-                robot.glyph.setPower(-0.7);
+            else if(gamepad2.b){
+                robot.glyph.setPower(-0.75);
             }
 
-            robot.glyph.setPower(0);*/
-//
-//            while(gamepad2.left_stick_y > 0.05 && opModeIsActive() && !isStopRequested()){
-//                robot.relic.setPower(0.9);
-//            }
-//
-//            robot.relic.setPower(0);
-//
-//            while(gamepad2.left_stick_y < 0.05 && opModeIsActive() && !isStopRequested()){
-//                robot.relic.setPower(-0.9);
-//            }
-
-            if(gamepad1.x){
-                robot.relic.setPower(-0.7);
-                sleep(1000);
-                robot.relic.setPower(0);
+            else {
+                robot.glyph.setPower(0);
             }
-
-            if(gamepad1.y){
-                robot.relic.setPower(0.7);
-                sleep(1000);
-                robot.relic.setPower(0);
-            }
-
-            robot.relic.setPower(0);
 
             //((Math.cos(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * x)
             trueX = ((Math.cos(Math.toRadians(360 - theta + calibrate)))*x) - ((Math.sin(Math.toRadians(360 - theta + calibrate)))*y); //sets trueX to rotated value

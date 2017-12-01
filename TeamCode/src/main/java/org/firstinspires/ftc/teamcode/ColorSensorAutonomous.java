@@ -19,9 +19,6 @@ public class ColorSensorAutonomous extends LinearOpMode {
 
         waitForStart();
 
-        robot.jewel0.setPosition(.4);
-        robot.jewel1.setPosition(.4);
-
         sleep(500);
 
         robot.setDrivePower(.2, false);
@@ -29,11 +26,6 @@ public class ColorSensorAutonomous extends LinearOpMode {
         robot.setDrivePower(0, true);
 
         sleep(250);
-        //Fix this part - the movers have to move at the same time! - multithreading...
-        robot.jewel0.setPosition(.9);
-        robot.jewel1.setPosition(.9);
-
-        color = robot.color;
 
         telemetry.addData("Red: ", color.red());
         telemetry.update();

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * Created by dina.brustein on 11/22/2017.
  */
 
+@Autonomous
 public class TurnLeftAuton extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
 
@@ -43,8 +45,8 @@ public class TurnLeftAuton extends LinearOpMode {
 
         waitForStart();
 
-        robot.arm4.setPosition(0.6);
-        robot.arm5.setPosition(0.45);
+        robot.arm4.setPosition(robot.ARM_4_CLOSED_AUTON);
+        robot.arm5.setPosition(robot.ARM_5_CLOSED_AUTON);
 
         sleep(500);
 
@@ -52,8 +54,8 @@ public class TurnLeftAuton extends LinearOpMode {
         sleep(750);
         robot.setDrivePower(0, true);
 
-        robot.turn(0.35, false);
-        sleep(1250);
+        robot.turn(0.35, true);
+        sleep(1500);
         robot.turn(0, false);
 
         robot.setDrivePower(0, false);
