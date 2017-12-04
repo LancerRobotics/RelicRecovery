@@ -210,9 +210,10 @@ public class MecanumTestPerspective extends LinearOpMode {
             robot.relic.setPower(0);
 
             //((Math.cos(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * x)
-            trueX = ((Math.cos(Math.toRadians(360 - theta + calibrate)))*x) - ((Math.sin(Math.toRadians(360 - theta + calibrate)))*y); //sets trueX to rotated value
-            trueY = ((Math.sin(Math.toRadians(360 - theta + calibrate)))*x) - ((Math.cos(Math.toRadians(360 - theta + calibrate)))*y);
-
+            trueX = ((Math.cos(Math.toRadians(360 - theta + calibrate)))*x) -
+                    ((Math.sin(Math.toRadians(360 - theta + calibrate)))*y);
+            trueY = ((Math.sin(Math.toRadians(360 - theta + calibrate)))*x) -
+                    ((Math.cos(Math.toRadians(360 - theta + calibrate)))*y);
 
             //Sets trueX and trueY to its respective value
             x = trueX;
