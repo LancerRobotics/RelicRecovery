@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 /**
  * Created by dina.brustein on 9/27/2017.
  */
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -13,22 +14,25 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-public class HardwareMechanumRobot {
+public class Robot {
     public static double frPower, flPower, brPower, blPower;
     // Motors
     public DcMotor fl = null;
     public DcMotor fr = null;
     public DcMotor bl = null;
     public DcMotor br = null;
+    public DcMotor relic = null;
     public DcMotor glyph = null;
 
     //Servos
-    public Servo arm1 = null; //glyph top right
-    public Servo arm2 = null; //glyph top left
-    public Servo arm4 = null; //glyph bottom left
-    public Servo arm5 = null; //glyph bottom right
-
+    public Servo arm1 = null; //relic lifter right
+    public Servo arm2 = null; //relic lifter left
+    public Servo arm3 = null; //relic clamper
+    public Servo arm4 = null; //glyph grabber left servo
+    public Servo arm5 = null; //glyph grabber right servo
 //    public Servo arm6 = null; //glyph grabber hook
+
+    ColorSensor color;
 
     //Gyro
     public BNO055IMU imu = null;
@@ -41,21 +45,21 @@ public class HardwareMechanumRobot {
 
     public static final double MAX_MOTOR_SPEED = .86;
 
-    public static final double ARM_1_OPEN = 0.3;
-    public static final double ARM_1_CLOSED = 0.15;
-    public static final double ARM_2_OPEN = 0.35;
-    public static final double ARM_2_CLOSED = 0.7;
-    public static final double ARM_4_OPEN = 0.4;
-    public static final double ARM_4_CLOSED_AUTON = 0.65;
+    public static final double ARM_1_DOWN = 0.95;
+    public static final double ARM_1_MIDDLE = 0.5;
+    public static final double ARM_1_UP = 0.3;
+    public static final double ARM_2_DOWN = 0.95;
+    public static final double ARM_2_MIDDLE = 0.5;
+    public static final double ARM_2_UP = 0.35;
+    public static final double ARM_3_CLAMP = 0.9;
+    public static final double ARM_3_UNCLAMP = 0.2;
+    public static final double ARM_4_OPEN = 0.5;
     public static final double ARM_4_CLOSED = 0.7;
-    public static final double ARM_4_INITIAL = 0.1;
-    public static final double ARM_5_OPEN = 0.55;
-    public static final double ARM_5_CLOSED = 0.3;
-    public static final double ARM_5_CLOSED_AUTON = 0.35;
-    public static final double ARM_5_INITIAL = 0.9;
+    public static final double ARM_5_OPEN = 0.5;
+    public static final double ARM_5_CLOSED = 0.2;
 
 
-    public HardwareMechanumRobot(){
+    public Robot(){
     }
 
     public void init(HardwareMap ahwMap, boolean autonomous){
@@ -64,12 +68,13 @@ public class HardwareMechanumRobot {
         fl = hwMap.dcMotor.get("front_left");
         br = hwMap.dcMotor.get("back_right");
         bl = hwMap.dcMotor.get("back_left");
+        relic = hwMap.dcMotor.get("relic");
         glyph = hwMap.dcMotor.get("glyph");
-        arm1 = hwMap.servo.get("glyph_top_right");
-        arm2 = hwMap.servo.get("glyph_top_left");
-        arm4 = hwMap.servo.get("glyph_bottom_left");
-        arm5 = hwMap.servo.get("glyph_bottom_right");
-
+        arm1 = hwMap.servo.get("relic_lifter_right");
+        arm2 = hwMap.servo.get("relic_lifter_left");
+        arm3 = hwMap.servo.get("relic_clamper");
+        arm4 = hwMap.servo.get("glyph_left");
+        arm5 = hwMap.servo.get("glyph_right");
         //arm6 = hwMap.servo.get("glyph_holder");
 
         //color = hwMap.colorSensor.get("color_sensor");
@@ -84,23 +89,21 @@ public class HardwareMechanumRobot {
 
         imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-        arm4.setPosition(ARM_4_INITIAL);
-        arm5.setPosition(ARM_5_INITIAL);
+        arm1.setPosition(ARM_1_DOWN);
+        arm2.setPosition(ARM_2_DOWN);
+        arm3.setPosition(ARM_3_UNCLAMP);
+        arm4.setPosition(ARM_4_OPEN);
+        arm5.setPosition(ARM_5_OPEN);
      //   arm6.setPosition(armINITIAL);
 
         arm1.scaleRange(0,1);
         arm2.scaleRange(0,1);
+        arm3.scaleRange(0,1);
         arm4.scaleRange(0,1);
         arm5.scaleRange(0,1);
 
         fr.setDirection(DcMotor.Direction.REVERSE);
         br.setDirection(DcMotor.Direction.REVERSE);
-
-        if(!autonomous){
-            arm1.setPosition(ARM_1_OPEN);
-            arm2.setPosition(ARM_2_OPEN);
-        }
-
     }
 
 

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -30,10 +31,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="MecanumTestPerspective-USE THIS", group="Linear Opmode")
+@TeleOp(name="MecanumPerspective", group="TeleOp")
 //@Disabled
-public class MecanumTestPerspective extends LinearOpMode {
-    HardwareMechanumRobot robot = new HardwareMechanumRobot();
+public class MecanumPerspective extends OpMode {
+
+    Robot robot = new Robot();
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     public static double frPower, flPower, brPower, blPower;
@@ -52,8 +54,9 @@ public class MecanumTestPerspective extends LinearOpMode {
     float theta;
     float calibrate;
 
+
     @Override
-    public void runOpMode() {
+    public void init() {
         telemetry.addData("Status", "In Progress...");
         telemetry.update();
 
@@ -80,17 +83,18 @@ public class MecanumTestPerspective extends LinearOpMode {
         telemetry.update();
         robot.fr.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.br.setDirection(DcMotorSimple.Direction.FORWARD);
-        // Wait for the game to start (driver presses PLAY)
-        waitForStart();
+    }
+
+
+    @Override
+    public void start() {
         runtime.reset();
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-
         //zero yaw work / calibration
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+    }
 
-
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive() && !isStopRequested()) {
-
+    @Override
+    public void loop() {
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
             //CHANGED ANGLE UNIT TO DEGREES
 
@@ -118,25 +122,44 @@ public class MecanumTestPerspective extends LinearOpMode {
             telemetry.addData("direct joystick y:", y);
             telemetry.addData("direct joystick z:", z);
 
-            if (gamepad1.a){ //Grab glyph with bottom arms
-                robot.arm1.setPosition(robot.ARM_1_CLOSED);
-                robot.arm2.setPosition(robot.ARM_2_CLOSED);
-                //gamepad2.a and .b -> the left doesnt move
-            }
+            //Converts x and y to a different value based on the gyro value
+            //trueX = ((Math.cos(Math.toDegrees(360-theta- calibrate)) * x) - ((Math.sin(Math.toDegrees(360-theta- calibrate))) * y)); //sets trueX to rotated value
+            //trueY = ((Math.sin(Math.toDegrees(360-theta- calibrate))) * x) + ((Math.cos(Math.toDegrees(360-theta- calibrate))) * y);
 
-            if (gamepad1.b){ //Let go of glyph with bottom arms
-                robot.arm1.setPosition(robot.ARM_1_OPEN);
-                robot.arm2.setPosition(robot.ARM_2_OPEN);
-            }
-
-            if (gamepad1.x){ //Open top glyph grabbers
+            if (gamepad1.a){ //open and close glyph grabber;
                 robot.arm4.setPosition(robot.ARM_4_OPEN);
                 robot.arm5.setPosition(robot.ARM_5_OPEN);
             }
 
-            if (gamepad1.y){ //Close top glyph grabbers
+            if(gamepad1.b){
                 robot.arm4.setPosition(robot.ARM_4_CLOSED);
                 robot.arm5.setPosition(robot.ARM_5_CLOSED);
+            }
+
+            if (gamepad2.a){ //relic grabber move up partially
+                robot.arm1.setPosition(robot.ARM_1_DOWN);
+                robot.arm2.setPosition(robot.ARM_2_DOWN);
+            }
+
+            if (gamepad2.b){ //relic grabber move up parallel to ground, 0 is up
+                robot.arm1.setPosition(robot.ARM_1_MIDDLE);
+                robot.arm2.setPosition(robot.ARM_2_MIDDLE);
+            }
+
+            if (gamepad2.x){ //clamp or unclamp over relic
+                if(robot.arm3.getPosition() < robot.ARM_3_CLAMP + 0.1 && robot.arm3.getPosition() > robot.ARM_3_CLAMP - 0.1 ){
+                    robot.arm3.setPosition(robot.ARM_3_UNCLAMP);
+                }
+                else {
+                    robot.arm3.setPosition(robot.ARM_3_CLAMP);
+                }
+                telemetry.addData("Clamp arm 3 position: ", robot.arm3.getPosition());
+                telemetry.update();
+            }
+
+            if (gamepad2.y){ //move relic perpendicular to ground, 1 is down
+                robot.arm1.setPosition(robot.ARM_1_UP);
+                robot.arm2.setPosition(robot.ARM_2_UP);
             }
 
             if(gamepad1.dpad_left){
@@ -153,23 +176,33 @@ public class MecanumTestPerspective extends LinearOpMode {
                 robot.brPower -= .1;
             }
 
-            if(gamepad2.a){
-                robot.glyph.setPower(0.75);
+            if (gamepad2.left_trigger > 0.05){
+                robot.glyph.setPower(0.7);
             }
 
-            else if(gamepad2.b){
-                robot.glyph.setPower(-0.75);
+            robot.glyph.setPower(0);
+
+
+            if (gamepad2.right_trigger > 0.05){
+                robot.glyph.setPower(-0.7);
             }
 
-            else {
-                robot.glyph.setPower(0);
+            robot.glyph.setPower(0);
+
+            if(gamepad1.x){
+                robot.relic.setPower(-0.7);
             }
+
+            if(gamepad1.y){
+                robot.relic.setPower(0.7);
+            }
+
+            robot.relic.setPower(0);
 
             //((Math.cos(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * x)
-            trueX = ((Math.cos(Math.toRadians(360 - theta + calibrate)))*x) -
-                    ((Math.sin(Math.toRadians(360 - theta + calibrate)))*y);
-            trueY = ((Math.sin(Math.toRadians(360 - theta + calibrate)))*x) -
-                    ((Math.cos(Math.toRadians(360 - theta + calibrate)))*y);
+            trueX = ((Math.cos(Math.toRadians(360 - theta + calibrate)))*x) - ((Math.sin(Math.toRadians(360 - theta + calibrate)))*y); //sets trueX to rotated value
+            trueY = ((Math.sin(Math.toRadians(360 - theta + calibrate)))*x) - ((Math.cos(Math.toRadians(360 - theta + calibrate)))*y);
+
 
             //Sets trueX and trueY to its respective value
             x = trueX;
@@ -193,5 +226,4 @@ public class MecanumTestPerspective extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
         }
-    }
 }
