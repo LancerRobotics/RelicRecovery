@@ -52,11 +52,11 @@ public class TurnRightAuton extends LinearOpMode{
         sleep(500);
 
         robot.setDrivePower(0.5, false);
-        sleep(750);
+        sleep(1000);
         robot.setDrivePower(0, true);
 
-        robot.turn(0.35, false);
-        sleep(3000);
+        robot.turn(0.65, false);
+        sleep(1000);
         robot.turn(0, false);
 
         robot.setDrivePower(0, false);
@@ -65,7 +65,10 @@ public class TurnRightAuton extends LinearOpMode{
         sleep(1000);
         robot.setDrivePower(0, false);
 
-        sleep(1000);
+        sleep(500);
+        robot.arm4.setPosition(.40);
+        robot.arm5.setPosition(.60);
+        sleep(1500);
 
         robot.setDrivePower(0.5, true);
         sleep(250);
