@@ -21,8 +21,11 @@ public class HardwareMechanumRobot {
     public DcMotor bl = null;
     public DcMotor br = null;
     public DcMotor glyph = null;
+    public DcMotor relic = null;
+    public DcMotor extender = null;
 
     //Servos
+    public Servo arm0 = null;
     public Servo arm1 = null; //glyph top right
     public Servo arm2 = null; //glyph top left
     public Servo arm4 = null; //glyph bottom left
@@ -41,19 +44,18 @@ public class HardwareMechanumRobot {
 
     public static final double MAX_MOTOR_SPEED = .86;
 
+    public static final double ARM_0_UP = 0.2;
+    public static final double ARM_0_DOWN = 0.85;
     public static final double ARM_1_OPEN = 0.3;
     public static final double ARM_1_CLOSED = 0.15;
-    public static final double ARM_2_OPEN = 0.35;
+    public static final double ARM_2_OPEN = 0.55;
     public static final double ARM_2_CLOSED = 0.7;
-    public static final double ARM_4_OPEN = 0.4;
-    public static final double ARM_4_CLOSED_AUTON = 0.65;
-    public static final double ARM_4_CLOSED = 0.7;
-    public static final double ARM_4_INITIAL = 0.1;
-    public static final double ARM_5_OPEN = 0.55;
+    public static final double ARM_4_OPEN = 0.45;
+    public static final double ARM_4_CLOSED_AUTON = 0.7;
+    public static final double ARM_4_CLOSED = 0.75;
+    public static final double ARM_5_OPEN = 0.6;
     public static final double ARM_5_CLOSED = 0.3;
     public static final double ARM_5_CLOSED_AUTON = 0.35;
-    public static final double ARM_5_INITIAL = 0.9;
-
 
     public HardwareMechanumRobot(){
     }
@@ -65,6 +67,10 @@ public class HardwareMechanumRobot {
         br = hwMap.dcMotor.get("back_right");
         bl = hwMap.dcMotor.get("back_left");
         glyph = hwMap.dcMotor.get("glyph");
+        relic = hwMap.dcMotor.get("relic");
+        extender = hwMap.dcMotor.get("relic_extender");
+
+        arm0 = hwMap.servo.get("relic_clamper");
         arm1 = hwMap.servo.get("glyph_top_right");
         arm2 = hwMap.servo.get("glyph_top_left");
         arm4 = hwMap.servo.get("glyph_bottom_left");
@@ -84,10 +90,11 @@ public class HardwareMechanumRobot {
 
         imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-        arm4.setPosition(ARM_4_INITIAL);
-        arm5.setPosition(ARM_5_INITIAL);
+        arm4.setPosition(ARM_4_OPEN);
+        arm5.setPosition(ARM_5_OPEN);
      //   arm6.setPosition(armINITIAL);
 
+        arm0.scaleRange(0, 1);
         arm1.scaleRange(0,1);
         arm2.scaleRange(0,1);
         arm4.scaleRange(0,1);
@@ -99,6 +106,13 @@ public class HardwareMechanumRobot {
         if(!autonomous){
             arm1.setPosition(ARM_1_OPEN);
             arm2.setPosition(ARM_2_OPEN);
+            arm4.setPosition(ARM_4_CLOSED);
+            arm5.setPosition(ARM_5_CLOSED);
+        }
+
+        else {
+            arm4.setPosition(ARM_4_OPEN);
+            arm5.setPosition(ARM_5_OPEN);
         }
 
     }
