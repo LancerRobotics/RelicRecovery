@@ -51,11 +51,11 @@ public class TurnLeftAuton extends LinearOpMode {
         sleep(500);
 
         robot.setDrivePower(0.5, false);
-        sleep(1250);
+        sleep(1000);
         robot.setDrivePower(0, true);
 
-        robot.turn(0.5, true);
-        sleep(3000);
+        robot.turn(0.6, true);
+        sleep(1000);
         robot.turn(0, false);
 
         robot.setDrivePower(0, false);
