@@ -31,6 +31,9 @@ public class HardwareMechanumRobot {
     public Servo arm4 = null; //glyph bottom left
     public Servo arm5 = null; //glyph bottom right
 
+    public Servo jewel0 = null; //servo jewel0 and jewel1 bring the arm down
+    public Servo jewel1 = null;
+    public Servo jewel_mover = null;
 //    public Servo arm6 = null; //glyph grabber hook
 
     //Gyro
@@ -46,14 +49,14 @@ public class HardwareMechanumRobot {
 
     public static final double ARM_0_UP = 0.2;
     public static final double ARM_0_DOWN = 0.85;
-    public static final double ARM_1_OPEN = 0.3;
+    public static final double ARM_1_OPEN = 0.35;
     public static final double ARM_1_CLOSED = 0.15;
-    public static final double ARM_2_OPEN = 0.55;
-    public static final double ARM_2_CLOSED = 0.7;
+    public static final double ARM_2_OPEN = 0.75;
+    public static final double ARM_2_CLOSED = 0.6;
     public static final double ARM_4_OPEN = 0.55;
     public static final double ARM_4_CLOSED_AUTON = 0.7;
     public static final double ARM_4_CLOSED = 0.75;
-    public static final double ARM_5_OPEN = 0.7;
+    public static final double ARM_5_OPEN = 0.45;
     public static final double ARM_5_CLOSED = 0.3;
     public static final double ARM_5_CLOSED_AUTON = 0.35;
 

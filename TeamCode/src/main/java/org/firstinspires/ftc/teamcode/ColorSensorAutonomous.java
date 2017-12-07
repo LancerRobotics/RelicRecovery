@@ -25,7 +25,9 @@ public class ColorSensorAutonomous extends LinearOpMode {
         sleep(250);
         robot.setDrivePower(0, true);
 
-        sleep(250);
+        sleep(500);
+
+
 
         telemetry.addData("Red: ", color.red());
         telemetry.update();
