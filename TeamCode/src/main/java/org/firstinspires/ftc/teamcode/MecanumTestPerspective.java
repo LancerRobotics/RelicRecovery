@@ -119,6 +119,8 @@ public class MecanumTestPerspective extends LinearOpMode {
             telemetry.addData("direct joystick z:", z);
 
             if (gamepad1.a){ //Grab glyph with bottom arms
+                robot.arm1.setPosition(robot.ARM_1_CLOSED);
+                robot.arm2.setPosition(robot.ARM_2_CLOSED);
                 robot.arm4.setPosition(robot.ARM_4_CLOSED);
                 robot.arm5.setPosition(robot.ARM_5_CLOSED);
                 //gamepad2.a and .b -> the left doesnt move
@@ -127,9 +129,13 @@ public class MecanumTestPerspective extends LinearOpMode {
             if (gamepad1.b){ //Let go of glyph with bottom arms
                 robot.arm1.setPosition(robot.ARM_1_OPEN);
                 robot.arm2.setPosition(robot.ARM_2_OPEN);
+                robot.arm4.setPosition(robot.ARM_4_OPEN);
+                robot.arm5.setPosition(robot.ARM_5_OPEN);
             }
 
             if (gamepad1.x){ //Open top glyph grabbers
+                robot.arm1.setPosition(robot.ARM_1_OPEN);
+                robot.arm2.setPosition(robot.ARM_2_OPEN);
                 robot.arm4.setPosition(robot.ARM_4_OPEN);
                 robot.arm5.setPosition(robot.ARM_5_OPEN);
             }
@@ -137,6 +143,8 @@ public class MecanumTestPerspective extends LinearOpMode {
             if (gamepad1.y){ //Close top glyph grabbers
                 robot.arm1.setPosition(robot.ARM_1_CLOSED);
                 robot.arm2.setPosition(robot.ARM_2_CLOSED);
+                robot.arm4.setPosition(robot.ARM_4_CLOSED);
+                robot.arm5.setPosition(robot.ARM_5_CLOSED);
             }
 
             if(gamepad1.dpad_left){
