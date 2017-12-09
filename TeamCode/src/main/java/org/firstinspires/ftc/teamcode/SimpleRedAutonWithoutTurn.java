@@ -45,8 +45,8 @@ public class SimpleRedAutonWithoutTurn extends LinearOpMode {
 
         waitForStart();
 
-        robot.arm4.setPosition(0.7);
-        robot.arm5.setPosition(0.4);
+        robot.arm4.setPosition(robot.ARM_4_CLOSED_AUTON);
+        robot.arm5.setPosition(robot.ARM_5_CLOSED_AUTON);
 
         sleep(500);
 
@@ -54,6 +54,9 @@ public class SimpleRedAutonWithoutTurn extends LinearOpMode {
         sleep(1000);
         robot.setDrivePower(0, true);
 
+        sleep(500);
+        robot.arm4.setPosition(robot.ARM_4_CLOSED_AUTON);
+        robot.arm5.setPosition(robot.ARM_5_CLOSED_AUTON);
         sleep(500);
 
         robot.setDrivePower(0.5, true);

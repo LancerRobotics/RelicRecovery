@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 //@Disabled
 public class ColorSensorAutonomous extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
-    ColorSensor color;
+    //ColorSensor color;
 
     public void setup(){
 
@@ -17,29 +17,49 @@ public class ColorSensorAutonomous extends LinearOpMode {
     public void runOpMode(){
         robot.init(hardwareMap, true);
 
+        robot.jewel0.setPosition(.55);
+        robot.jewel1.setPosition(.55);
+        //for a CR Servo, dont set the position to anything
+        //robot.jewel_hitter.setPosition(.3);
+        //robot.arm1.setPosition(robot.ARM_1_CLOSED);
+
         waitForStart();
 
-        sleep(500);
+        sleep(1000);
+        robot.jewel_hitter.setPower(-.15);
+        sleep(350);
+        robot.jewel_hitter.setPower(0);
+        sleep(1500);
+        robot.jewel0.setPosition(0);
+        robot.jewel1.setPosition(0);
+        sleep(3000);
+        //MAKE THE JEWEL HITTER MOVE FIRST, THEN THE OTHER 2 JEWEL SERVOS
 
-        robot.setDrivePower(.2, false);
-        sleep(250);
-        robot.setDrivePower(0, true);
-
-        sleep(500);
-
-
-
-        telemetry.addData("Red: ", color.red());
+        telemetry.addData("Red: ", robot.color_sensor.red());
         telemetry.update();
 
-        telemetry.addData("Blue: ", color.blue());
+        telemetry.addData("Blue: ", robot.color_sensor.blue());
         telemetry.update();
+        sleep(1000);
 
-        if(color.red() > color.blue()){
+        //I added "-3" because the red is much stronger than blue
+        if(robot.color_sensor.red()-3 > robot.color_sensor.blue()){
             telemetry.addLine("Will hit red jewel");
+            telemetry.update();
+            //MAKE RED AND BLUE AUTONS!!!
+            robot.jewel_hitter.setPower(-.4);
+            sleep(400);
+            robot.jewel_hitter.setPower(0);
         }
         else {
             telemetry.addLine("Will hit blue jewel");
+            telemetry.update();
+            robot.jewel_hitter.setPower(.4);
+            sleep(400);
+            robot.jewel_hitter.setPower(0);
         }
+        robot.jewel0.setPosition(.65);
+        robot.jewel1.setPosition(.65);
+        sleep(5000);
     }
 }
