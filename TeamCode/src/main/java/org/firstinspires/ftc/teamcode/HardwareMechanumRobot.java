@@ -53,9 +53,9 @@ public class HardwareMechanumRobot {
     public static final double ARM_1_CLOSED = 0.15;
     public static final double ARM_2_OPEN = 0.5;
     public static final double ARM_2_CLOSED = 0.7;
-    public static final double ARM_4_OPEN = 0.55;
+    public static final double ARM_4_OPEN = 0.60;
     public static final double ARM_4_CLOSED_AUTON = 0.7;
-    public static final double ARM_4_CLOSED = 0.75;
+    public static final double ARM_4_CLOSED = 0.80;
     public static final double ARM_5_OPEN = 0.45;
     public static final double ARM_5_CLOSED = 0.3;
     public static final double ARM_5_CLOSED_AUTON = 0.35;

@@ -69,6 +69,8 @@ public class MecanumTestPerspective extends LinearOpMode {
         imu.initialize(parameters);
 
         robot.init(hardwareMap, false);
+        robot.arm1.setPosition(robot.ARM_1_CLOSED);
+        robot.arm2.setPosition(robot.ARM_2_CLOSED);
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
