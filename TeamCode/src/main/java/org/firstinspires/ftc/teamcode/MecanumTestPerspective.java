@@ -69,6 +69,8 @@ public class MecanumTestPerspective extends LinearOpMode {
         imu.initialize(parameters);
 
         robot.init(hardwareMap, false);
+        robot.arm1.setPosition(robot.ARM_1_CLOSED);
+        robot.arm2.setPosition(robot.ARM_2_CLOSED);
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -121,20 +123,28 @@ public class MecanumTestPerspective extends LinearOpMode {
             if (gamepad1.a){ //Grab glyph with bottom arms
                 robot.arm1.setPosition(robot.ARM_1_CLOSED);
                 robot.arm2.setPosition(robot.ARM_2_CLOSED);
+                robot.arm4.setPosition(robot.ARM_4_CLOSED);
+                robot.arm5.setPosition(robot.ARM_5_CLOSED);
                 //gamepad2.a and .b -> the left doesnt move
             }
 
             if (gamepad1.b){ //Let go of glyph with bottom arms
                 robot.arm1.setPosition(robot.ARM_1_OPEN);
                 robot.arm2.setPosition(robot.ARM_2_OPEN);
+                robot.arm4.setPosition(robot.ARM_4_OPEN);
+                robot.arm5.setPosition(robot.ARM_5_OPEN);
             }
 
             if (gamepad1.x){ //Open top glyph grabbers
+                robot.arm1.setPosition(robot.ARM_1_OPEN);
+                robot.arm2.setPosition(robot.ARM_2_OPEN);
                 robot.arm4.setPosition(robot.ARM_4_OPEN);
                 robot.arm5.setPosition(robot.ARM_5_OPEN);
             }
 
             if (gamepad1.y){ //Close top glyph grabbers
+                robot.arm1.setPosition(robot.ARM_1_CLOSED);
+                robot.arm2.setPosition(robot.ARM_2_CLOSED);
                 robot.arm4.setPosition(robot.ARM_4_CLOSED);
                 robot.arm5.setPosition(robot.ARM_5_CLOSED);
             }
@@ -163,6 +173,38 @@ public class MecanumTestPerspective extends LinearOpMode {
 
             else {
                 robot.glyph.setPower(0);
+            }
+
+            if(gamepad2.y){
+                robot.relic.setPower(0.8);
+            }
+
+            else if(gamepad2.x){
+                robot.relic.setPower(-0.8);
+            }
+
+            else {
+                robot.relic.setPower(0);
+            }
+
+            if(gamepad1.right_bumper){
+                robot.extender.setPower(0.99);
+            }
+
+            else if(gamepad1.left_bumper){
+                robot.extender.setPower(-0.99);
+            }
+
+            else {
+                robot.extender.setPower(0);
+            }
+
+            if(gamepad2.left_bumper){
+                robot.arm0.setPosition(robot.ARM_0_UP);
+            }
+
+            if(gamepad2.right_bumper){
+                robot.arm0.setPosition(robot.ARM_0_DOWN);
             }
 
             //((Math.cos(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * x)

@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * Created by dina.brustein on 11/22/2017.
  */
 
-@Autonomous
+@Autonomous(name="Left Turn Auton - USE THIS", group="Linear Opmode")
 public class TurnLeftAuton extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
 
@@ -51,11 +51,11 @@ public class TurnLeftAuton extends LinearOpMode {
         sleep(500);
 
         robot.setDrivePower(0.5, false);
-        sleep(750);
+        sleep(1000);
         robot.setDrivePower(0, true);
 
-        robot.turn(0.35, true);
-        sleep(1500);
+        robot.turn(0.65, true);
+        sleep(1000);
         robot.turn(0, false);
 
         robot.setDrivePower(0, false);
@@ -64,7 +64,10 @@ public class TurnLeftAuton extends LinearOpMode {
         sleep(1000);
         robot.setDrivePower(0, false);
 
-        sleep(1000);
+        sleep(500);
+        robot.arm4.setPosition(.40);
+        robot.arm5.setPosition(.60);
+        sleep(1500);
 
         robot.setDrivePower(0.5, true);
         sleep(250);
