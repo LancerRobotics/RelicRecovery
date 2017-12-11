@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * Created by dina.brustein on 11/22/2017.
  */
 
-@Autonomous
+@Autonomous(name="Left Turn Auton - USE THIS", group="Linear Opmode")
 public class TurnLeftAuton extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
 

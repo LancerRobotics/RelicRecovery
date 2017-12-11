@@ -1,11 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 /**
  * Created by david on 12/2/2017.
  */
-
+@Autonomous(name="Straight Auton - USE THIS", group="Linear Opmode")
 public class StraightAuton extends LinearOpMode {
 
     HardwareMechanumRobot robot = new HardwareMechanumRobot();

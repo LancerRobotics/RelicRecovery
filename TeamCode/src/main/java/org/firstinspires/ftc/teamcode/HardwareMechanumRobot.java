@@ -32,7 +32,7 @@ public class HardwareMechanumRobot {
     public Servo arm4 = null; //glyph bottom left
     public Servo arm5 = null; //glyph bottom right
 
-    public Servo jewel0 = null; //servo jewel0 and jewel1 bring the arm down
+    public CRServo jewel0 = null; //servo jewel0 and jewel1 bring the arm down
     public Servo jewel1 = null;
     //This is a Continuous Rotation servo rn
     public CRServo jewel_hitter = null;
@@ -52,7 +52,7 @@ public class HardwareMechanumRobot {
 
     public static final double MAX_MOTOR_SPEED = .86;
 
-    public static final double ARM_0_UP = 0.2;
+    public static final double ARM_0_UP = 0.3;
     public static final double ARM_0_DOWN = 0.95;
     public static final double ARM_1_OPEN = 0.35;
     public static final double ARM_1_CLOSED = 0.15;
@@ -84,7 +84,7 @@ public class HardwareMechanumRobot {
         arm4 = hwMap.servo.get("glyph_bottom_left");
         arm5 = hwMap.servo.get("glyph_bottom_right");
 
-        jewel0 = hwMap.servo.get("jewel_extender_1");
+        jewel0 = hwMap.crservo.get("jewel_extender_1");
         jewel1 = hwMap.servo.get("jewel_extender_2");
         jewel_hitter = hwMap.crservo.get("jewel_hitter");
 
@@ -113,7 +113,6 @@ public class HardwareMechanumRobot {
         arm4.scaleRange(0,1);
         arm5.scaleRange(0,1);
 
-        jewel0.scaleRange(0,1);
         jewel1.scaleRange(0,1);
         //jewel_hitter.scaleRange(0,1);
 
