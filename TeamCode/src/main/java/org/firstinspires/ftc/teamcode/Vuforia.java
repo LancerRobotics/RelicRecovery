@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -14,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 /**
  * Created by dina.brustein on 11/22/2017.
  */
-
+@Autonomous(name="Vuforia", group = "Linear OpMode")
 public class Vuforia {
 
     public Vuforia() {
@@ -39,6 +40,7 @@ public class Vuforia {
 
         targets = vuforia.loadTrackablesFromAsset("RelicVuMark");
         VuforiaTrackable template = targets.get(0);
+
     }
 
 }
