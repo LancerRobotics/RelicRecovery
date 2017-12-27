@@ -16,7 +16,7 @@ public class BlueJewelOnly extends LinearOpMode{
 
     public void runOpMode(){
         robot.init(hardwareMap, true);
-//
+
         //for a CR Servo, dont set the position to anything
         //robot.jewel_hitter.setPosition(.3);
         //robot.arm1.setPosition(robot.ARM_1_CLOSED);
@@ -59,7 +59,7 @@ public class BlueJewelOnly extends LinearOpMode{
         }            robot.jewel_hitter.setPower(0);
 
         sleep(1000);
-//        robot.jewel0.setPosition(.65);
+//      robot.jewel0.setPosition(.65);
         robot.jewel1.setPosition(.65);
         sleep(500);
 

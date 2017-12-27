@@ -2,8 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.*;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
@@ -32,7 +36,7 @@ public class Vuforia {
     private float mm_to_Inch = 25.4f;
 
     //Vuforia Set Up
-    public void Init_Vuforia(){
+    public int identifyTarget(HardwareMap h) {
 
         // Vuforia LicenseKey Link .. https://developer.vuforia.com/user/register
         // Basic vuforia set up perams....
@@ -42,97 +46,27 @@ public class Vuforia {
         params.cameraMonitorFeedback = VuforiaLocalizer.Parameters.CameraMonitorFeedback.AXES; //You can choose CameraMonitorFeedback.whatever, but axes is just easier
         vuforia_localizer = ClassFactory.createVuforiaLocalizer(params);
 
+
         //load tragets and assign them names....
         targets = vuforia_localizer.loadTrackablesFromAsset("RelicVuMark");
-        targets.get(0).setName("LEFT");
-        targets.get(1).setName("CENTER");
-        targets.get(2).setName("RIGHT");
 
-        // set up targets to their field positions....
-        // target_field_position( target # , field X position , field Y position , target Y rotation )
-        // Rotation is in a counter clockwise rotation
-        // all coords start from bottom left of field if viewed from top down .
+        VuforiaTrackable relicTemplate = targets.get(0);
+        relicTemplate.setName("relicVuMarkTemplate");
 
-        target_field_position( 0 , 0 , 0 , 0 );//wheels ?
-        target_field_position( 1 , 0 , 0 , 0 );//tools ?
-        target_field_position( 2 , 47 , 0 , 0 );//legos ?
-        target_field_position( 3 , 95 , 0 , 0 );//gears ?
-
-        //Setting Phone position is not needed to work but can be used for setting phones offset to robots center .
-        OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
-                .translation(0,0,0) // values should be in mm .( left/right , up/down , forward/backward ).
-                .multiplied(Orientation.getRotationMatrix(AxesReference.EXTRINSIC, AxesOrder.YZY,AngleUnit.DEGREES, -90, 0, 0));
-        ((VuforiaTrackableDefaultListener)targets.get(0).getListener()).setPhoneInformation(phoneLocationOnRobot, params.cameraDirection);
-        ((VuforiaTrackableDefaultListener)targets.get(1).getListener()).setPhoneInformation(phoneLocationOnRobot, params.cameraDirection);
-        ((VuforiaTrackableDefaultListener)targets.get(2).getListener()).setPhoneInformation(phoneLocationOnRobot, params.cameraDirection);
-        ((VuforiaTrackableDefaultListener)targets.get(3).getListener()).setPhoneInformation(phoneLocationOnRobot, params.cameraDirection);
-
-        targets.activate();
-
-<<<<<<< HEAD
-=======
-        targets = vuforia.loadTrackablesFromAsset("RelicVuMark");
-        VuforiaTrackable template = targets.get(0);
-
->>>>>>> 8c0749da2678a98cd740edfc7edbe5a08fec78d2
-    }
-
-    //Vuforia Track Target
-    public void Track_Target(){
-
-        for (VuforiaTrackable targ : targets ){
-
-            //Target position to robot
-            listener = (VuforiaTrackableDefaultListener) targ.getListener();
-            OpenGLMatrix pose = listener.getPose();
-
-            if( pose != null) {
-
-                VectorF Tdata = pose.getTranslation();
-                Tx = Tdata.get(0) / mm_to_Inch;
-                Ty = Tdata.get(1) / mm_to_Inch;
-                Tz = Tdata.get(2) / mm_to_Inch;
-
-                Tx=Tx+offset;
-
-                Orientation orientation = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-                Deg = orientation.secondAngle;
-
-                target_name = targ.getName();
-
-            }
-
-            //Robot position on field
-            OpenGLMatrix robotLoc = listener.getUpdatedRobotLocation();
-            if (robotLoc != null) {
-
-                VectorF Rdata = robotLoc.getTranslation();
-                Rx = Rdata.get(0) / mm_to_Inch;
-                Ry = Rdata.get(1) / mm_to_Inch;
-            }
-
-
-        }
-
-    }
-
-    // this is a helper function to set targets field positions.
-    private void target_field_position( int target_num , float tx_position , float ty_position , int ty_angle ){
-        tx_position = (tx_position * mm_to_Inch);
-        ty_position = (ty_position * mm_to_Inch);
-        OpenGLMatrix TargetLocationOnField = OpenGLMatrix
-                .translation(tx_position , ty_position , 0 )
-                .multiplied(Orientation.getRotationMatrix(AxesReference.EXTRINSIC, AxesOrder.XZX,AngleUnit.DEGREES, 90 , ty_angle , 0));
-        targets.get(target_num).setLocation(TargetLocationOnField);
-    }
-
-    public String Identify_Target(){
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
-        if(vuMark != RelicRecoveryVuMark.UNKNOWN){
-            return vuMark.getName();
+        if (vuMark == RelicRecoveryVuMark.LEFT) {
+            return 1;
+        }
+        else if(vuMark == RelicRecoveryVuMark.CENTER){
+            return 2;
+        }
+        else if(vuMark == RelicRecoveryVuMark.RIGHT){
+            return 3;
+        }
+        else {
+            return 0;
         }
 
-        return "";
     }
 }

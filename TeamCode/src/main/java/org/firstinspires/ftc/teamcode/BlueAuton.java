@@ -74,17 +74,17 @@ public class BlueAuton extends LinearOpMode {
         robot.arm5.setPosition(robot.ARM_5_CLOSED_AUTON);
 
         sleep(500);
-
+        //move forwards
         robot.setDrivePower(0.5, false);
         sleep(1000);
         robot.setDrivePower(0, true);
-
+        //turn left
         robot.turn(0.65, true);
         sleep(1000);
         robot.turn(0, false);
 
         robot.setDrivePower(0, false);
-
+        //move forwards
         robot.setDrivePower(0.5, false);
         sleep(1000);
         robot.setDrivePower(0, false);
@@ -93,7 +93,7 @@ public class BlueAuton extends LinearOpMode {
         robot.arm4.setPosition(.40);
         robot.arm5.setPosition(.60);
         sleep(1500);
-
+        //move backwards
         robot.setDrivePower(0.5, true);
         sleep(250);
         robot.setDrivePower(0, true);
