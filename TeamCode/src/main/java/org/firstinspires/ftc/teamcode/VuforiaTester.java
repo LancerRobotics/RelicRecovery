@@ -15,8 +15,15 @@ public class VuforiaTester extends LinearOpMode {
         robot.init(hardwareMap, true);
 
         Vuforia vuforia = new Vuforia();
+        vuforia.Init_Vuforia();
 
-        
+        waitForStart();
+
+        while(!(vuforia.Identify_Target.equals(""))){
+            vuforia.Identify_Target();
+        }
+
+        telemetry.addData("Target ", vuforia.Identify_Target(), "detected");
     }
 
 }
