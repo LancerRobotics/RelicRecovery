@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode;
  */
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -167,15 +168,14 @@ public class HardwareMechanumRobot {
         }
     }
 
-    public void turn(double power, boolean left){
+    public void turn(double power, boolean left) {
 
-        if(!left){
+        if (!left) {
             fl.setPower(power);
             bl.setPower(power);
             fr.setPower(-power);
             br.setPower(-power);
-        }
-        else {
+        } else {
             fr.setPower(power);
             br.setPower(power);
             fl.setPower(-power);

@@ -24,7 +24,7 @@ public class BlueAutonVuforia extends LinearOpMode {
         waitForStart();
 
         Vuforia vuforia = new Vuforia();
-        int x = 0;
+        int targetValue = 0;
         robot.jewel_hitter.setPower(-0.5);
         sleep(300);
         robot.jewel_hitter.setPower(0);
@@ -77,9 +77,9 @@ public class BlueAutonVuforia extends LinearOpMode {
 
         sleep(500);
         while(!(vuforia.identifyTarget(hardwareMap) != 0) && opModeIsActive()) {
-            x = vuforia.identifyTarget(hardwareMap);
+            targetValue = vuforia.identifyTarget(hardwareMap);
         }
-        telemetry.addData("Target ", x);
+        telemetry.addData("Target ", targetValue);
 
         //move forwards
         robot.setDrivePower(0.5, false);
@@ -92,14 +92,14 @@ public class BlueAutonVuforia extends LinearOpMode {
 
         robot.setDrivePower(0, false);
         //Checks if robot detected center or right pattern, if not it pushes into left box.
-        if(x == 2) { //case Center
+        if(targetValue == 2) { //case Center
             robot.setDrivePower(0.5, false);
             sleep(1250);
             robot.setDrivePower(0, false);
 
             sleep(500);
         }
-        else if(x == 3) { //case Right
+        else if(targetValue == 3) { //case Right
             robot.setDrivePower(0.5, false);
             sleep(1500);
             robot.setDrivePower(0, false);
