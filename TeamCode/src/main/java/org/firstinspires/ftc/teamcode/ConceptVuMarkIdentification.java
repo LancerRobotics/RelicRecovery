@@ -174,10 +174,13 @@ public class ConceptVuMarkIdentification extends LinearOpMode {
             }
 
             telemetry.update();
+            if(vuMark.toString().equals("LEFT"))
+                telemetry.addLine("THE CODE WORKS");
         }
     }
 
     String format(OpenGLMatrix transformationMatrix) {
         return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
     }
+
 }
