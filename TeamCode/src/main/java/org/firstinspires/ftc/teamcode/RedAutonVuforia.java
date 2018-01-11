@@ -79,9 +79,9 @@ public class RedAutonVuforia extends LinearOpMode {
         robot.arm5.setPosition(robot.ARM_5_CLOSED_AUTON);
 
         sleep(500);
-        while(!(vuforia.identifyTarget(hardwareMap) != 0) && opModeIsActive()) {
-            targetValue = vuforia.identifyTarget(hardwareMap);
-        }
+//        while(!(vuforia.identifyTarget(hardwareMap) != 0) && opModeIsActive()) {
+//            targetValue = vuforia.identifyTarget(hardwareMap);
+//        }
         telemetry.addData("Target ", targetValue);
 
         //move forwards

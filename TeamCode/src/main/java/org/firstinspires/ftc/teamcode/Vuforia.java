@@ -175,7 +175,11 @@ public class Vuforia extends LinearOpMode {
 
             telemetry.update();
             if(vuMark.toString().equals("LEFT"))
-                telemetry.addLine("THE CODE WORKS");
+                telemetry.addLine("Go to left column"); //Encoded move to left column
+            if(vuMark.toString().equals("RIGHT"))
+                telemetry.addLine("Go to right column"); //Encoded move to right column
+            if(vuMark.toString().equals("CENTER"))
+                telemetry.addLine("Go to middle column");
         }
     }
 

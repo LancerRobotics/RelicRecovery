@@ -92,10 +92,10 @@ public class HardwareMechanumRobot {
         fl = hwMap.dcMotor.get("front_left");
         br = hwMap.dcMotor.get("back_right");
         bl = hwMap.dcMotor.get("back_left");
-        glyph = hwMap.dcMotor.get("glyph");
-        relic = hwMap.dcMotor.get("relic");
-        extender = hwMap.dcMotor.get("relic_extender");
-
+//        glyph = hwMap.dcMotor.get("glyph");
+//        relic = hwMap.dcMotor.get("relic");
+//        extender = hwMap.dcMotor.get("relic_extender");
+/*
         arm0 = hwMap.servo.get("relic_clamper");
         arm1 = hwMap.servo.get("glyph_top_right");
         arm2 = hwMap.servo.get("glyph_top_left");
@@ -107,10 +107,16 @@ public class HardwareMechanumRobot {
         jewel_hitter = hwMap.crservo.get("jewel_hitter");
 
         color_sensor = hwMap.colorSensor.get("color_sensor");
+        */
         //arm6 = hwMap.servo.get("glyph_holder");
 
-        //color = hwMap.colorSensor.get("color_sensor");
+        fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        //color = hwMap.colorSensor.get("color_sensor");
+/*
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -133,10 +139,10 @@ public class HardwareMechanumRobot {
 
         jewel1.scaleRange(0,1);
         //jewel_hitter.scaleRange(0,1);
-
+*/
         fr.setDirection(DcMotor.Direction.REVERSE);
         br.setDirection(DcMotor.Direction.REVERSE);
-
+/*
         //always set the relic clamper down
         arm0.setPosition(ARM_0_DOWN);
         //set the init positions of servos
@@ -150,7 +156,7 @@ public class HardwareMechanumRobot {
             arm4.setPosition(ARM_4_OPEN);
             arm5.setPosition(ARM_5_OPEN);
         }
-
+*/
     }
 
     public void strafe(double power, boolean left){
@@ -197,6 +203,34 @@ public class HardwareMechanumRobot {
             br.setPower(power);
             fl.setPower(-power);
             bl.setPower(-power);
+        }
+    }
+
+    public void pleaseEncodedMove(double inches, LinearOpMode opMode){
+        fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        while(fr.getCurrentPosition()!=0 && opMode.opModeIsActive()) {
+            opMode.telemetry.addLine("Resetting Encoders");
+        }
+
+        fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        opMode.telemetry.addLine("Beginning to Move");
+        opMode.sleep(500);
+        int targetTick = (int) (inches * 1140.0 / (4.0 * Math.PI * 2.0));
+        fr.setTargetPosition(targetTick);
+        if(inches >  0) {
+            setDrivePower(.35, true);
+            while (fr.getCurrentPosition() < targetTick && opMode.opModeIsActive() && !opMode.isStopRequested()) {
+                opMode.telemetry.addData("Encoder Pos: ", fr.getCurrentPosition());
+                opMode.telemetry.addData("Target Pos: ", targetTick);
+            }
+        }
+        else{
+            setDrivePower(.35, false);
+            while(fr.getCurrentPosition()> targetTick && opMode.opModeIsActive() && !opMode.isStopRequested()) {
+                opMode.telemetry.addData("Encoder Pos: ", fr.getCurrentPosition());
+                opMode.telemetry.addData("Target Pos: ", targetTick);
+            }
         }
     }
 }
