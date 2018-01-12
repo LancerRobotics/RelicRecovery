@@ -211,26 +211,35 @@ public class HardwareMechanumRobot {
 
         while(fr.getCurrentPosition()!=0 && opMode.opModeIsActive()) {
             opMode.telemetry.addLine("Resetting Encoders");
+            opMode.telemetry.update();
         }
 
-        fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         opMode.telemetry.addLine("Beginning to Move");
         opMode.sleep(500);
         int targetTick = (int) (inches * 1140.0 / (4.0 * Math.PI * 2.0));
         fr.setTargetPosition(targetTick);
         if(inches >  0) {
-            setDrivePower(.35, true);
+            setDrivePower(.35, false);
+            opMode.telemetry.addData("Encoder Pos: ", fr.getCurrentPosition());
+            opMode.telemetry.addData("Target Pos: ", targetTick);
+            opMode.telemetry.update();
             while (fr.getCurrentPosition() < targetTick && opMode.opModeIsActive() && !opMode.isStopRequested()) {
                 opMode.telemetry.addData("Encoder Pos: ", fr.getCurrentPosition());
                 opMode.telemetry.addData("Target Pos: ", targetTick);
+                opMode.telemetry.update();
             }
+            setDrivePower(0, false);
         }
         else{
-            setDrivePower(.35, false);
+            setDrivePower(.35, true);
             while(fr.getCurrentPosition()> targetTick && opMode.opModeIsActive() && !opMode.isStopRequested()) {
                 opMode.telemetry.addData("Encoder Pos: ", fr.getCurrentPosition());
                 opMode.telemetry.addData("Target Pos: ", targetTick);
+                opMode.telemetry.update();
             }
+            setDrivePower(0, true);
         }
+
     }
 }
