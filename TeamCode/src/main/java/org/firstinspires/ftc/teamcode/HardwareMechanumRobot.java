@@ -207,25 +207,25 @@ public class HardwareMechanumRobot {
     }
 
     public void pleaseEncodedMove(double inches, LinearOpMode opMode){
-        fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         while(fr.getCurrentPosition()!=0 && opMode.opModeIsActive()) {
             opMode.telemetry.addLine("Resetting Encoders");
             opMode.telemetry.update();
         }
 
-        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         opMode.telemetry.addLine("Beginning to Move");
         opMode.sleep(500);
         int targetTick = (int) (inches * 1140.0 / (4.0 * Math.PI * 2.0));
-        fr.setTargetPosition(targetTick);
+        fl.setTargetPosition(targetTick);
         if(inches >  0) {
             setDrivePower(.35, false);
-            opMode.telemetry.addData("Encoder Pos: ", fr.getCurrentPosition());
+            opMode.telemetry.addData("Encoder Pos: ", fl.getCurrentPosition());
             opMode.telemetry.addData("Target Pos: ", targetTick);
             opMode.telemetry.update();
-            while (fr.getCurrentPosition() < targetTick && opMode.opModeIsActive() && !opMode.isStopRequested()) {
-                opMode.telemetry.addData("Encoder Pos: ", fr.getCurrentPosition());
+            while (fl.getCurrentPosition() < targetTick && opMode.opModeIsActive() && !opMode.isStopRequested()) {
+                opMode.telemetry.addData("Encoder Pos: ", fl.getCurrentPosition());
                 opMode.telemetry.addData("Target Pos: ", targetTick);
                 opMode.telemetry.update();
             }
@@ -233,8 +233,8 @@ public class HardwareMechanumRobot {
         }
         else{
             setDrivePower(.35, true);
-            while(fr.getCurrentPosition()> targetTick && opMode.opModeIsActive() && !opMode.isStopRequested()) {
-                opMode.telemetry.addData("Encoder Pos: ", fr.getCurrentPosition());
+            while(fl.getCurrentPosition()> targetTick && opMode.opModeIsActive() && !opMode.isStopRequested()) {
+                opMode.telemetry.addData("Encoder Pos: ", fl.getCurrentPosition());
                 opMode.telemetry.addData("Target Pos: ", targetTick);
                 opMode.telemetry.update();
             }
