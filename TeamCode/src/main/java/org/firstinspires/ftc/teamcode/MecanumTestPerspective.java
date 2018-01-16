@@ -119,6 +119,7 @@ public class MecanumTestPerspective extends LinearOpMode {
             telemetry.addData("direct joystick x:", x);
             telemetry.addData("direct joystick y:", y);
             telemetry.addData("direct joystick z:", z);
+            telemetry.addData("Current Encoder Position: ", robot.fr.getCurrentPosition());
 
             if (gamepad1.a){ //Grab glyph with bottom arms
                 robot.arm1.setPosition(robot.ARM_1_CLOSED);

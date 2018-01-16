@@ -83,10 +83,10 @@ public class HardwareMechanumRobot {
     public static final double ARM_5_CLOSED = 0.3;
     public static final double ARM_5_CLOSED_AUTON = 0.35;
 
-    public HardwareMechanumRobot(){
+    public HardwareMechanumRobot() {
     }
 
-    public void init(HardwareMap ahwMap, boolean autonomous){
+    public void init(HardwareMap ahwMap, boolean autonomous) {
         hwMap = ahwMap;
         fr = hwMap.dcMotor.get("front_right");
         fl = hwMap.dcMotor.get("front_left");
@@ -159,16 +159,14 @@ public class HardwareMechanumRobot {
 */
     }
 
-    public void strafe(double power, boolean left){
+    public void strafe(double power, boolean left) {
         //fixed strafe to these values: tinyurl.com/mecanum
-        if(!left) {
+        if (!left) {
             fl.setPower(power);
             fr.setPower(-power);
             bl.setPower(-power);
             br.setPower(power);
-        }
-
-        else {
+        } else {
             fl.setPower(-power);
             fr.setPower(power);
             bl.setPower(power);
@@ -176,14 +174,13 @@ public class HardwareMechanumRobot {
         }
     }
 
-    public void setDrivePower(double power, boolean backwards){
-        if(!backwards){
+    public void setDrivePower(double power, boolean backwards) {
+        if (!backwards) {
             fl.setPower(power);
             fr.setPower(power);
             bl.setPower(power);
             br.setPower(power);
-        }
-        else{
+        } else {
             fl.setPower(-power);
             fr.setPower(-power);
             bl.setPower(-power);
@@ -206,20 +203,38 @@ public class HardwareMechanumRobot {
         }
     }
 
-    public void pleaseEncodedMove(double inches, LinearOpMode opMode){
+    public void encoderDrive(double inches, LinearOpMode opMode) {
+        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        fl.setTargetPosition((int)(inches * 1140.0 / (4.0 * Math.PI * 2.0)));
+        while(fl.getCurrentPosition() <= fl.getTargetPosition()) {
+            setDrivePower(0.2, false);
+            opMode.telemetry.addData("Current position: ", fl.getCurrentPosition());
+            opMode.telemetry.update();
+        }
+        setDrivePower(0, false);
+    }
+
+    public void pleaseEncodedMove(double inches, LinearOpMode opMode) {
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        while(fr.getCurrentPosition()!=0 && opMode.opModeIsActive()) {
+        while (fl.getCurrentPosition() != 0 && opMode.opModeIsActive()) {
             opMode.telemetry.addLine("Resetting Encoders");
             opMode.telemetry.update();
         }
 
-        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         opMode.telemetry.addLine("Beginning to Move");
         opMode.sleep(500);
         int targetTick = (int) (inches * 1140.0 / (4.0 * Math.PI * 2.0));
+        /*
         fl.setTargetPosition(targetTick);
-        if(inches >  0) {
+        fl.setPower(0.3);
+        opMode.telemetry.addData("TargetTick:" , targetTick);
+        opMode.telemetry.addData("CurrentPos: ", fl.getCurrentPosition());
+        opMode.telemetry.update();
+        */
+        if (inches > 0) {
             setDrivePower(.35, false);
             opMode.telemetry.addData("Encoder Pos: ", fl.getCurrentPosition());
             opMode.telemetry.addData("Target Pos: ", targetTick);
@@ -230,10 +245,9 @@ public class HardwareMechanumRobot {
                 opMode.telemetry.update();
             }
             setDrivePower(0, false);
-        }
-        else{
+        } else {
             setDrivePower(.35, true);
-            while(fl.getCurrentPosition()> targetTick && opMode.opModeIsActive() && !opMode.isStopRequested()) {
+            while (fl.getCurrentPosition() > targetTick && opMode.opModeIsActive() && !opMode.isStopRequested()) {
                 opMode.telemetry.addData("Encoder Pos: ", fl.getCurrentPosition());
                 opMode.telemetry.addData("Target Pos: ", targetTick);
                 opMode.telemetry.update();
