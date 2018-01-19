@@ -205,13 +205,17 @@ public class HardwareMechanumRobot {
 
     public void encoderDrive(double inches, LinearOpMode opMode) {
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         fl.setTargetPosition((int)(inches * 1140.0 / (4.0 * Math.PI * 2.0)));
-        while(fl.getCurrentPosition() <= fl.getTargetPosition()) {
-            setDrivePower(0.2, false);
-            opMode.telemetry.addData("Current position: ", fl.getCurrentPosition());
-            opMode.telemetry.update();
+        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setDrivePower(0.2, false);
+        while(fl.isBusy()) {
+
         }
+//        while(fl.getCurrentPosition() <= fl.getTargetPosition()) {
+//            setDrivePower(0.2, false);
+//            opMode.telemetry.addData("Current position: ", fl.getCurrentPosition());
+//            opMode.telemetry.update();
+//        }
         setDrivePower(0, false);
     }
 
