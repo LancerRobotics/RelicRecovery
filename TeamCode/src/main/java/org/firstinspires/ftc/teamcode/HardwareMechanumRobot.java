@@ -53,6 +53,9 @@ public class HardwareMechanumRobot {
     public CRServo jewel_hitter = null;
     //public Servo arm6 = null; //glyph grabber hook
 
+    //David's servo test
+    public CRServo vexMotor = null;
+
     //Color Sensor
     public ColorSensor color_sensor = null;
 
@@ -159,6 +162,12 @@ public class HardwareMechanumRobot {
 */
     }
 
+    //To test David's servo
+    public void init2(HardwareMap ahwMap, boolean autonomous) {
+        hwMap = ahwMap;
+        vexMotor = hwMap.crservo.get("vexMotor");
+    }
+
     public void strafe(double power, boolean left) {
         //fixed strafe to these values: tinyurl.com/mecanum
         if (!left) {
@@ -208,6 +217,9 @@ public class HardwareMechanumRobot {
         fl.setTargetPosition((int)(inches * 1140.0 / (4.0 * Math.PI * 2.0)));
         fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         setDrivePower(power, false);
+        opMode.telemetry.addLine("Check to see if telemetry works ");
+        opMode.telemetry.update();
+        opMode.sleep(1000);
         while(fl.isBusy()) {
             opMode.telemetry.addData("Current tick: " , fl.getCurrentPosition());
             opMode.telemetry.update();
