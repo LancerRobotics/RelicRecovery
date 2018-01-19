@@ -203,13 +203,14 @@ public class HardwareMechanumRobot {
         }
     }
 
-    public void encoderDrive(double inches, LinearOpMode opMode) {
+    public void encoderDrive(double inches, double power, LinearOpMode opMode) {
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fl.setTargetPosition((int)(inches * 1140.0 / (4.0 * Math.PI * 2.0)));
         fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setDrivePower(0.2, false);
+        setDrivePower(power, false);
         while(fl.isBusy()) {
-
+            opMode.telemetry.addData("Current tick: " , fl.getCurrentPosition());
+            opMode.telemetry.update();
         }
 //        while(fl.getCurrentPosition() <= fl.getTargetPosition()) {
 //            setDrivePower(0.2, false);
@@ -219,6 +220,26 @@ public class HardwareMechanumRobot {
         setDrivePower(0, false);
     }
 
+    public void encoderTurn(double inches, double power, boolean left, LinearOpMode opMode) {
+        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fl.setTargetPosition((int)(inches * 1140.0 / (4.0 * Math.PI * 2.0)));
+        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if(left) {
+            turn(power, true);
+            while(fl.isBusy()) {
+                opMode.telemetry.addData("Current tick: ", fl.getCurrentPosition());
+                opMode.telemetry.update();
+            }
+            setDrivePower(0, false);
+        }
+        else {
+            turn(power, false);
+            while(fl.isBusy()) {
+                opMode.telemetry.addData("Current tick: ", fl.getCurrentPosition());
+            }
+            setDrivePower(0, false);
+        }
+    }
     public void pleaseEncodedMove(double inches, LinearOpMode opMode) {
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
