@@ -162,7 +162,7 @@ public class HardwareMechanumRobot {
 */
     }
 
-    //To test David's servo
+    //To test David's servo jk
     public void init2(HardwareMap ahwMap, boolean autonomous) {
         hwMap = ahwMap;
         vexMotor = hwMap.crservo.get("vexMotor");
