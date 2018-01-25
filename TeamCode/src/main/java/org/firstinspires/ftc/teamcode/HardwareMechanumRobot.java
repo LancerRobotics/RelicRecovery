@@ -212,6 +212,60 @@ public class HardwareMechanumRobot {
         }
     }
 
+    public boolean resetEncoders() {
+        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        return true;
+    }
+
+    public boolean setUpEncoders() {
+        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        return true;
+    }
+
+    public boolean runEncoders() {
+        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        return true;
+    }
+
+    public boolean powerAll(double power) {
+        fl.setPower(power);
+        return true;
+    }
+
+    public boolean checkEncoders() {
+        return fl.isBusy();
+    }
+
+    public boolean encoderPlz (int ticks, double power, LinearOpMode opMode) {
+        resetEncoders();
+        setUpEncoders();
+        int target = fl.getCurrentPosition() + (ticks);
+        fl.setTargetPosition((int)target);
+        runEncoders();
+        powerAll(power);
+        while(checkEncoders()) {
+            opMode.telemetry.addData("Current tick: " , fl.getCurrentPosition());
+            opMode.telemetry.update();
+        }
+        powerAll(0);
+        return setUpEncoders();
+        /*
+        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        int target = fl.getCurrentPosition() + (ticks);
+        fl.setTargetPosition((int)target);
+        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        fl.setPower(power);
+        */
+        /*
+        while(fl.isBusy()) {
+            opMode.telemetry.addData("Current tick: " , fl.getCurrentPosition());
+            opMode.telemetry.update();
+        }
+        setDrivePower(0, false);
+        */
+    }
+
     public void encoderDrive(double inches, double power, LinearOpMode opMode) {
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fl.setTargetPosition((int)(inches * 1140.0 / (4.0 * Math.PI * 2.0)));
