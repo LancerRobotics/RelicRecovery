@@ -212,6 +212,10 @@ public class HardwareMechanumRobot {
         }
     }
 
+    public void gyroTurn(double power, double angle) {
+
+    }
+
     public boolean resetEncoders() {
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         return true;
@@ -229,6 +233,9 @@ public class HardwareMechanumRobot {
 
     public boolean powerAll(double power) {
         fl.setPower(power);
+        fr.setPower(power);
+        bl.setPower(power);
+        br.setPower(power);
         return true;
     }
 
@@ -263,7 +270,7 @@ public class HardwareMechanumRobot {
             opMode.telemetry.update();
         }
         setDrivePower(0, false);
-        */ 
+        */
     }
 
     public void encoderDrive(double inches, double power, LinearOpMode opMode) {
