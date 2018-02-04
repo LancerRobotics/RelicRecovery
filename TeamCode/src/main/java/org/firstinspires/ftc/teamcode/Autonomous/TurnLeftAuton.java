@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -10,13 +10,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.HardwareMechanumRobot;
 
 /**
- * Created by dina.brustein on 11/11/2017.
+ * Created by dina.brustein on 11/22/2017.
  */
 
-@Autonomous
-public class SimpleRedAutonWithoutTurn extends LinearOpMode {
+@Autonomous(name="Left Turn Auton - USE THIS", group="Linear Opmode")
+public class TurnLeftAuton extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
 
     BNO055IMU imu;
@@ -50,14 +51,24 @@ public class SimpleRedAutonWithoutTurn extends LinearOpMode {
 
         sleep(500);
 
-        robot.setDrivePower(0.6, false);
+        robot.setDrivePower(0.5, false);
         sleep(1000);
         robot.setDrivePower(0, true);
 
+        robot.turn(0.65, true);
+        sleep(1000);
+        robot.turn(0, false);
+
+        robot.setDrivePower(0, false);
+
+        robot.setDrivePower(0.5, false);
+        sleep(1000);
+        robot.setDrivePower(0, false);
+
         sleep(500);
-        robot.arm4.setPosition(robot.ARM_4_CLOSED_AUTON);
-        robot.arm5.setPosition(robot.ARM_5_CLOSED_AUTON);
-        sleep(500);
+        robot.arm4.setPosition(.40);
+        robot.arm5.setPosition(.60);
+        sleep(1500);
 
         robot.setDrivePower(0.5, true);
         sleep(250);

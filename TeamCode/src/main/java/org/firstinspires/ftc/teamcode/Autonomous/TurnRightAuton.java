@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -10,13 +10,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.HardwareMechanumRobot;
 
 /**
- * Created by dina.brustein on 11/22/2017.
+ * Created by david.lin on 11/6/2017.
  */
 
-@Autonomous(name="Left Turn Auton - USE THIS", group="Linear Opmode")
-public class TurnLeftAuton extends LinearOpMode {
+@Autonomous(name="Right Turn Auton - USE THIS", group="Linear Opmode")
+
+public class TurnRightAuton extends LinearOpMode{
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
 
     BNO055IMU imu;
@@ -54,7 +56,7 @@ public class TurnLeftAuton extends LinearOpMode {
         sleep(1000);
         robot.setDrivePower(0, true);
 
-        robot.turn(0.65, true);
+        robot.turn(0.65, false);
         sleep(1000);
         robot.turn(0, false);
 
