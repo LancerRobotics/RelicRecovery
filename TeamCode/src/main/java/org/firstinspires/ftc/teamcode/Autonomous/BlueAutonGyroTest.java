@@ -57,7 +57,7 @@ public class BlueAutonGyroTest extends LinearOpMode{
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
         //wait
-        waitForStart();
+        //uncomment this if it breaks stuff waitForStart();
 
         // Start the logging of measured acceleration
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
@@ -66,17 +66,45 @@ public class BlueAutonGyroTest extends LinearOpMode{
 
         waitForStart();
 
-        robot.setDrivePower(0, false);
+        //init the angles value to 0
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        while(angles.firstAngle < 90 && opModeIsActive()){
+        //Move to and face cryptobox
+        sleep(500);
+        //move forwards
+        robot.setDrivePower(0.5, false);
+        sleep(1000);
+        robot.setDrivePower(0, true);
+        //turn left, change the angle value until it goes to right, mid, or left box
+        while(angles.firstAngle < 135 && opModeIsActive()){
+            robot.turn(.2, true);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        }
+        robot.turn(0, false);
+
+        //Move into the cryptobox
+        robot.setDrivePower(0, false);
+        //move forwards
+        robot.setDrivePower(0.5, false);
+        sleep(1000);
+        robot.setDrivePower(0, false);
+
+        //Move backwards from cryptobox
+        sleep(500);
+        robot.arm4.setPosition(.40);
+        robot.arm5.setPosition(.60);
+        sleep(1500);
+        //move backwards
+        robot.setDrivePower(0.5, true);
+        sleep(250);
+        robot.setDrivePower(0, true);
+
+        /*while(angles.firstAngle < 90 && opModeIsActive()){
             robot.turn(0.2, true);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("Gyro angle: ", angles.firstAngle);
             telemetry.update();
-
-        }
-
+        }*/
         sleep(500);
 
         robot.setDrivePower(0, false);
