@@ -325,20 +325,14 @@ public class HardwareMechanumRobot {
         opMode.telemetry.addLine("Beginning to Move");
         opMode.sleep(500);
         int targetTick = (int) (inches * 1140.0 / (4.0 * Math.PI * 2.0));
-        /*
-        fl.setTargetPosition(targetTick);
-        fl.setPower(0.3);
-        opMode.telemetry.addData("TargetTick:" , targetTick);
-        opMode.telemetry.addData("CurrentPos: ", fl.getCurrentPosition());
-        opMode.telemetry.update();
-        */
+
         if (inches > 0) {
-            setDrivePower(.35, false);
-            opMode.telemetry.addData("Encoder Pos: ", fl.getCurrentPosition());
+            fr.setPower(0.2);
+            opMode.telemetry.addData("Encoder Pos: ", fr.getCurrentPosition());
             opMode.telemetry.addData("Target Pos: ", targetTick);
             opMode.telemetry.update();
-            while (fl.getCurrentPosition() < targetTick && opMode.opModeIsActive() && !opMode.isStopRequested()) {
-                opMode.telemetry.addData("Encoder Pos: ", fl.getCurrentPosition());
+            while (fr.getCurrentPosition() < targetTick && opMode.opModeIsActive() && !opMode.isStopRequested()){
+                opMode.telemetry.addData("Encoder Pos: ", fr.getCurrentPosition());
                 opMode.telemetry.addData("Target Pos: ", targetTick);
                 opMode.telemetry.update();
             }
@@ -352,6 +346,5 @@ public class HardwareMechanumRobot {
             }
             setDrivePower(0, true);
         }
-
     }
 }

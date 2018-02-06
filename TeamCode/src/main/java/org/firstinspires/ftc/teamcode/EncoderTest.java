@@ -24,6 +24,6 @@ public class EncoderTest extends LinearOpMode {
        // robot.encoderTurn(1, 0.1, false, this);
        // robot.encoderDrive(12, 0.2, this);
        // robot.encoderDrive(-12, 0.2, this);
-        robot.encoderPlz(5000, 0.2, this);
+        robot.pleaseEncodedMove(4, this);
     }
 }
