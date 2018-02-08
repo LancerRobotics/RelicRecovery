@@ -68,9 +68,12 @@ public class MecanumTestPerspective extends LinearOpMode {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
+        //Start logging acceleration
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+
         robot.init(hardwareMap, false);
-        robot.arm1.setPosition(robot.ARM_1_CLOSED);
-        robot.arm2.setPosition(robot.ARM_2_CLOSED);
+        //robot.arm1.setPosition(robot.ARM_1_CLOSED);
+        //robot.arm2.setPosition(robot.ARM_2_CLOSED);
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -85,27 +88,26 @@ public class MecanumTestPerspective extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-
-        //zero yaw work / calibration
 
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive() && !isStopRequested()) {
 
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             //CHANGED ANGLE UNIT TO DEGREES
-
+            telemetry.addData("Gyro angle: ", angles.firstAngle);
             //telemetry.addData("angles (same as theta,in rad): ", angles);
             theta = angles.firstAngle;
             if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
-                calibrate = 360 - theta;//angles.firstAngle; //.zeroYaw
+                calibrate = 360 - theta;//goes from 180 to 540, start at 360//.zeroYaw
+
             }
 
             //Sets the gamepad values to x, y, and z
             z = gamepad1.right_stick_x; //rotation
             x = gamepad1.left_stick_x; //forward and backward
             y = gamepad1.left_stick_y; //side to side
+            //deadzones
             if(Math.abs(x) < .15) {
                 x = 0;
             }
@@ -121,6 +123,8 @@ public class MecanumTestPerspective extends LinearOpMode {
             telemetry.addData("direct joystick z:", z);
             telemetry.addData("Current Encoder Position: ", robot.fr.getCurrentPosition());
 
+            //commenting out for now, these servos were stripped from the old robot (it'll crash if you use them)
+            /*
             if (gamepad1.a){ //Grab glyph with bottom arms
                 robot.arm1.setPosition(robot.ARM_1_CLOSED);
                 robot.arm2.setPosition(robot.ARM_2_CLOSED);
@@ -149,7 +153,7 @@ public class MecanumTestPerspective extends LinearOpMode {
                 robot.arm4.setPosition(robot.ARM_4_CLOSED);
                 robot.arm5.setPosition(robot.ARM_5_CLOSED);
             }
-
+            */
             if(gamepad1.dpad_left){
                 robot.flPower -= .1;
                 robot.frPower -= .1;
@@ -163,7 +167,8 @@ public class MecanumTestPerspective extends LinearOpMode {
                 robot.blPower -= .1;
                 robot.brPower -= .1;
             }
-
+        // commenting these out for now, these motors were stripped from the old robot
+            /*
             if(gamepad2.a){
                 robot.glyph.setPower(0.75);
             }
@@ -207,6 +212,7 @@ public class MecanumTestPerspective extends LinearOpMode {
             if(gamepad2.right_bumper){
                 robot.arm0.setPosition(robot.ARM_0_DOWN);
             }
+         */
 
             //((Math.cos(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * x)
             trueX = ((Math.cos(Math.toRadians(360 - theta + calibrate)))*x) -
