@@ -77,11 +77,37 @@ public class BlueAutonGyroTest extends LinearOpMode{
         robot.setDrivePower(0, true);
         //turn left, change the angle value until it goes to right, mid, or left box
         while(angles.firstAngle < 135 && opModeIsActive()){
-            robot.turn(.2, true);
+            robot.turn(.4, true);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            telemetry.addData("Gyro value: ", angles.firstAngle);
+            telemetry.update();
         }
         robot.turn(0, false);
-
+        telemetry.addLine("Turn 135 degrees done!");
+        telemetry.update();
+        sleep(1000);
+        //turning right test... until gyro reaches -90
+        while(angles.firstAngle > -90 && opModeIsActive()) {
+            robot.turn(0.4, false);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            telemetry.addData("Gyro Value: ", angles.firstAngle);
+            telemetry.update();
+        }
+        robot.turn(0, false);
+        telemetry.addLine("Turn -90 degrees done!");
+        telemetry.update();
+        sleep(1000);
+        while(angles.firstAngle < 90 && opModeIsActive()) {
+            robot.turn(0.4, true);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            telemetry.addData("Gyro Value: ", angles.firstAngle);
+            telemetry.update();
+        }
+        robot.turn(0, false);
+        telemetry.addLine("Turn 90 degrees done!");
+        telemetry.update();
+        sleep(1000);
+/*
         //Move into the cryptobox
         robot.setDrivePower(0, false);
         //move forwards
@@ -104,11 +130,11 @@ public class BlueAutonGyroTest extends LinearOpMode{
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("Gyro angle: ", angles.firstAngle);
             telemetry.update();
-        }*/
+        }
         sleep(500);
 
         robot.setDrivePower(0, false);
-
+*/
     }
 }
 

@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -238,6 +239,16 @@ public class MecanumTestPerspective extends LinearOpMode {
             robot.bl.setPower(blPower);
             robot.br.setPower(brPower);
 
+
+                telemetry.addData("Front left encoder position: ", robot.fl.getCurrentPosition());
+                telemetry.update();
+
+            //TEMPORARY TO RESET ENCODER POSITION
+            if(gamepad1.a) {
+                robot.fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            }
+            robot.fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -30,14 +32,17 @@ public class BlueAutonVuforia extends LinearOpMode {
     public static final String TAG = "Vuforia VuMark Sample";
 
     OpenGLMatrix lastLocation = null;
+    BNO055IMU imu;
 
+    Orientation angles;
+    Acceleration gravity;
     VuforiaLocalizer vuforia;
 
     public void setup(){
 
     }
 
-    public void runOpMode(){
+    public void runOpMode() {
         robot.init(hardwareMap, true);
 //
         //for a CR Servo, dont set the position to anything
@@ -47,16 +52,18 @@ public class BlueAutonVuforia extends LinearOpMode {
         waitForStart();
 
         Vuforia vuforia = new Vuforia();
+
         int targetValue = 0;
-        robot.jewel_hitter.setPower(-0.5);
-        sleep(300);
-        robot.jewel_hitter.setPower(0);
+ /*
+   //     robot.jewel_hitter.setPower(-0.5);
+   //     sleep(300);
+   //     robot.jewel_hitter.setPower(0);
 
-        sleep(500);
+   //     sleep(500);
 
-        robot.jewel0.setPower(-0.5);
-        sleep(1000);
-        robot.jewel0.setPower(0);
+   //     robot.jewel0.setPower(-0.5);
+   //     sleep(1000);
+   //     robot.jewel0.setPower(0);
 
         //MAKE THE JEWEL HITTER MOVE FIRST, THEN THE OTHER 2 JEWEL SERVOS
 
@@ -99,6 +106,7 @@ public class BlueAutonVuforia extends LinearOpMode {
         robot.arm5.setPosition(robot.ARM_5_CLOSED_AUTON);
 
         sleep(500);
+  */
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
@@ -112,13 +120,13 @@ public class BlueAutonVuforia extends LinearOpMode {
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
         relicTrackables.activate();
-
+        while (targetValue == 0) {
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
                 telemetry.addData("VuMark", "%s visible", vuMark);
 
-                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
+                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
                 telemetry.addData("Pose", format(pose));
 
                 if (pose != null) {
@@ -133,13 +141,34 @@ public class BlueAutonVuforia extends LinearOpMode {
                     double rY = rot.secondAngle;
                     double rZ = rot.thirdAngle;
                 }
-            }
-            else {
+            } else {
                 telemetry.addData("VuMark", "not visible");
             }
 
+            telemetry.update();
+            if (vuMark.toString().equals("LEFT")) {
+                telemetry.addLine("Go to left column"); //Encoded move to left column
+                targetValue = 1;
+            }
+
+            if (vuMark.toString().equals("RIGHT")) {
+                telemetry.addLine("Go to right column"); //Encoded move to right column
+                targetValue = 2;
+            }
+            if (vuMark.toString().equals("CENTER")) {
+                telemetry.addLine("Go to middle column");
+                targetValue = 3;
+            }
+
+            String format(OpenGLMatrix transformationMatrix) {
+                return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
+            }
+        }
+        telemetry.addData("TARGET VALUE: ", targetValue);
         telemetry.update();
-        //move forwards
+        sleep(1000);
+    }
+       /* //move forwards
         robot.setDrivePower(0.5, false);
         sleep(1000);
         robot.setDrivePower(0, true);
@@ -181,8 +210,8 @@ public class BlueAutonVuforia extends LinearOpMode {
         robot.setDrivePower(0.5, true);
         sleep(250);
         robot.setDrivePower(0, true);
-
+*/
 
 
     }
-}
+//}
