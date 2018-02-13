@@ -160,9 +160,9 @@ public class BlueAutonVuforia extends LinearOpMode {
                 targetValue = 3;
             }
 
-            String format(OpenGLMatrix transformationMatrix) {
-                return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
-            }
+            //String format(OpenGLMatrix transformationMatrix) {
+            //    return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
+            //}
         }
         telemetry.addData("TARGET VALUE: ", targetValue);
         telemetry.update();

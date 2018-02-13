@@ -58,7 +58,7 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
         parameters.vuforiaLicenseKey = "ATBUgQH/////AAAAGUzEvDOFgUX9qPZkEOHOXVQ5Oeih/sEYcCN1LGl3wn8D0liJKP3Ml/2T+ZFO4QSKfpFT0keCBLD1Z6wwjVRx3dzlJmC/a3J+J6A6fGfVhh1CFTDlFRAMvFsrP3b/vP6SHJ9Eo8NKhgxs0JUGgmcWsuvx2PieZcpfh2rPn8EyM+8HiVjw4Wm+PZIcTeDrp0TkDVfw6arGNQXlKXG1KOM/dWLTdj9eec02TDYb7l5A1inuFChJz2xs3spTKe3MixOmsqtPjjfNiln188WCIn4ag6AV72y0x7d/eFUjYmcXVlvSUufV6NbqXZDM4k10N06NwJnHs+nrVo6TV7v6OXPM75vyc4MsgRJ6+C5ofSJVJX00";
         //choose front or back facing camera
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
         //load VuMark images
         VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
@@ -87,30 +87,38 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
 
         waitForStart();
 
+        relicTrackables.activate();
         //IDENTIFY VUMARK AND **to be added** HIT JEWEL
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         int cryptobox = 1; // 0 is left, 1 is center, 2 is right - just to testing, delete soon!
         int angleToTurn = 135; //the "middle" one, needs testing
-        sleep(500); //wait so the camera starts up? - may be unnecessary
         //If you CAN see it, identify which one, otherwise just go to the middle one
-        if(vuMark != RelicRecoveryVuMark.UNKNOWN){
-            if(vuMark.toString().equals("LEFT")){
-                cryptobox = 0;
-                angleToTurn = 120;
-                telemetry.addLine("Go to left column"); //Encoded move to left column
-            }
-            if(vuMark.toString().equals("CENTER")){
-                cryptobox = 1;
-                angleToTurn = 135;
-                telemetry.addLine("Go to middle column");
-            }
-            if(vuMark.toString().equals("RIGHT")) {
-                cryptobox = 2;
-                angleToTurn = 150;
-                telemetry.addLine("Go to right column"); //Encoded move to right column
-            }
-
+        while(vuMark == RelicRecoveryVuMark.UNKNOWN && opModeIsActive()) {
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            telemetry.addLine("VuMark not found");
+            telemetry.addData("VuMark", "%s visible", vuMark);
+            telemetry.update();
         }
+        //***It will give the stuck in stop error if you let a while loop run past the 30 second mark
+        //We can add a timer that if it doesnt detect after x seconds, it goes on
+
+        if(vuMark.toString().equals("LEFT")){
+            cryptobox = 0;
+            angleToTurn = 120;
+            telemetry.addLine("Go to left column"); //Encoded move to left column
+        }
+        if(vuMark.toString().equals("CENTER")){
+            cryptobox = 1;
+            angleToTurn = 135;
+            telemetry.addLine("Go to middle column");
+        }
+        if(vuMark.toString().equals("RIGHT")) {
+            cryptobox = 2;
+            angleToTurn = 150;
+            telemetry.addLine("Go to right column"); //Encoded move to right column
+        }
+        telemetry.update();
+
 
         //MOVE TO CRYPTOBOX
         //init the angles value to 0
@@ -142,8 +150,9 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
         robot.setDrivePower(0, false);
 
         sleep(500);
-        robot.arm4.setPosition(.40);
-        robot.arm5.setPosition(.60);
+        //no arms right now
+        //robot.arm4.setPosition(.40);
+        //robot.arm5.setPosition(.60);
         sleep(1500);
         //move backwards
         robot.setDrivePower(0.5, true);
