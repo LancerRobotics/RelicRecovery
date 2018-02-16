@@ -202,13 +202,13 @@ public class HardwareMechanumRobot {
         if (!left) {
             fl.setPower(power);
             bl.setPower(power);
-            fr.setPower(-power);
-            br.setPower(-power);
+            fr.setPower(-power-0.1);
+            br.setPower(-power-0.1);
         } else {
             fr.setPower(power);
             br.setPower(power);
-            fl.setPower(-power);
-            bl.setPower(-power);
+            fl.setPower(-power-0.1);
+            bl.setPower(-power-0.1);
         }
     }
 
