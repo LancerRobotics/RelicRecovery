@@ -102,20 +102,24 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
         //***It will give the stuck in stop error if you let a while loop run past the 30 second mark
         //We can add a timer that if it doesnt detect after x seconds, it goes on
         int distanceToMove = 0;
+        long timeToMove = 0;
 
         if(vuMark.toString().equals("LEFT")){
             cryptobox = 0;
-            distanceToMove = 15;
+            distanceToMove = 31;
+            timeToMove = 3000;
             telemetry.addLine("Go to left column"); //Encoded move to left column
         }
         if(vuMark.toString().equals("CENTER")){
             cryptobox = 1;
             distanceToMove = 23;
+            timeToMove = 2500;
             telemetry.addLine("Go to middle column");
         }
         if(vuMark.toString().equals("RIGHT")) {
             cryptobox = 2;
-            distanceToMove = 31;
+            distanceToMove = 15;
+            timeToMove = 2000;
             telemetry.addLine("Go to right column"); //Encoded move to right column
         }
         telemetry.update();
@@ -128,27 +132,30 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
         //Move to and face cryptobox
         sleep(500);
         //move forwards
-        robot.encoderDrive(distanceToMove, 0.3, this);
+        robot.setDrivePower(0.2, false);
+        sleep(timeToMove);
+        robot.setDrivePower(0, false);
+
+        sleep(500);
 
         //SAME FROM BLUEAUTONGYROTEST
         //turn left, change the angle value until it goes to right, mid, or left box
-        while(angles.firstAngle < -90 && opModeIsActive()){
-            robot.turn(.2, false);
+        while(angles.firstAngle > -90 && opModeIsActive()){
+            robot.turn(.6, false);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("Gyro value: ", angles.firstAngle);
             telemetry.update();
         }
         robot.turn(0, false);
-        telemetry.addLine("Turn to cyrptobox degrees done!");
+        telemetry.addLine("Turn to cryptobox degrees done!");
         telemetry.update();
         sleep(1000);
 
         //Move into the cryptobox
-        robot.setDrivePower(.5, false);
-        sleep(1000);
+        robot.setDrivePower(.3, false);
+        sleep(2000);
         robot.setDrivePower(0, false);
 
-        sleep(500);
         //no arms right now
         //robot.arm4.setPosition(.40);
         //robot.arm5.setPosition(.60);

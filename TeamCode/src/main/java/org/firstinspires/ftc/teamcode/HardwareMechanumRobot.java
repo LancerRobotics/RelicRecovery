@@ -285,11 +285,11 @@ public class HardwareMechanumRobot {
             opMode.telemetry.addData("Current tick: " , fl.getCurrentPosition());
             opMode.telemetry.update();
         }
-//        while(fl.getCurrentPosition() <= fl.getTargetPosition()) {
-//            setDrivePower(0.2, false);
-//            opMode.telemetry.addData("Current position: ", fl.getCurrentPosition());
-//            opMode.telemetry.update();
-//        }
+        while(fl.getCurrentPosition() <= fl.getTargetPosition() && opMode.opModeIsActive()) {
+            setDrivePower(0.2, false);
+            opMode.telemetry.addData("Current position: ", fl.getCurrentPosition());
+            opMode.telemetry.update();
+        }
         setDrivePower(0, false);
     }
 
