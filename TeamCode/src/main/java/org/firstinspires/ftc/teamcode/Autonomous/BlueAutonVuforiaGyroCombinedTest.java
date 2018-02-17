@@ -31,7 +31,7 @@ import org.firstinspires.ftc.teamcode.HardwareMechanumRobot;
 import org.firstinspires.ftc.teamcode.Vuforia;
 
 
-@Autonomous (name = "Blue Vuforia/Gyro Auton TEST - USE THIS", group = "Linear OpMode")
+@Autonomous (name = "Full Blue Auton", group = "Linear OpMode")
 public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
 

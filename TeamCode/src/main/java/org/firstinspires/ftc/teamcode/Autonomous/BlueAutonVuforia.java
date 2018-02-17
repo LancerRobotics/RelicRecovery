@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.Vuforia;
 
 import static com.sun.tools.javac.util.Constants.format;
 
-@Autonomous (name = "Blue COLOR + Vuforia Auton - USE THIS", group = "Linear OpMode")
+//@Autonomous (name = "Blue COLOR + Vuforia Auton - USE THIS", group = "Linear OpMode")
 //@Disabled
 public class BlueAutonVuforia extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();

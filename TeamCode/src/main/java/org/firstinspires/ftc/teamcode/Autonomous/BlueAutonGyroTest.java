@@ -30,7 +30,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.HardwareMechanumRobot;
 import org.firstinspires.ftc.teamcode.Vuforia;
 
-@Autonomous (name = "Blue Auton with Gyro TEST- USE THIS", group = "Linear OpMode")
+//@Autonomous (name = "Blue Auton with Gyro TEST- USE THIS", group = "Linear OpMode")
 //@Disabled
 public class BlueAutonGyroTest extends LinearOpMode{
     HardwareMechanumRobot robot = new HardwareMechanumRobot();

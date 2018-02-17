@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.HardwareMechanumRobot;
  * Created by dina.brustein on 11/11/2017.
  */
 
-@Autonomous
+//@Autonomous
 public class SimpleRedAutonWithoutTurn extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
 

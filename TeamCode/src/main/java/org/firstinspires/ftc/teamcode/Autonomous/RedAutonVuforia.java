@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Vuforia;
  * Created by david on 12/9/2017.
  */
 
-@Autonomous (name = "Red COLOR + Vuforia Auton", group = "Linear OpMode")
+//@Autonomous (name = "Red COLOR + Vuforia Auton", group = "Linear OpMode")
 public class RedAutonVuforia extends LinearOpMode {
     public void setup(){
 

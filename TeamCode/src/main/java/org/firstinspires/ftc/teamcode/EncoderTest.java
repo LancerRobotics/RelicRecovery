@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Created by jacob.wiseberg on 1/11/2018.
  */
 
-@Autonomous
+//@Autonomous
 public class EncoderTest extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
 

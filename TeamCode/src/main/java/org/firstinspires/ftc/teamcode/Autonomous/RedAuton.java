@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.HardwareMechanumRobot;
  * Created by david on 12/9/2017.
  */
 
-@Autonomous (name = "Red COLOR Auton - USE THIS", group = "Linear OpMode")
+//@Autonomous (name = "Red COLOR Auton - USE THIS", group = "Linear OpMode")
 public class RedAuton extends LinearOpMode {
     public void setup(){
 
