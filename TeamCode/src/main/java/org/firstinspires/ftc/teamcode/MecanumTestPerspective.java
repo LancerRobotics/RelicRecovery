@@ -75,7 +75,7 @@ public class MecanumTestPerspective extends LinearOpMode {
         imu.initialize(parameters);
 
         //potentiometer
-        potentiometer = hardwareMap.analogInput.get("potentiometer");
+        //potentiometer = hardwareMap.analogInput.get("potentiometer");
 
         //Start logging acceleration
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
