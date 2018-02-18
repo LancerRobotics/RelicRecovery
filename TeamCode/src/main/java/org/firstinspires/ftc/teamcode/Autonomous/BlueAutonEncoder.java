@@ -1,17 +1,28 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+/**
+ * Created by yibin.long on 2/12/2018.
+ */
+
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
@@ -20,167 +31,134 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.HardwareMechanumRobot;
 import org.firstinspires.ftc.teamcode.Vuforia;
 
-import static com.sun.tools.javac.util.Constants.format;
 
-@Autonomous (name = "Blue COLOR + Encoder Auton - USE THIS", group = "Linear OpMode")
-//@Disabled
+@Autonomous (name = "Blue Auton without Jewel", group = "Linear OpMode")
 public class BlueAutonEncoder extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
-    //ColorSensor color;
+
+    //VUFORIA
+    //probably unnecessary, but in vuforia sample class
     public static final String TAG = "Vuforia VuMark Sample";
-
     OpenGLMatrix lastLocation = null;
-
+    //stores instance of Vuforia locally
     VuforiaLocalizer vuforia;
+
+    //GYRO
+    BNO055IMU imu;
+    // State used for updating telemetry
+    Orientation angles;
+    Acceleration gravity;
 
     public void setup(){
 
     }
-
-    public void runOpMode(){
-        robot.init(hardwareMap, true);
-//
-        //for a CR Servo, dont set the position to anything
-        //robot.jewel_hitter.setPosition(.3);
-        //robot.arm1.setPosition(robot.ARM_1_CLOSED);
-
-        waitForStart();
-
-        Vuforia vuforia = new Vuforia();
-        int targetValue = 0;
-        robot.jewel_hitter.setPower(-0.5);
-        sleep(300);
-        robot.jewel_hitter.setPower(0);
-
-        sleep(500);
-
-        robot.jewel0.setPower(-0.5);
-        sleep(1000);
-        robot.jewel0.setPower(0);
-
-        //MAKE THE JEWEL HITTER MOVE FIRST, THEN THE OTHER 2 JEWEL SERVOS
-
-        telemetry.addData("Blue: ", robot.color_sensor.blue());
-        telemetry.addData("Red: ", robot.color_sensor.red());
-        telemetry.update();
-
-        telemetry.update();
-        sleep(1000);
-
-        //I added "-3" because the red is much stronger than blue
-        if(robot.color_sensor.red()-3 > robot.color_sensor.blue()){
-            telemetry.addLine("Will hit this jewel");
-            telemetry.update();
-            //MAKE RED AND BLUE AUTONS!!!
-            robot.jewel_hitter.setPower(-.4);
-            sleep(400);
-            robot.jewel_hitter.setPower(0);
-        }
-        else {
-            telemetry.addLine("Will hit other jewel");
-            telemetry.update();
-            robot.jewel_hitter.setPower(.4);
-            sleep(400);
-        }            robot.jewel_hitter.setPower(0);
-
-        sleep(1000);
-//        robot.jewel0.setPosition(.65);
-        robot.jewel1.setPosition(.65);
-        sleep(500);
-
-
-        robot.jewel0.setPower(0.5);
-        sleep(2000);
-        robot.jewel0.setPower(0);
-
-        sleep(500);
-
-        robot.arm4.setPosition(robot.ARM_4_CLOSED_AUTON);
-        robot.arm5.setPosition(robot.ARM_5_CLOSED_AUTON);
-
-        sleep(500);
+    @Override public void runOpMode() {
+        //VUFORIA
+        //startup Vuforia and tell it to use the camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-
         parameters.vuforiaLicenseKey = "ATBUgQH/////AAAAGUzEvDOFgUX9qPZkEOHOXVQ5Oeih/sEYcCN1LGl3wn8D0liJKP3Ml/2T+ZFO4QSKfpFT0keCBLD1Z6wwjVRx3dzlJmC/a3J+J6A6fGfVhh1CFTDlFRAMvFsrP3b/vP6SHJ9Eo8NKhgxs0JUGgmcWsuvx2PieZcpfh2rPn8EyM+8HiVjw4Wm+PZIcTeDrp0TkDVfw6arGNQXlKXG1KOM/dWLTdj9eec02TDYb7l5A1inuFChJz2xs3spTKe3MixOmsqtPjjfNiln188WCIn4ag6AV72y0x7d/eFUjYmcXVlvSUufV6NbqXZDM4k10N06NwJnHs+nrVo6TV7v6OXPM75vyc4MsgRJ6+C5ofSJVJX00";
-
+        //choose front or back facing camera
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-
+        //load VuMark images
         VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
-        relicTrackables.activate();
+        //GYRO
+        //Note: I renamed the gyro's "parameters" variable (in the sample code) to gyroParameters
+        // to avoid conflicts with Vuforia's parameters
+        BNO055IMU.Parameters gyroParameters = new BNO055IMU.Parameters();
+        gyroParameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        gyroParameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        gyroParameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        gyroParameters.loggingEnabled      = true;
+        gyroParameters.loggingTag          = "IMU";
+        gyroParameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        //initialize gyro imu
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(gyroParameters);
 
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-        if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        robot.init(hardwareMap, true);
 
-            telemetry.addData("VuMark", "%s visible", vuMark);
-
-            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
-            telemetry.addData("Pose", format(pose));
-
-            if (pose != null) {
-                VectorF trans = pose.getTranslation();
-                Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-
-                double tX = trans.get(0);
-                double tY = trans.get(1);
-                double tZ = trans.get(2);
-
-                double rX = rot.firstAngle;
-                double rY = rot.secondAngle;
-                double rZ = rot.thirdAngle;
-            }
-        }
-        else {
-            telemetry.addData("VuMark", "not visible");
-        }
-
+        telemetry.addData(">", "Press Play to start");
         telemetry.update();
+
+        waitForStart();
+
+        relicTrackables.activate();
+        //IDENTIFY VUMARK AND **to be added** HIT JEWEL
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        int cryptobox = 1; // 0 is left, 1 is center, 2 is right - just to testing, delete soon!
+        int angleToTurn = 90; //the "middle" one, needs testing
+        //If you CAN see it, identify which one, otherwise just go to the middle one
+        while(vuMark == RelicRecoveryVuMark.UNKNOWN && opModeIsActive()) {
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            telemetry.addLine("VuMark not found");
+            telemetry.addData("VuMark", "%s visible", vuMark);
+            telemetry.update();
+        }
+        //***It will give the stuck in stop error if you let a while loop run past the 30 second mark
+        //We can add a timer that if it doesnt detect after x seconds, it goes on
+        double distanceToMove = 0;
+
+        if(vuMark.toString().equals("LEFT")){
+            cryptobox = 0;
+            distanceToMove = 31;
+            telemetry.addLine("Go to left column"); //Encoded move to left column
+        }
+        if(vuMark.toString().equals("CENTER")){
+            cryptobox = 1;
+            distanceToMove = 23;
+            telemetry.addLine("Go to middle column");
+        }
+        if(vuMark.toString().equals("RIGHT")) {
+            cryptobox = 2;
+            distanceToMove = 15;
+            telemetry.addLine("Go to right column"); //Encoded move to right column
+        }
+        telemetry.update();
+        //convert distanceToMove from inches to ticks
+        distanceToMove = distanceToMove * 1140.0 / (4.0 * Math.PI * 2.0);
+
+        //MOVE TO CRYPTOBOX
+        //init the angles value to 0
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        //Move to and face cryptobox
+        sleep(500);
         //move forwards
-        robot.encoderDrive(12, 0.2, this);
-        //turn left
-        robot.turn(0.65, true);
-        sleep(1000);
+        robot.encoderPlz(distanceToMove, 0.2, this);
+
+        //SAME FROM BLUEAUTONGYROTEST
+        //turn left, change the angle value until it goes to right, mid, or left box
+        while(angles.firstAngle > -90 && opModeIsActive()){
+            robot.turn(.6, false);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            telemetry.addData("Gyro value: ", angles.firstAngle);
+            telemetry.update();
+        }
         robot.turn(0, false);
+        telemetry.addLine("Turn to cryptobox degrees done!");
+        telemetry.update();
+        sleep(1000);
 
+        //Move into the cryptobox
+        robot.setDrivePower(.3, false);
+        sleep(2000);
         robot.setDrivePower(0, false);
-        //Checks if robot detected center or right pattern, if not it pushes into left box.
-        if(targetValue == 2) { //case Center
-            robot.setDrivePower(0.5, false);
-            sleep(1250);
-            robot.setDrivePower(0, false);
 
-            sleep(500);
-        }
-        else if(targetValue == 3) { //case Right
-            robot.setDrivePower(0.5, false);
-            sleep(1500);
-            robot.setDrivePower(0, false);
-
-            sleep(500);
-        }
-        else { //case Left
-
-            //move forwards
-            robot.setDrivePower(0.5, false);
-            sleep(1000);
-            robot.setDrivePower(0, false);
-
-            sleep(500);
-        }
-
-        robot.arm4.setPosition(.40);
-        robot.arm5.setPosition(.60);
+        //no arms right now
+        //robot.arm4.setPosition(.40);
+        //robot.arm5.setPosition(.60);
         sleep(1500);
         //move backwards
         robot.setDrivePower(0.5, true);
         sleep(250);
         robot.setDrivePower(0, true);
 
-
-
     }
 }
+

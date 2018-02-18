@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -53,6 +54,10 @@ public class MecanumTestPerspective extends LinearOpMode {
     float theta;
     float calibrate;
 
+    //potentiometer
+    AnalogInput potentiometer;
+
+
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "In Progress...");
@@ -68,6 +73,9 @@ public class MecanumTestPerspective extends LinearOpMode {
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+
+        //potentiometer
+        potentiometer = hardwareMap.analogInput.get("potentiometer");
 
         //Start logging acceleration
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
@@ -240,6 +248,7 @@ public class MecanumTestPerspective extends LinearOpMode {
             robot.fr.setPower(frPower);
             robot.bl.setPower(blPower);
             robot.br.setPower(brPower);
+
 
 
                 telemetry.addData("Front left encoder position: ", robot.fl.getCurrentPosition());

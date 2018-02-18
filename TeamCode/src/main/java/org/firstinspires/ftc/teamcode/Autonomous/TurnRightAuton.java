@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.HardwareMechanumRobot;
  * Created by david.lin on 11/6/2017.
  */
 
-@Autonomous(name="Right Turn Auton - USE THIS", group="Linear Opmode")
+//@Autonomous(name="Right Turn Auton - USE THIS", group="Linear Opmode")
 
 public class TurnRightAuton extends LinearOpMode{
     HardwareMechanumRobot robot = new HardwareMechanumRobot();

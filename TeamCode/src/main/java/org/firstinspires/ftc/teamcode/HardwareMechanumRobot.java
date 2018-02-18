@@ -202,13 +202,13 @@ public class HardwareMechanumRobot {
         if (!left) {
             fl.setPower(power);
             bl.setPower(power);
-            fr.setPower(-power);
-            br.setPower(-power);
+            fr.setPower(-power-0.1);
+            br.setPower(-power-0.1);
         } else {
             fr.setPower(power);
             br.setPower(power);
-            fl.setPower(-power);
-            bl.setPower(-power);
+            fl.setPower(-power-0.1);
+            bl.setPower(-power-0.1);
         }
     }
 
@@ -239,14 +239,34 @@ public class HardwareMechanumRobot {
         return true;
     }
 
+    public void encoderDrive(int ticks, double power, LinearOpMode opMode) {
+        br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        int target = br.getCurrentPosition() + (ticks);
+        br.setTargetPosition((int)target);
+        br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        fl.setPower(power);
+        fr.setPower(power);
+        bl.setPower(power);
+        br.setPower(power);
+        while(fl.isBusy()) {
+            opMode.telemetry.addData("Current tick: " , br.getCurrentPosition());
+            opMode.telemetry.update();
+        }
+        fl.setPower(0);
+        fr.setPower(0);
+        bl.setPower(0);
+        br.setPower(0);
+    }
+
     public boolean checkEncoders() {
         return fl.isBusy();
     }
 
-    public boolean encoderPlz (int ticks, double power, LinearOpMode opMode) {
+    public boolean encoderPlz (double ticks, double power, LinearOpMode opMode) {
         resetEncoders();
         setUpEncoders();
-        int target = br.getCurrentPosition() + (ticks);
+        int target = br.getCurrentPosition() + (int)(ticks);
         br.setTargetPosition((int)target);
         runEncoders();
         powerAll(power);
@@ -285,11 +305,11 @@ public class HardwareMechanumRobot {
             opMode.telemetry.addData("Current tick: " , fl.getCurrentPosition());
             opMode.telemetry.update();
         }
-//        while(fl.getCurrentPosition() <= fl.getTargetPosition()) {
-//            setDrivePower(0.2, false);
-//            opMode.telemetry.addData("Current position: ", fl.getCurrentPosition());
-//            opMode.telemetry.update();
-//        }
+        while(fl.getCurrentPosition() <= fl.getTargetPosition() && opMode.opModeIsActive()) {
+            setDrivePower(0.2, false);
+            opMode.telemetry.addData("Current position: ", fl.getCurrentPosition());
+            opMode.telemetry.update();
+        }
         setDrivePower(0, false);
     }
 

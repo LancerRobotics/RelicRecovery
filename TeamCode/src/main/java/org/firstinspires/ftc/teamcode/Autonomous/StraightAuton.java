@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.HardwareMechanumRobot;
 /**
  * Created by david on 12/2/2017.
  */
-@Autonomous(name="Straight Auton - USE THIS", group="Linear Opmode")
+//@Autonomous(name="Straight Auton - USE THIS", group="Linear Opmode")
 public class StraightAuton extends LinearOpMode {
 
     HardwareMechanumRobot robot = new HardwareMechanumRobot();

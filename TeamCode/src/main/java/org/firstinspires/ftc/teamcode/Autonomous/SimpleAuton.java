@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.HardwareMechanumRobot;
  * Created by spork on 9/30/2017.
  */
 
-@Autonomous
+//@Autonomous
 public class SimpleAuton extends LinearOpMode {
 
     HardwareMechanumRobot robot = new HardwareMechanumRobot();

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.HardwareMechanumRobot;
 
-@Autonomous (name = "Blue COLOR Auton - USE THIS", group = "Linear OpMode")
+//@Autonomous (name = "Blue COLOR Auton - USE THIS", group = "Linear OpMode")
 //@Disabled
 public class BlueAuton extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
