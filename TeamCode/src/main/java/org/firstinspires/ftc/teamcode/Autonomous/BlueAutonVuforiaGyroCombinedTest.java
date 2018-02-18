@@ -51,7 +51,8 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
     public void setup(){
 
     }
-    @Override public void runOpMode() {
+    @Override
+    public void runOpMode() {
         //VUFORIA
         //startup Vuforia and tell it to use the camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -87,8 +88,8 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
 
         waitForStart();
 
-        relicTrackables.activate();
         //IDENTIFY VUMARK AND **to be added** HIT JEWEL
+        relicTrackables.activate();
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         int cryptobox = 1; // 0 is left, 1 is center, 2 is right - just to testing, delete soon!
         int angleToTurn = 135; //the "middle" one, needs testing

@@ -71,7 +71,6 @@ public class MecanumTestPerspective extends LinearOpMode {
 
         //Start logging acceleration
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-
         robot.init(hardwareMap, false);
         //robot.arm1.setPosition(robot.ARM_1_CLOSED);
         //robot.arm2.setPosition(robot.ARM_2_CLOSED);
@@ -84,12 +83,15 @@ public class MecanumTestPerspective extends LinearOpMode {
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+        //Pretty sure this isn't needed...
         robot.fr.setDirection(DcMotorSimple.Direction.FORWARD);
         robot.br.setDirection(DcMotorSimple.Direction.FORWARD);
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
+        //Testing to see if all telemetry is kept
+        telemetry.setAutoClear(false);
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive() && !isStopRequested()) {
@@ -97,7 +99,7 @@ public class MecanumTestPerspective extends LinearOpMode {
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             //CHANGED ANGLE UNIT TO DEGREES
             telemetry.addData("Gyro angle: ", angles.firstAngle);
-            //telemetry.addData("angles (same as theta,in rad): ", angles);
+            telemetry.update();
             theta = angles.firstAngle;
             if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
                 calibrate = 360 - theta;//goes from 180 to 540, start at 360//.zeroYaw
