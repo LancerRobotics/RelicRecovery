@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.AnalogInput;
  * Created by Paspuleti on 2/16/2018.
  */
 
-@Autonomous(name = "Potentiometer for three pin test", group = "Autonomous")
+//@Autonomous(name = "Potentiometer for three pin test", group = "Autonomous")
 public class PotentiometerThreePin extends LinearOpMode {
     public void runOpMode() {
         AnalogInput potentiometer;

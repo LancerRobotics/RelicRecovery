@@ -143,8 +143,14 @@ public class HardwareMechanumRobot {
         jewel1.scaleRange(0,1);
         //jewel_hitter.scaleRange(0,1);
 */
+
         fr.setDirection(DcMotor.Direction.REVERSE);
         br.setDirection(DcMotor.Direction.REVERSE);
+
+    //    fl.setDirection(DcMotor.Direction.REVERSE);
+    //    fr.setDirection(DcMotor.Direction.FORWARD);
+    //    br.setDirection(DcMotor.Direction.FORWARD);
+    //    bl.setDirection(DcMotor.Direction.REVERSE);
 /*
         //always set the relic clamper down
         arm0.setPosition(ARM_0_DOWN);
