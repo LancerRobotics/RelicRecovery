@@ -93,7 +93,7 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         int cryptobox = 1; // 0 is left, 1 is center, 2 is right - just to testing, delete soon!
         int angleToTurn = 90; //the "middle" one, needs testing
-        //If you CAN see it, identify which one, otherwise just go to the middle one
+        //If you CAN see it, identify which one, otherwise just go to the middle one - gotta add that 2nd part, make it time based
         while(vuMark == RelicRecoveryVuMark.UNKNOWN && opModeIsActive()) {
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
             telemetry.addLine("VuMark not found");
