@@ -19,7 +19,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.teamcode.HardwareMechanumRobot;
 
-//@TeleOp(name="MecanumTestPerspective-USE THIS", group="Linear Opmode")
+@TeleOp(name="Teleop Perspective", group="plswork")
 //@Disabled
 public class MecanumTestPerspective extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
@@ -67,19 +67,9 @@ public class MecanumTestPerspective extends LinearOpMode {
         //Start logging acceleration
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
         robot.init(hardwareMap, false);
-        //robot.arm1.setPosition(robot.ARM_1_CLOSED);
-        //robot.arm2.setPosition(robot.ARM_2_CLOSED);
 
-        // Most robots need the motor on one side to be reversed to drive forward
-        // Reverse the motor that runs backwards when connected directly to the battery
-        //leftDrive.setDirection(DcMotor.Direction.FORWARD);
-        //rightDrive.setDirection(DcMotor.Direction.REVERSE);
-
-        telemetry.addData("Status", "Initialized");
+        telemetry.addData("Status", "PLSWORK");
         telemetry.update();
-        //Pretty sure this isn't needed...
-        robot.fr.setDirection(DcMotorSimple.Direction.FORWARD);
-        robot.br.setDirection(DcMotorSimple.Direction.FORWARD);
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -90,165 +80,64 @@ public class MecanumTestPerspective extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive() && !isStopRequested()) {
 
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            //CHANGED ANGLE UNIT TO DEGREES
-            telemetry.addData("Gyro angle: ", angles.firstAngle);
-            telemetry.update();
-            theta = angles.firstAngle;
-            if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
-                calibrate = 360 - theta;//goes from 180 to 540, start at 360//.zeroYaw
-            }
-
             //Sets the gamepad values to x, y, and z
             z = gamepad1.right_stick_x; //rotation
-            x = gamepad1.left_stick_x; //forward and backward
             y = gamepad1.left_stick_y; //side to side
+            x = gamepad1.left_stick_x; //forward and backward
+
             //deadzones
-            if(Math.abs(x) < .15) {
+            if(Math.abs(x) < .1) {
                 x = 0;
             }
-            if(Math.abs(y) < .15) {
+            if(Math.abs(y) < .1) {
                 y = 0;
             }
-            if(Math.abs(z) < .15) {
+            if(Math.abs(z) < .1) {
                 z = 0;
             }
-            telemetry.addData("Theta(in degrees): ", 360-theta+calibrate);
-            telemetry.addData("direct joystick x:", x);
-            telemetry.addData("direct joystick y:", y);
-            telemetry.addData("direct joystick z:", z);
-            telemetry.addData("Current Encoder Position: ", robot.fr.getCurrentPosition());
 
-            //commenting out for now, these servos were stripped from the old robot (it'll crash if you use them)
-            /*
-            if (gamepad1.a){ //Grab glyph with bottom arms
-                robot.arm1.setPosition(robot.ARM_1_CLOSED);
-                robot.arm2.setPosition(robot.ARM_2_CLOSED);
-                robot.arm4.setPosition(robot.ARM_4_CLOSED);
-                robot.arm5.setPosition(robot.ARM_5_CLOSED);
-                //gamepad2.a and .b -> the left doesnt move
+
+            //telemetry.addData("Calibrate value: ", calibrate);
+            //C&P
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            theta = angles.firstAngle;
+
+            //the convert method
+            if (theta <= 0) {
+                theta = 360 + theta; //if yaw is negative, make it positive (makes the turn easier to visualize)
             }
 
-            if (gamepad1.b){ //Let go of glyph with bottom arms
-                robot.arm1.setPosition(robot.ARM_1_OPEN);
-                robot.arm2.setPosition(robot.ARM_2_OPEN);
-                robot.arm4.setPosition(robot.ARM_4_OPEN);
-                robot.arm5.setPosition(robot.ARM_5_OPEN);
+            if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
+                calibrate = 360 - theta;
             }
 
-            if (gamepad1.x){ //Open top glyph grabbers
-                robot.arm1.setPosition(robot.ARM_1_OPEN);
-                robot.arm2.setPosition(robot.ARM_2_OPEN);
-                robot.arm4.setPosition(robot.ARM_4_OPEN);
-                robot.arm5.setPosition(robot.ARM_5_OPEN);
-            }
+            trueX = (Math.cos(Math.toRadians(theta + calibrate)) * x) - (Math.sin(Math.toRadians(theta + calibrate)) * y);
+            trueY = (Math.sin(Math.toRadians(theta + calibrate)) * x) + (Math.cos(Math.toRadians(theta + calibrate)) * y);
 
-            if (gamepad1.y){ //Close top glyph grabbers
-                robot.arm1.setPosition(robot.ARM_1_CLOSED);
-                robot.arm2.setPosition(robot.ARM_2_CLOSED);
-                robot.arm4.setPosition(robot.ARM_4_CLOSED);
-                robot.arm5.setPosition(robot.ARM_5_CLOSED);
-            }
-            */
-            if(gamepad1.dpad_left){
-                robot.flPower -= .1;
-                robot.frPower -= .1;
-                robot.blPower -= .1;
-                robot.brPower-= .1;
-            }
-
-            if(gamepad1.dpad_right){
-                robot.flPower -= .1;
-                robot.frPower -= .1;
-                robot.blPower -= .1;
-                robot.brPower -= .1;
-            }
-        // commenting these out for now, these motors were stripped from the old robot
-            /*
-            if(gamepad2.a){
-                robot.glyph.setPower(0.75);
-            }
-
-            else if(gamepad2.b){
-                robot.glyph.setPower(-0.75);
-            }
-
-            else {
-                robot.glyph.setPower(0);
-            }
-
-            if(gamepad2.y){
-                robot.relic.setPower(0.8);
-            }
-
-            else if(gamepad2.x){
-                robot.relic.setPower(-0.8);
-            }
-
-            else {
-                robot.relic.setPower(0);
-            }
-
-            if(gamepad1.right_bumper){
-                robot.extender.setPower(0.99);
-            }
-
-            else if(gamepad1.left_bumper){
-                robot.extender.setPower(-0.99);
-            }
-
-            else {
-                robot.extender.setPower(0);
-            }
-
-            if(gamepad2.left_bumper){
-                robot.arm0.setPosition(robot.ARM_0_UP);
-            }
-
-            if(gamepad2.right_bumper){
-                robot.arm0.setPosition(robot.ARM_0_DOWN);
-            }
-         */
-
-            //((Math.cos(Math.toRadians(360 - Artemis.convertYaw(Artemis.navx_device.getYaw())))) * x)
-            trueX = ((Math.cos(Math.toRadians(360 - theta + calibrate)))*x) -
-                    ((Math.sin(Math.toRadians(360 - theta + calibrate)))*y);
-            //ERROR for TrueY: it is xsin0 + ycos0, fixed in TestNEWPerspective
-            trueY = ((Math.sin(Math.toRadians(360 - theta + calibrate)))*x) -
-                    ((Math.cos(Math.toRadians(360 - theta + calibrate)))*y);
-
-            //Sets trueX and trueY to its respective value
             x = trueX;
             y = trueY;
 
-            telemetry.addData("true x:", x);
-            telemetry.addData("true y:", y);
+            flPower = Range.scale((-x + y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+            frPower = Range.scale((-x - y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+            blPower = Range.scale((x + y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+            brPower = Range.scale((x - y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
 
-            flPower = Range.scale((x + y + z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
-            frPower = Range.scale((x - y + z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
-            blPower = Range.scale((-x + y + z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
-            brPower = Range.scale((-x - y + z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
-
-            //Sets each motor power to the correct power
             robot.fl.setPower(flPower);
             robot.fr.setPower(frPower);
             robot.bl.setPower(blPower);
             robot.br.setPower(brPower);
 
-
-
-            telemetry.addData("Front left encoder position: ", robot.fl.getCurrentPosition());
-            telemetry.update();
-
-            //TEMPORARY TO RESET ENCODER POSITION
-            if(gamepad1.a) {
-                robot.fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-            }
-            robot.fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.clearAll();
+            telemetry.addData("Converted Gyro Value", theta);
+            telemetry.addData("Calibrate", calibrate);
+            telemetry.addData("FR Power", robot.fr.getPower());
+            telemetry.addData("FL Power", robot.fl.getPower());
+            telemetry.addData("BR Power", robot.br.getPower());
+            telemetry.addData("BL Power", robot.bl.getPower());
+            telemetry.addData("Old X on Gamepad", x);
+            telemetry.addData("Old Y on Gamepad", y);
             telemetry.update();
         }
     }
 }
+//AJ SAVES THE DAY

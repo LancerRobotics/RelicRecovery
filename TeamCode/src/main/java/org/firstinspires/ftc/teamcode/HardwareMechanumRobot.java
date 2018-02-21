@@ -144,8 +144,11 @@ public class HardwareMechanumRobot {
         //jewel_hitter.scaleRange(0,1);
 */
 
-        fl.setDirection(DcMotor.Direction.REVERSE);
-        bl.setDirection(DcMotor.Direction.REVERSE);
+        if(autonomous) {
+            bl.setDirection(DcMotor.Direction.REVERSE);
+            fl.setDirection(DcMotor.Direction.REVERSE);
+        }
+
 
     //    fl.setDirection(DcMotor.Direction.REVERSE);
     //    fr.setDirection(DcMotor.Direction.FORWARD);
@@ -208,13 +211,13 @@ public class HardwareMechanumRobot {
         if (!left) {
             fl.setPower(power);
             bl.setPower(power);
-            fr.setPower(-power-0.1);
-            br.setPower(-power-0.1);
+            fr.setPower(-power);
+            br.setPower(-power);
         } else {
             fr.setPower(power);
             br.setPower(power);
-            fl.setPower(-power-0.1);
-            bl.setPower(-power-0.1);
+            fl.setPower(-power);
+            bl.setPower(-power);
         }
     }
 
