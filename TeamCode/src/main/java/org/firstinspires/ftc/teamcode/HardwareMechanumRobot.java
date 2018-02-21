@@ -144,8 +144,8 @@ public class HardwareMechanumRobot {
         //jewel_hitter.scaleRange(0,1);
 */
 
-        fr.setDirection(DcMotor.Direction.REVERSE);
-        br.setDirection(DcMotor.Direction.REVERSE);
+        fl.setDirection(DcMotor.Direction.REVERSE);
+        bl.setDirection(DcMotor.Direction.REVERSE);
 
     //    fl.setDirection(DcMotor.Direction.REVERSE);
     //    fr.setDirection(DcMotor.Direction.FORWARD);

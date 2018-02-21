@@ -132,28 +132,51 @@ public class MecanumTestNEWPerspective extends LinearOpMode{
                 theta = 360 + theta; //if yaw is negative, make it positive (makes the turn easier to visualize)
             }
 
-            trueX = ((Math.cos(Math.toRadians(360 - theta)))*x) -
-                    ((Math.sin(Math.toRadians(360 - theta)))*y);
-            trueY = ((Math.sin(Math.toRadians(360 - theta)))*x) +
-                    ((Math.cos(Math.toRadians(360 - theta)))*y);
+            if(x > 0)
+                robot.setDrivePower(0.8,false);
+            if(x < 0)
+                robot.setDrivePower(0.8,true);
+            if(y < 0)
+                robot.strafe(0.8, true);
+            if(y > 0)
+                robot.strafe(0.8,false);
+            if(z > 0)
+                robot.turn(0.8,false);
+            if(z < 0)
+                robot.turn(0.8,true);
 
-            //Sets trueX and trueY to its respective value
-            x = trueX;
-            y = trueY;
+            if(gamepad1.a)
+                robot.bl.setPower(0.5);
+            if(gamepad1.b)
+                robot.br.setPower(0.5);
+            if(gamepad1.x)
+                robot.fl.setPower(0.5);
+            if(gamepad1.y)
+                robot.fr.setPower(0.5);
 
-            telemetry.addData("True x:", x);
-            telemetry.addData("True y:", y);
-
-            flPower = Range.scale((-x + y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
-            frPower = Range.scale((-x - y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
-            blPower = Range.scale(( x + y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
-            brPower = Range.scale(( x - y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
-
-            //Sets each motor power to the correct power
-            robot.fl.setPower(flPower);
-            robot.fr.setPower(frPower);
-            robot.bl.setPower(blPower);
-            robot.br.setPower(brPower);
+            robot.setDrivePower(0,false);
+//            trueX = ((Math.cos(Math.toRadians(360 - theta)))*x) -
+//                    ((Math.sin(Math.toRadians(360 - theta)))*y);
+//            trueY = ((Math.sin(Math.toRadians(360 - theta)))*x) +
+//                    ((Math.cos(Math.toRadians(360 - theta)))*y);
+//
+//            //Sets trueX and trueY to its respective value
+//            x = trueX;
+//            y = trueY;
+//
+//            telemetry.addData("True x:", x);
+//            telemetry.addData("True y:", y);
+//
+//            flPower = Range.scale((-x + y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+//            frPower = Range.scale((-x - y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+//            blPower = Range.scale(( x + y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+//            brPower = Range.scale(( x - y - z), -1, 1, -robot.MAX_MOTOR_SPEED, robot.MAX_MOTOR_SPEED);
+//
+//            //Sets each motor power to the correct power
+//            robot.fl.setPower(flPower);
+//            robot.fr.setPower(frPower);
+//            robot.bl.setPower(blPower);
+//            robot.br.setPower(brPower);
 
             telemetry.addData("FR Power", robot.fr.getPower());
             telemetry.addData("FL Power", robot.fl.getPower());
