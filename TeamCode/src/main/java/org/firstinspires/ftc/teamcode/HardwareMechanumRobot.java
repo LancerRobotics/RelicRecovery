@@ -36,28 +36,26 @@ public class HardwareMechanumRobot {
     public DcMotor fr = null;
     public DcMotor bl = null;
     public DcMotor br = null;
-    public DcMotor glyph = null;
-    public DcMotor relic = null;
-    public DcMotor extender = null;
+    public DcMotor glyftL = null;
+    public DcMotor glyftR = null;
+    public DcMotor relicScorer = null;
 
     //Servos
-    public Servo arm0 = null;
-    public Servo arm1 = null; //glyph top right
-    public Servo arm2 = null; //glyph top left
-    public Servo arm4 = null; //glyph bottom left
-    public Servo arm5 = null; //glyph bottom right
-
-    public CRServo jewel0 = null; //servo jewel0 and jewel1 bring the arm down
-    public Servo jewel1 = null;
-    //This is a Continuous Rotation servo rn
-    public CRServo jewel_hitter = null;
-    //public Servo arm6 = null; //glyph grabber hook
-
-    //David's servo test
-    public CRServo vexMotor = null;
+    public CRServo glyphPusher = null;
+    public Servo gcSecure = null;
+    public Servo autonGlyphL = null;
+    public Servo autonGlyphR = null;
+    public Servo relicTurner = null;
+    public Servo relicClaw = null;
+    public Servo jewelLift = null;
+    public Servo jewelHitter = null;
+    public Servo trayL = null;
+    public Servo trayR = null;
+    public CRServo glyphCollectorR = null;
+    public CRServo glyphCollectorL = null;
 
     //Color Sensor
-    public ColorSensor color_sensor = null;
+    public ColorSensor color = null;
 
     //Gyro
     public BNO055IMU imu = null;
@@ -95,86 +93,39 @@ public class HardwareMechanumRobot {
         fl = hwMap.dcMotor.get("front_left");
         br = hwMap.dcMotor.get("back_right");
         bl = hwMap.dcMotor.get("back_left");
-//        glyph = hwMap.dcMotor.get("glyph");
-//        relic = hwMap.dcMotor.get("relic");
-//        extender = hwMap.dcMotor.get("relic_extender");
-/*
-        arm0 = hwMap.servo.get("relic_clamper");
-        arm1 = hwMap.servo.get("glyph_top_right");
-        arm2 = hwMap.servo.get("glyph_top_left");
-        arm4 = hwMap.servo.get("glyph_bottom_left");
-        arm5 = hwMap.servo.get("glyph_bottom_right");
+        glyftL = hwMap.dcMotor.get("glyft_left");
+        glyftR = hwMap.dcMotor.get("glyft_right");
+        relicScorer = hwMap.dcMotor.get("relic_scorer");
 
-        jewel0 = hwMap.crservo.get("jewel_extender_1");
-        jewel1 = hwMap.servo.get("jewel_extender_2");
-        jewel_hitter = hwMap.crservo.get("jewel_hitter");
+        gcSecure = hwMap.servo.get("glyph_collector_securer");
+        glyphPusher = hwMap.crservo.get("glyph_pusher");
+        autonGlyphL = hwMap.servo.get("auton_glyph_left");
+        autonGlyphR = hwMap.servo.get("auton_glyph_right");
+        relicTurner = hwMap.servo.get("relic_turner");
+        relicClaw = hwMap.servo.get("relic_claw");
+        jewelHitter = hwMap.servo.get("jewel_hitter");
+        jewelLift = hwMap.servo.get("jewel_lift");
+        trayL = hwMap.servo.get("tray_left");
+        trayR = hwMap.servo.get("tray_right");
+        glyphCollectorL = hwMap.crservo.get("glyph_collector_left");
+        glyphCollectorR = hwMap.crservo.get("glyph_collector_right");
 
-        color_sensor = hwMap.colorSensor.get("color_sensor");
-        */
-        //arm6 = hwMap.servo.get("glyph_holder");
+        color = hwMap.colorSensor.get("color_sensor");
 
         fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        //color = hwMap.colorSensor.get("color_sensor");
-/*
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        parameters.loggingEnabled = true;
-        parameters.loggingTag = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
-        imu = hwMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
-        arm4.setPosition(ARM_4_OPEN);
-        arm5.setPosition(ARM_5_OPEN);
-        //arm6.setPosition(armINITIAL);
-
-        arm0.scaleRange(0,1);
-        arm1.scaleRange(0,1);
-        arm2.scaleRange(0,1);
-        arm4.scaleRange(0,1);
-        arm5.scaleRange(0,1);
-
-        jewel1.scaleRange(0,1);
-        //jewel_hitter.scaleRange(0,1);
-*/
-
         if(autonomous) {
             bl.setDirection(DcMotor.Direction.REVERSE);
             fl.setDirection(DcMotor.Direction.REVERSE);
         }
-
-
-    //    fl.setDirection(DcMotor.Direction.REVERSE);
-    //    fr.setDirection(DcMotor.Direction.FORWARD);
-    //    br.setDirection(DcMotor.Direction.FORWARD);
-    //    bl.setDirection(DcMotor.Direction.REVERSE);
-/*
-        //always set the relic clamper down
-        arm0.setPosition(ARM_0_DOWN);
-        //set the init positions of servos
-        if(!autonomous){
-            arm1.setPosition(ARM_1_OPEN);
-            arm2.setPosition(ARM_2_OPEN);
-            arm4.setPosition(ARM_4_CLOSED);
-            arm5.setPosition(ARM_5_CLOSED);
-        }
-        else {
-            arm4.setPosition(ARM_4_OPEN);
-            arm5.setPosition(ARM_5_OPEN);
-        }
-*/
     }
 
     //To test David's servo jk
     public void init2(HardwareMap ahwMap, boolean autonomous) {
         hwMap = ahwMap;
-        vexMotor = hwMap.crservo.get("vexMotor");
     }
 
     public void strafe(double power, boolean left) {
