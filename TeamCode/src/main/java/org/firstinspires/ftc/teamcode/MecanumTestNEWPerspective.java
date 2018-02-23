@@ -94,6 +94,60 @@ public class MecanumTestNEWPerspective extends LinearOpMode{
                 z = 0;
             }
 
+            //B driver = tilt glyph down
+            if(gamepad1.b) {
+                robot.trayL.setPosition(0);
+                robot.trayR.setPosition(0);
+            }
+
+            //Y driver = tilt glyph up
+            if(gamepad1.y) {
+                robot.trayL.setPosition(0.5);
+                robot.trayR.setPosition(0.5);
+            }
+
+            //Right trigger driver = Collect
+            if(gamepad1.right_trigger>0.15) {
+                robot.glyphCollectorL.setPower(0.8);
+                robot.glyphCollectorR.setPower(0.8);
+            }
+
+            //Left trigger driver = Reverse collector
+            if(gamepad1.left_trigger>0.15) {
+                robot.glyphCollectorL.setPower(-0.8);
+                robot.glyphCollectorR.setPower(-0.8);
+            }
+            robot.glyphCollectorL.setPower(0);
+            robot.glyphCollectorR.setPower(0);
+
+            //Gunner x = Open relic claw
+            if(gamepad2.x) {
+                robot.relicClaw.setPosition(0.5);
+            }
+            //Gunner b = Close relic claw
+            if(gamepad2.b) {
+                robot.relicClaw.setPosition(0);
+            }
+            //Gunner left joystick = glyft
+            if(gamepad2.left_stick_y > 0.15) {
+                robot.glyftL.setPower(0.8);
+                robot.glyftR.setPower(0.8);
+            }
+            if(gamepad2.left_stick_y < -0.15) {
+                robot.glyftL.setPower(-0.8);
+                robot.glyftR.setPower(-0.8);
+            }
+            robot.glyftL.setPower(0);
+            robot.glyftR.setPower(0);
+
+            //Gunner right joystick = relic scorer
+            if(gamepad2.right_stick_y > 0.15) {
+                robot.relicScorer.setPower(0.8);
+            }
+            if(gamepad2.right_stick_y < -0.15) {
+                robot.relicScorer.setPower(-0.8);
+            }
+            robot.relicScorer.setPower(0);
 
             //telemetry.addData("Calibrate value: ", calibrate);
             //C&P

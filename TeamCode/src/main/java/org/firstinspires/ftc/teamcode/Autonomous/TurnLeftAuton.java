@@ -46,8 +46,8 @@ public class TurnLeftAuton extends LinearOpMode {
 
         waitForStart();
 
-        robot.arm4.setPosition(robot.ARM_4_CLOSED_AUTON);
-        robot.arm5.setPosition(robot.ARM_5_CLOSED_AUTON);
+//        robot.arm4.setPosition(robot.ARM_4_CLOSED_AUTON);
+//        robot.arm5.setPosition(robot.ARM_5_CLOSED_AUTON);
 
         sleep(500);
 
@@ -66,9 +66,9 @@ public class TurnLeftAuton extends LinearOpMode {
         robot.setDrivePower(0, false);
 
         sleep(500);
-        robot.arm4.setPosition(.40);
-        robot.arm5.setPosition(.60);
-        sleep(1500);
+//        robot.arm4.setPosition(.40);
+//        robot.arm5.setPosition(.60);
+//        sleep(1500);
 
         robot.setDrivePower(0.5, true);
         sleep(250);

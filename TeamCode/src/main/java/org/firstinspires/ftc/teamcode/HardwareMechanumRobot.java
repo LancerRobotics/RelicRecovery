@@ -110,6 +110,22 @@ public class HardwareMechanumRobot {
         glyphCollectorL = hwMap.crservo.get("glyph_collector_left");
         glyphCollectorR = hwMap.crservo.get("glyph_collector_right");
 
+        //Scaling
+        gcSecure.scaleRange(0,1);
+        autonGlyphL.scaleRange(0,1);
+        autonGlyphR.scaleRange(0,1);
+        relicTurner.scaleRange(0,1);
+        relicClaw.scaleRange(0,1);
+        jewelHitter.scaleRange(0,1);
+        jewelLift.scaleRange(0,1);
+        trayL.scaleRange(0,1);
+        trayR.scaleRange(0,1);
+
+        //Initialize Positions
+        gcSecure.setPosition(0.5);
+        autonGlyphL.setPosition(0);
+        autonGlyphR.setPosition(1);
+
         color = hwMap.colorSensor.get("color_sensor");
 
         fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

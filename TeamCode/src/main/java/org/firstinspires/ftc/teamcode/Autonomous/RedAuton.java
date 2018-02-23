@@ -26,57 +26,57 @@ public class RedAuton extends LinearOpMode {
 
         waitForStart();
 
-        robot.jewel_hitter.setPower(-0.5);
-        sleep(300);
-        robot.jewel_hitter.setPower(0);
+//        robot.jewel_hitter.setPower(-0.5);
+//        sleep(300);
+//        robot.jewel_hitter.setPower(0);
+//
+//        sleep(500);
+//
+//        robot.jewel0.setPower(-0.5);
+//        sleep(1000);
+//        robot.jewel0.setPower(0);
+//
+//        //MAKE THE JEWEL HITTER MOVE FIRST, THEN THE OTHER 2 JEWEL SERVOS
 
-        sleep(500);
-
-        robot.jewel0.setPower(-0.5);
-        sleep(1000);
-        robot.jewel0.setPower(0);
-
-        //MAKE THE JEWEL HITTER MOVE FIRST, THEN THE OTHER 2 JEWEL SERVOS
-
-        telemetry.addData("Blue: ", robot.color_sensor.blue());
-        telemetry.addData("Red: ", robot.color_sensor.red());
+        telemetry.addData("Blue: ", robot.color.blue());
+        telemetry.addData("Red: ", robot.color.red());
         telemetry.update();
 
         telemetry.update();
         sleep(1000);
 
         //I added "-3" because the red is much stronger than blue
-        if(robot.color_sensor.red()-3 > robot.color_sensor.blue()){
+        if(robot.color.red()-3 > robot.color.blue()){
             telemetry.addLine("Will hit other jewel");
             telemetry.update();
-            robot.jewel_hitter.setPower(.4);
-            sleep(400);
+//            robot.jewel_hitter.setPower(.4);
+//            sleep(400);
         }
         else {
             telemetry.addLine("Will hit this jewel");
             telemetry.update();
             //MAKE RED AND BLUE AUTONS!!!
-            robot.jewel_hitter.setPower(-.4);
-            sleep(400);
-            robot.jewel_hitter.setPower(0);
+//            robot.jewel_hitter.setPower(-.4);
+//            sleep(400);
+//            robot.jewel_hitter.setPower(0);
         }
 
-        robot.jewel_hitter.setPower(0);
-
-        sleep(1000);
-//        robot.jewel0.setPosition(.65);
-        robot.jewel1.setPosition(.65);
-        sleep(500);
-
-
-        robot.jewel0.setPower(0.5);
-        sleep(2000);
-        robot.jewel0.setPower(0);
-
-        sleep(500);
-
-        robot.arm4.setPosition(robot.ARM_4_CLOSED_AUTON);
-        robot.arm5.setPosition(robot.ARM_5_CLOSED_AUTON);
+//        robot.jewel_hitter.setPower(0);
+//
+//        sleep(1000);
+////        robot.jewel0.setPosition(.65);
+//        robot.jewel1.setPosition(.65);
+//        sleep(500);
+//
+//
+//        robot.jewel0.setPower(0.5);
+//        sleep(2000);
+//        robot.jewel0.setPower(0);
+//
+//        sleep(500);
+//
+//        robot.arm4.setPosition(robot.ARM_4_CLOSED_AUTON);
+//        robot.arm5.setPosition(robot.ARM_5_CLOSED_AUTON);
 
         sleep(500);
         //move forwards
@@ -95,9 +95,9 @@ public class RedAuton extends LinearOpMode {
         robot.setDrivePower(0, false);
 
         sleep(500);
-        robot.arm4.setPosition(.40);
-        robot.arm5.setPosition(.60);
-        sleep(1500);
+//        robot.arm4.setPosition(.40);
+//        robot.arm5.setPosition(.60);
+//        sleep(1500);
         //move backwards
         robot.setDrivePower(0.5, true);
         sleep(250);
