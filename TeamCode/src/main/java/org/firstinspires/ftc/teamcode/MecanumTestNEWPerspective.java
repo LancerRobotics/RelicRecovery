@@ -120,9 +120,18 @@ public class MecanumTestNEWPerspective extends LinearOpMode{
             robot.glyphCollectorL.setPower(0);
             robot.glyphCollectorR.setPower(0);
 
+            if(gamepad1.a) {
+                robot.jewelHitter.setPosition(1); //isgood
+             //   robot.jewelLift.setPosition(0.6); //isbad
+            }
+            if(gamepad1.x) {
+                robot.jewelHitter.setPosition(0);
+           //     robot.jewelLift.setPosition(0);
+            }
+
             //Gunner x = Open relic claw
             if(gamepad2.x) {
-                robot.relicClaw.setPosition(0.5);
+                robot.relicClaw.setPosition(0.9);
             }
             //Gunner b = Close relic claw
             if(gamepad2.b) {
@@ -130,24 +139,33 @@ public class MecanumTestNEWPerspective extends LinearOpMode{
             }
             //Gunner left joystick = glyft
             if(gamepad2.left_stick_y > 0.15) {
-                robot.glyftL.setPower(0.8);
-                robot.glyftR.setPower(0.8);
+                robot.glyftL.setPower(-0.95);
+                robot.glyftR.setPower(0.95);
             }
             if(gamepad2.left_stick_y < -0.15) {
-                robot.glyftL.setPower(-0.8);
-                robot.glyftR.setPower(-0.8);
+                robot.glyftL.setPower(0.95);
+                robot.glyftR.setPower(-0.95);
             }
             robot.glyftL.setPower(0);
             robot.glyftR.setPower(0);
 
             //Gunner right joystick = relic scorer
             if(gamepad2.right_stick_y > 0.15) {
-                robot.relicScorer.setPower(0.8);
+                robot.relicScorer.setPower(0.95);
             }
             if(gamepad2.right_stick_y < -0.15) {
-                robot.relicScorer.setPower(-0.8);
+                robot.relicScorer.setPower(-0.95);
             }
             robot.relicScorer.setPower(0);
+
+            if(gamepad2.a) {
+                robot.autonGlyphL.setPosition(0);
+                robot.autonGlyphR.setPosition(1);
+            }
+            if(gamepad2.y) {
+                robot.autonGlyphL.setPosition(1);
+                robot.autonGlyphR.setPosition(0);
+            }
 
             //telemetry.addData("Calibrate value: ", calibrate);
             //C&P

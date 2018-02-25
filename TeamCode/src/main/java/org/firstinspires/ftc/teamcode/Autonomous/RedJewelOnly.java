@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.HardwareMechanumRobot;
 /**
  * Created by david on 12/10/2017.
  */
-@Autonomous
+//@Autonomous
 
 public class RedJewelOnly extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();

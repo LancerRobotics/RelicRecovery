@@ -9,7 +9,6 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Func;
@@ -32,12 +31,9 @@ import org.firstinspires.ftc.teamcode.HardwareMechanumRobot;
 import org.firstinspires.ftc.teamcode.Vuforia;
 
 
-@Autonomous (name = "Full Blue Auton", group = "Linear OpMode")
-public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
+@Autonomous (name = "Full Red Auton", group = "Linear OpMode")
+public class RedAutonVuforiaGyroCombinedTest extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
-
-    //ELAPSED TIME
-    private ElapsedTime runtime = new ElapsedTime();
 
     //VUFORIA
     //probably unnecessary, but in vuforia sample class
@@ -92,56 +88,34 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
 
         waitForStart();
 
-        //RESET RUNTIME
-        runtime.reset();
-
         robot.autonGlyphL.setPosition(0);
         robot.autonGlyphR.setPosition(1);
-
-        sleep(500);
 /*
         //Make arm go down
-        robot.jewelLift.setPosition(0.5);
+        robot.jewelLift.setPosition(0);
+
+        sleep(500);
+
+        //Read the color
+        if(robot.color.red()-3 > robot.color.blue()){
+            robot.jewelHitter.setPosition(1);
+        }
+        else
+            robot.jewelHitter.setPosition(0);
 
         sleep(500);
 
         robot.jewelHitter.setPosition(0.5);
-        sleep(500);
-        robot.jewelLift.setPosition(0);
-        telemetry.addLine("Position is 0");
-        telemetry.update();
-        sleep(2500);
-
-        //Read the color
-        if(robot.color.red()-3 > robot.color.blue()){
-            robot.jewelHitter.setPosition(0.4);
-            telemetry.addLine("Will hit this jewel (Red > Blue)");
-            telemetry.update();
-        }
-        else {
-            robot.jewelHitter.setPosition(1);
-            telemetry.addLine("Will hit other jewel (Blue > Red)");
-            telemetry.update();
-        }
-        sleep(1000);
-
-        robot.jewelHitter.setPosition(0.4);
         robot.jewelLift.setPosition(0.7);
-
-        //Hitting jewel
-
-
-        sleep(1000);
 */
+
         //IDENTIFY VUMARK AND **to be added** HIT JEWEL
         relicTrackables.activate();
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         int cryptobox = 1; // 0 is left, 1 is center, 2 is right - just to testing, delete soon!
         int angleToTurn = 90; //the "middle" one, needs testing
         //If you CAN see it, identify which one, otherwise just go to the middle one - gotta add that 2nd part, make it time based
-
-        double time = runtime.seconds();
-        while(vuMark == RelicRecoveryVuMark.UNKNOWN && opModeIsActive() && (runtime.seconds()-time) < 6) {
+        while(vuMark == RelicRecoveryVuMark.UNKNOWN && opModeIsActive()) {
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
             telemetry.addLine("VuMark not found");
             telemetry.addData("VuMark", "%s visible", vuMark);
@@ -155,26 +129,20 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
         if(vuMark.toString().equals("LEFT")){
             cryptobox = 0;
             distanceToMove = 31;
-            timeToMove = 300;
+            timeToMove = 3000;
             telemetry.addLine("Go to left column"); //Encoded move to left column
         }
-        else if(vuMark.toString().equals("CENTER")){
+        if(vuMark.toString().equals("CENTER")){
             cryptobox = 1;
             distanceToMove = 23;
-            timeToMove = 350;
+            timeToMove = 2500;
             telemetry.addLine("Go to middle column");
         }
-        else if(vuMark.toString().equals("RIGHT")) {
+        if(vuMark.toString().equals("RIGHT")) {
             cryptobox = 2;
             distanceToMove = 15;
-            timeToMove = 400;
+            timeToMove = 2000;
             telemetry.addLine("Go to right column"); //Encoded move to right column
-        }
-        else {
-            cryptobox = 1;
-            distanceToMove = 23;
-            timeToMove = 350;
-            telemetry.addLine("Go to middle column");
         }
         telemetry.update();
 
@@ -186,7 +154,7 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
         //Move to and face cryptobox
         sleep(500);
         //move forwards
-        robot.setDrivePower(0.5, false);
+        robot.setDrivePower(0.2, false);
         sleep(timeToMove);
         robot.setDrivePower(0, false);
 
@@ -194,8 +162,8 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
 
         //SAME FROM BLUEAUTONGYROTEST
         //turn left, change the angle value until it goes to right, mid, or left box
-        while(angles.firstAngle < 90 && opModeIsActive()){
-            robot.turn(.4, true);
+        while(angles.firstAngle > -90 && opModeIsActive()){
+            robot.turn(.6, false);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("Gyro value: ", angles.firstAngle);
             telemetry.update();

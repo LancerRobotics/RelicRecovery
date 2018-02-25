@@ -110,6 +110,8 @@ public class HardwareMechanumRobot {
         glyphCollectorL = hwMap.crservo.get("glyph_collector_left");
         glyphCollectorR = hwMap.crservo.get("glyph_collector_right");
 
+        imu = hwMap.get(BNO055IMU.class,"imu");
+
         //Scaling
         gcSecure.scaleRange(0,1);
         autonGlyphL.scaleRange(0,1);
@@ -123,8 +125,10 @@ public class HardwareMechanumRobot {
 
         //Initialize Positions
         gcSecure.setPosition(0.5);
-        autonGlyphL.setPosition(0);
-        autonGlyphR.setPosition(1);
+        autonGlyphL.setPosition(1);
+        autonGlyphR.setPosition(0);
+        jewelHitter.setPosition(0);
+        jewelLift.setPosition(1);
 
         color = hwMap.colorSensor.get("color_sensor");
 
