@@ -32,8 +32,8 @@ import org.firstinspires.ftc.teamcode.HardwareMechanumRobot;
 import org.firstinspires.ftc.teamcode.Vuforia;
 
 
-@Autonomous (name = "Full Blue Auton", group = "Linear OpMode")
-public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
+@Autonomous (name = "Right Turn with NO VUFORIA - Use this", group = "Linear OpMode")
+public class RightTurnAutonNoVuforia extends LinearOpMode {
     HardwareMechanumRobot robot = new HardwareMechanumRobot();
 
     //ELAPSED TIME
@@ -133,6 +133,7 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
 
         sleep(1000);
 */
+/*
         //IDENTIFY VUMARK AND **to be added** HIT JEWEL
         relicTrackables.activate();
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
@@ -176,7 +177,7 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
             telemetry.addLine("Go to middle column");
         }
         telemetry.update();
-
+*/
 
         //MOVE TO CRYPTOBOX
         //init the angles value to 0
@@ -184,6 +185,7 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
 
         //Move to and face cryptobox
         sleep(500);
+
         //move forwards
         robot.setDrivePower(0.6, false);
         sleep(550);
@@ -193,8 +195,8 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
 
         //SAME FROM BLUEAUTONGYROTEST
         //turn left, change the angle value until it goes to right, mid, or left box
-        while(angles.firstAngle < angle && opModeIsActive()){
-            robot.turn(.4, true);
+        while(angles.firstAngle > -60 && opModeIsActive()){
+            robot.turn(.4, false);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("Gyro value: ", angles.firstAngle);
             telemetry.update();
@@ -219,7 +221,7 @@ public class BlueAutonVuforiaGyroCombinedTest extends LinearOpMode {
         sleep(1500);
         //move backwards
         robot.setDrivePower(0.3, true);
-        sleep(250);
+        sleep(300);
         robot.setDrivePower(0, true);
 
         //if we want to turn 180, change this method a little

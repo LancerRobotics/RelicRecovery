@@ -96,18 +96,26 @@ public class MecanumTestNEWPerspective extends LinearOpMode{
 
             //B driver = tilt glyph down
             if(gamepad1.b) {
-                robot.trayL.setPosition(0);
-                robot.trayR.setPosition(0);
+                if(robot.trayL.getPosition() == 0) {
+                    robot.trayL.setPosition(0.5);
+                    robot.trayR.setPosition(0.5);
+                }
+                if(robot.trayL.getPosition() == 0.5) {
+                    robot.trayL.setPosition(0);
+                    robot.trayR.setPosition(0);
+                }
             }
 
             //Y driver = tilt glyph up
             if(gamepad1.y) {
-                robot.trayL.setPosition(0.5);
-                robot.trayR.setPosition(0.5);
+               robot.glyphPusher.setPower(0.3);
+               sleep(1000);
+               robot.glyphPusher.setPower(0);
             }
 
             //Right trigger driver = Collect
             if(gamepad1.right_trigger>0.15) {
+
                 robot.glyphCollectorL.setPower(0.8);
                 robot.glyphCollectorR.setPower(0.8);
             }
@@ -121,21 +129,33 @@ public class MecanumTestNEWPerspective extends LinearOpMode{
             robot.glyphCollectorR.setPower(0);
 
             if(gamepad1.a) {
-                robot.jewelHitter.setPosition(1); //isgood
+                if(robot.jewelHitter.getPosition() == 1) {
+                    robot.jewelHitter.setPosition(0);
+                }
+                if(robot.jewelHitter.getPosition() == 0) {
+                    robot.jewelHitter.setPosition(1);
+                }
              //   robot.jewelLift.setPosition(0.6); //isbad
             }
             if(gamepad1.x) {
-                robot.jewelHitter.setPosition(0);
+                robot.glyphPusher.setPower(-0.3);
+                sleep(1000);
+                robot.glyphPusher.setPower(0);
            //     robot.jewelLift.setPosition(0);
             }
 
             //Gunner x = Open relic claw
             if(gamepad2.x) {
-                robot.relicClaw.setPosition(0.9);
+                if(robot.relicClaw.getPosition() == 0.9) {
+                    robot.relicClaw.setPosition(0);
+                }
+                if(robot.relicClaw.getPosition() == 0) {
+                    robot.relicClaw.setPosition(0.9);
+                }
             }
             //Gunner b = Close relic claw
             if(gamepad2.b) {
-                robot.relicClaw.setPosition(0);
+
             }
             //Gunner left joystick = glyft
             if(gamepad2.left_stick_y > 0.15) {
@@ -159,13 +179,19 @@ public class MecanumTestNEWPerspective extends LinearOpMode{
             robot.relicScorer.setPower(0);
 
             if(gamepad2.a) {
-                robot.autonGlyphL.setPosition(0);
-                robot.autonGlyphR.setPosition(1);
+                if(robot.autonGlyphL.getPosition() == 1) {
+                    robot.autonGlyphL.setPosition(0);
+                    robot.autonGlyphR.setPosition(1);
+                }
+                if(robot.autonGlyphL.getPosition() == 0) {
+                    robot.autonGlyphL.setPosition(1);
+                    robot.autonGlyphR.setPosition(0);
+                }
             }
             if(gamepad2.y) {
-                robot.autonGlyphL.setPosition(1);
-                robot.autonGlyphR.setPosition(0);
+
             }
+
 
             //telemetry.addData("Calibrate value: ", calibrate);
             //C&P
